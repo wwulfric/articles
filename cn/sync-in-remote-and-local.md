@@ -66,8 +66,9 @@ sudo restart nmbd
 
 ### 本地获取该共享文件夹
 
-MAC: finder -> 前往 -> 连接服务器 -> smb://你的IP/share
-WINDOWS: 资源管理器 -> 输入 \\你的IP\share
+- MAC: finder -> 前往 -> 连接服务器 -> smb://你的IP/share
+
+- WINDOWS: 资源管理器 -> 输入 \\\你的IP\share
 
 其中 share 是配置文件中的配置名：如上所述的[Share]
 
