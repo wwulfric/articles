@@ -4,8 +4,6 @@ date: 2014-03-25 12:19
 categories: [samba, 远程, 本地] 
 ---
 
-## 
-
 ### 安装
 
 ``` bash
