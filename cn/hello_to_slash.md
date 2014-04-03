@@ -1,7 +1,8 @@
 ---
 title: "Use slash theme"
 date: 2013-01-04 14:27
-categories: [octopress, theme, slash]
+tags: [octopress, theme, slash]
+categories: [技术]
 ---
 
 {% img http://www.lufeipic.tk/f/l/?.jpg 'preview of slash theme' 'preview of slash theme' %}

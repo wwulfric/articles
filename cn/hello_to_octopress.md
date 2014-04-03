@@ -1,7 +1,8 @@
 ---
 title: "使用 Github Page 和 Octopress搭建个人博客"
 date: 2012-11-30 00:19
-categories: [git, octopress] 
+tags: [git, octopress] 
+categories: [技术]
 ---
 
 {% img http://www.lufeipic.tk/f/m/?.png 'Github and Octopress' 'Github and Octopress' %}
