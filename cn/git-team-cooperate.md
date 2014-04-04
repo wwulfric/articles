@@ -5,7 +5,10 @@ tags: [git, 协作, rebase, merge]
 categories: [技术]
 ---
 
-1. 从 master 分支上新建分支，通过 `git checkout -b new-feature` 创建 `new-feature` 分支，开始工作
+
+### 编辑
+
+从 master 分支上新建分支，通过 `git checkout -b new-feature` 创建 `new-feature` 分支，开始工作
 
     - 编辑
     - 提交
@@ -15,12 +18,14 @@ categories: [技术]
     ``` bash
     git push origin new-feature
     ```
+    
+### Code Review
 
-    提交之后，发 pull request，拉同事来做 code review
+提交之后，发 pull request，拉同事来做 code review。Code review 完成之后，在本地执行 `git fetch`，从远端下载最新的更新。
 
-2. code review 完成之后，在本地执行 `git fetch`，从远端下载最新的更新。
+### 合并与提交
 
-3. 开始合并工作---使用 rebase 而不是 merge：使用 rebase 将自己的更改提交合并成一个功能性的提交，这样在 master 分支的历史就会清晰明了，而 merge 会将每一个 commit 插入到历史里，增加了 review 的复杂度
+开始合并工作---使用 rebase 而不是 merge：使用 rebase 将自己的更改提交合并成一个功能性的提交，这样在 master 分支的历史就会清晰明了，而 merge 会将每一个 commit 插入到历史里，增加了 review 的复杂度
 
 ``` bash
 git rebase -i origin/master
