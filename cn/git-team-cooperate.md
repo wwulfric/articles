@@ -10,14 +10,11 @@ categories: [技术]
 
 从 master 分支上新建分支，通过 `git checkout -b new-feature` 创建 `new-feature` 分支，开始工作
 
-    - 编辑
-    - 提交
-    - 重复上述步骤
+- 编辑
+- 提交
+- 重复上述步骤
     
-    完成之后，提交到仓库
-    ``` bash
-    git push origin new-feature
-    ```
+完成之后，提交到仓库 `git push origin new-feature`
     
 ### Code Review
 
