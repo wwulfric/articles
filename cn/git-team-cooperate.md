@@ -22,7 +22,9 @@ categories: [技术]
 
 ### 合并与提交
 
-开始合并工作---使用 rebase 而不是 merge：使用 rebase 将自己的更改提交合并成一个功能性的提交，这样在 master 分支的历史就会清晰明了，而 merge 会将每一个 commit 插入到历史里，增加了 review 的复杂度
+开始合并工作---使用 rebase 而不是 merge：使用 rebase 将自己的更改提交合并成一个功能性的提交，这样在 master 分支的历史就会清晰明了，而 merge 会将每一个 commit 插入到历史里，增加了 review 的复杂度。
+
+> TODO rebase 参考 [rebase](http://segmentfault.com/a/1190000000456077)
 
 ``` bash
 git rebase -i origin/master
