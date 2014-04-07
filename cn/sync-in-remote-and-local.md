@@ -1,5 +1,4 @@
----
-title: "服务器和本地的文件同步---samba"
+title: 服务器和本地的文件同步---samba
 date: 2014-03-25 12:19
 tags: [samba, 远程, 本地] 
 categories: [技术]

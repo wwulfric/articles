@@ -1,5 +1,4 @@
----
-title: "学术型 github 畅想"
+title: 学术型 github 畅想
 date: 2014-04-06 22:04
 tags: [git, github, SNS, 学术, 写作, 版本控制]
 categories: [扯淡, 产品]

@@ -1,5 +1,4 @@
----
-title: "gitcafe and education"
+title: gitcafe and education
 date: 2014-04-06 22:01
 tags: [git, 教育, SNS, 招聘, 技能]
 categories: [扯淡, 产品]

@@ -1,5 +1,4 @@
----
-title: "Git 配置：gitconfig 和 gitignore"
+title: Git 配置：gitconfig 和 gitignore
 date: 2014-04-04 11:32
 tags: [git, gitignore, gitconfig] 
 categories: [技术]

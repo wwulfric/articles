@@ -1,5 +1,4 @@
----
-title: "Git 团队协作实践"
+title: Git 团队协作实践
 date: 2014-03-25 14:55
 tags: [git, 协作, rebase, merge] 
 categories: [技术]
