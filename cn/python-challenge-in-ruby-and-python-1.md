@@ -1,6 +1,6 @@
 Python challenge 是一个非常有趣的闯关游戏，通过猜谜和编程得到关键词，并使用关键词更改网页的 URL 进入到下一关。现在共有 33 关。这篇文章（或者更多）将会专注于使用 python 和 ruby 解决这些问题。
 
-![python challenge](http://www.lufeipic.tk/f/n/?.png "python challenge")
+![python challenge](http://bcs.duapp.com/blog-image-bed/python-challenge.png "python challenge")
 
 ## 第 0-6 题
 
@@ -11,4 +11,4 @@ Python challenge 是一个非常有趣的闯关游戏，通过猜谜和编程得
 从这一题开始就需要一些编程的技能了。请仔细观察图中的 6 个字母的关系。 
 提示：将题目给出的每一个字母向后移动两个位置。
 
-{% gist 4182368 [filename] %}
+{% gist 4182368 %}
