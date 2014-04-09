@@ -4,8 +4,11 @@ tags: [git, 协作, rebase, merge]
 categories: [技术]
 ---
 
+本文是关于使用 Git 进行团队协作的一种实践，目的是使得 Git 的历史清晰明了，团队成员责任明确。
 
-### 编辑
+<!--more-->
+
+## 编辑
 
 从 master 分支上新建分支，通过 `git checkout -b new-feature` 创建 `new-feature` 分支，开始工作
 
@@ -15,11 +18,11 @@ categories: [技术]
     
 完成之后，提交到仓库 `git push origin new-feature`
     
-### Code Review
+## Code Review
 
 提交之后，发 pull request，拉同事来做 code review。Code review 完成之后，在本地执行 `git fetch`，从远端下载最新的更新。
 
-### 合并与提交
+## 合并与提交
 
 开始合并工作---使用 rebase 而不是 merge：使用 rebase 将自己的更改提交合并成一个功能性的提交，这样在 master 分支的历史就会清晰明了，而 merge 会将每一个 commit 插入到历史里，增加了 review 的复杂度。
 

@@ -10,14 +10,14 @@ categories: [技术]
 
 <!-- more -->
 
-### 准备工作
+## 准备工作
 
 假设你已经安装了如下软件：
 
 * git
 * ruby with RVM
 
-#### 克隆 Octopress Code
+### 克隆 Octopress Code
 
 ``` bash
 git clone git://github.com/imathis/octopress.git octopress
@@ -29,7 +29,7 @@ rake install    # Install the default Octopress theme
 
 执行 `rake preview` 预览默认的博客页面。[这里](localhost:4000).
 
-#### 为 Github Page 做准备
+### 为 Github Page 做准备
 
 创建一个新的 Github 仓库，用你的用户名 `username.github.com` 或组织名 `organization.github.com` 来命名。如下：   
 
@@ -37,7 +37,7 @@ rake install    # Install the default Octopress theme
 
 执行 `rake setup_github_pages`，填入 github page 的 URL。 你将在工作目录中看到 `_deploy` 这个文件夹，它是用来部署到远端的静态文件。
 
-#### Deploy and Push
+### Deploy and Push
 
 部署到 github page by:
 
@@ -60,7 +60,7 @@ git push origin source
 
   
  
-### 发表你的第一篇文章
+## 发表你的第一篇文章
 
 你已经拥有了一个搭建在 github page 上的博客了。你一定注意到了默认的页面并非我们想要的，修改它。
 
@@ -75,7 +75,7 @@ simple_search: https://google.com/search?q=
 description:
 ```
 
-#### 写第一篇文章
+### 写第一篇文章
 
 文章保存在 `source/_posts` 目录内，根据 Jekyll 的命名规则：YYYY-MM-DD-post-title.markdown。文章的名字将会用作 url ，日期将帮助文章区分和排序。
 
@@ -117,7 +117,7 @@ categories:
 
 写博文的时候，可以使用 HTML comment `<!--more-->` 来截断文章。只有前面部分可以显示在 index 中。
 
-#### Push 到 Github
+### Push 到 Github
 
 既然已经写好一篇文章了，那么就部署到远端吧！
 
@@ -148,7 +148,7 @@ git push origin source # push source remotely
 
 
 
-### Deploy 到其他 PC
+## Deploy 到其他 PC
 
 通常你会想在另外一台 PC 上继续你的博客大业：
 

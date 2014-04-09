@@ -10,7 +10,7 @@ After I have had my own octopress blog, I start to look for a different theme. A
 
 <!--more-->
 
-### Install
+## Install
 
 Type the code below and experience Slash!
 
@@ -25,15 +25,15 @@ Have problems when installing with zsh? Try `rake install\['slash'\]` instead.
 
 See the features and Q&As [here](http://zespia.tw/Octopress-Theme-Slash/).
 
-### Personal Change
+## Personal Change
 
 It's not so comfortable to have the exectly same appearence as others, so I decide to change it :)
 
-#### Switch Left and Right
+### Switch Left and Right
 
 This is quite easy. Just edit the **margin** attribute value of div.post and div.meta in `sass/parts/_post.scss`. 
 
-#### Create Index
+### Create Index
 
 I want to display the content of my article in the right side. Let's use jQery to add the chapter index.
 

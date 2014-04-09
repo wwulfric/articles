@@ -6,6 +6,8 @@ categories: [技术]
 
 目的：更方便的使用 git。通过全局的 gitignore 和项目下的 gitignore，使得 git 仓库尽量整洁。
 
+<!--more-->
+
 在家目录下创建 .gitconfig 文件，
 
 ``` bash
