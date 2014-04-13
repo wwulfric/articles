@@ -1,6 +1,14 @@
+title: python challenge in ruby and python
+date: 2013-03-13 20:36
+tags: [ruby, python, pythonchallenge]
+categories: [技术]
+---
+
 Python challenge 是一个非常有趣的闯关游戏，通过猜谜和编程得到关键词，并使用关键词更改网页的 URL 进入到下一关。现在共有 33 关。这篇文章（或者更多）将会专注于使用 python 和 ruby 解决这些问题。
 
 ![python challenge](http://bcs.duapp.com/blog-image-bed/python-challenge.png "python challenge")
+
+<!--more-->
 
 ## 第 0-6 题
 
@@ -76,9 +84,9 @@ Python challenge 是一个非常有趣的闯关游戏，通过猜谜和编程得
 
 进入 zip，首先看到的就是 readme.txt，它告诉我们从 90052 开始。那就开始吧，和第 4 题一样。直到找不到数字的时候，输出最后一个文件的内容，它告诉我们去收集 comment，OK！收集 comment 然后输出就行了！
 
-{% gist 10588606 'Q6 in python' %}
+{% gist 10588606 "Q6 in python" %}
 
-{% gist 10588651 'Q6 in ruby' %}
+{% gist 10588651 "Q6 in ruby" %}
 
 ## 第 7-12 题
 
