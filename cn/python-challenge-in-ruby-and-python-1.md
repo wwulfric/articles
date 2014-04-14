@@ -1,4 +1,4 @@
-title: python challenge in ruby and python
+title: python challenge in ruby and python 0~12
 date: 2013-03-13 20:36
 tags: [ruby, python, pythonchallenge]
 categories: [技术]
