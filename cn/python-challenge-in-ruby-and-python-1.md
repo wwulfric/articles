@@ -1,6 +1,6 @@
 ---
 title: python challenge in ruby and python 0~12
-date: 2013-03-13 20:36
+time: 2013-03-13 20:36
 tags: [ruby, python, pythonchallenge]
 categories: [技术]
 ---
@@ -20,7 +20,7 @@ Python challenge 是一个非常有趣的闯关游戏，通过猜谜和编程得
 从这一题开始就需要一些编程的技能了。请仔细观察图中的 6 个字母的关系。 
 提示：将题目给出的每一个字母向后移动两个位置。
 
-{% gist 4182368 "Q1 in python" %}
+{% gist 10286467 %}
 
 {% gist 10287796 "Q1 in python" %}
 
