@@ -20,7 +20,7 @@ Python challenge 是一个非常有趣的闯关游戏，通过猜谜和编程得
 从这一题开始就需要一些编程的技能了。请仔细观察图中的 6 个字母的关系。 
 提示：将题目给出的每一个字母向后移动两个位置。
 
-```python Q1 in python
+```python
 # 这是我的 python 解法，相当的 C 呢
 astring='''g fmnc wms bgblr rpylqjyrc gr zw fylb. rfyrq ufyr amknsrcpq ypc dmp.
  bmgle gr gl zw fylb gq glcddgagclr ylb rfyr'q ufw rfgq rcvr gq qm jmle. sqgle
@@ -34,9 +34,20 @@ for a in astring:
 print (bstring)
 ```
 
-{% gist 10287796 "Q1 in python" %}
-
-{% gist 10587521 "Q1 in ruby" %}
+```python
+# 推荐的做法
+import string
+text='''g fmnc wms bgblr rpylqjyrc gr zw fylb. rfyrq ufyr amknsrcpq ypc dmp.
+ bmgle gr gl zw fylb gq glcddgagclr ylb rfyr'q ufw rfgq rcvr gq qm jmle.
+ sqgle qrpgle.kyicrpylq() gq pcamkkclbcb. lmu ynnjw ml rfc spj.'''
+table = string.maketrans(string.ascii_lowercase,
+                         string.ascii_lowercase[2:]+string.ascii_lowercase[:2])
+text.translate(table)
+```
+```ruby
+gets.tr "a-z", "c-zab"
+# 就这么简单！然后输入字符串就好了！真让人喜欢！
+```
 
 在官网的解答上还有利用 *nix 系统的 tr 函数的方法，本质上和 ruby 的方法是一样的：
 `curl http://www.pythonchallenge.com/pc/def/map.html | tr a-z c-za-b`。
@@ -49,11 +60,24 @@ print (bstring)
 
 我选取的代码都是识别字母的方法，判断频率的方法也类似，不再赘述。
 
-{% gist 10587641 "Q2 in python" %}
+```python
+# 我的代码，判断每个字符是否是字母
+import re
+astring = '''copy from the source page'''
+bstring = ''
+for a in astring:
+if re.match('[a-zA-Z]',a):
+    bstring = bstring+a
+```
 
 其中最后判断的部分可以换成 `print re.sub('[^a-z]','', s)`。
 
-{% gist 10587723 "Q2 in ruby" %}
+```ruby
+s = <<'EOF'
+# copy from the source page
+EOF
+puts s.scan(/[a-z]/).join
+```
 
 ### 第 3 题
 
@@ -61,9 +85,20 @@ print (bstring)
 
 提示：用正则表达式查找更方便。前面虽然也用到了正则，但是这里不用正则的话就会很麻烦。
 
-{% gist 10587981 "Q3 in python" %}
-
-{% gist 10588054 "Q3 in ruby" %}
+```python
+# 我的代码比较笨，但是方法是一样的，就不贴上来了。
+import re
+s = '''
+copy from the source page
+'''
+print ''.join(re.findall('[^A-Z][A-Z]{3}([a-z])[A-Z]{3}[^A-Z]', s))
+```
+```ruby
+s = <<'EOF'
+copy from the source page
+EOF
+puts s.scan(/[^A-Z][A-Z]{3}([a-z])[A-Z]{3}[^A-Z]/).join
+```
 
 ### 第 4 题
 
@@ -71,13 +106,48 @@ print (bstring)
 
 提示：当遇到问题退出时，将最后得到的数字复制到网址上，看看有什么提示，按照提示做就行了。
 
-{% gist 10588171 "Q4 in python" %}
+```python
+import re
+from urllib import urlopen
+astring='http://www.pythonchallenge.com/pc/def/linkedlist.php?nothing='
+temp='12345'
+f = urlopen(astring+temp)
+a=f.read()
+restring=re.compile('and the next nothing is (\d{3,5})')
+for i in range(400):
+    temp=re.findall(restring,a)[0]
+    print(temp)
+    f=urlopen(astring+temp)
+    a=f.read()
+```
 
-{% gist 10588223 "Q4 in ruby" %}
+```ruby
+require "open-uri"
+n=12345
+loop do
+    flag = ''
+    open("http://www.pythonchallenge.com/pc/def/linkedlist.php?nothing=#{n}") do |f|
+        s=f.read
+        flag = s if s=~/htm/
+        n=(s=~/div/ ? n/2 : s.split[-1].to_i)
+    end
+    if !flag.empty?
+        puts flag
+        break
+    end
+end
+# 需要注意的是，我本来是把 break 放在 open 这个 block 里的，我以为当 s 匹配到 htm 时，
+# 接着 break 就可以退出了。但是 ruby 的 break 是退出最临近的 block，所以 loop 还是会
+# 死循环下去。因此不得不加了一个 flag。
+```
 
 或者同时借助 ruby 和 bash 命令，在 命令行如下输入，也可以得到需要的结果。
 
-{% gist 10588306 "Q4 in bash" %}
+```ruby
+ruby -wle 'n = 12345; print n = $1 while 
+          `GET "http://www.pythonchallenge.com/pc/def/linkedlist.php?nothing=#{n}"`
+          =~ /(\d+)$/'
+```
 
 ### 第 5 题
 
@@ -85,7 +155,15 @@ print (bstring)
 
 提示：将该对象通过 pickle 模块 load 出来后，仔细观察，不妨把 data 按行打印出来看看。每一行的数字加起来都是 95，猜测每一行由 95 个字符构成，剩下的事情就简单了。
 
-{% gist 10588543 "Q5 in python" %}
+```python
+# 推荐的做法
+import urllib2, sys, pickle
+pickle_data = urllib2.urlopen('http://www.pythonchallenge.com/pc/def/banner.p').read()
+data = pickle.loads(pickle_data)
+for line in data:
+    for char, count in line: sys.stdout.write(char * count)
+    sys.stdout.write("\n")
+```
 
 这个真的就只能 python 做了……
 
@@ -97,9 +175,31 @@ print (bstring)
 
 进入 zip，首先看到的就是 readme.txt，它告诉我们从 90052 开始。那就开始吧，和第 4 题一样。直到找不到数字的时候，输出最后一个文件的内容，它告诉我们去收集 comment，OK！收集 comment 然后输出就行了！
 
-{% gist 10588606 "Q6 in python" %}
-
-{% gist 10588651 "Q6 in ruby" %}
+```python
+f = "channel.zip"
+z = zipfile.ZipFile(f)
+name = '90052.txt'
+while 1:
+    print z.getinfo(name).comment,
+    name = z.read(name).split()[-1] + '.txt'
+```
+```ruby
+require "zip/zip"
+zipfilename = "/home/haidao/Downloads/channel.zip"
+Zip::ZipFile.open(zipfilename) do |zipfile|
+  s = zipfile.get_input_stream("readme.txt").read
+  num = s.match(/\d{2,6}/)
+  output = Array.new
+  while num do
+    entry = zipfile.find_entry("#{num}.txt")
+    s = entry.get_input_stream.read
+    num = s.match(/\d{2,6}/)
+    comment = entry.comment
+    output.push comment
+  end
+  puts output.join
+end
+```
 
 ## 第 7-12 题
 
@@ -111,9 +211,20 @@ print (bstring)
 
 提示：python 需要 PIL 模块，ruby 需要 Rmagick 模块。python 通过 pip 安装 PIL；ruby 安装 Rmagick 需要先安装 `sudo apt-get install libmagickwand-dev` ，然后直接 `gem install rmagick` 。
 
-{% gist 10589089 "Q7 in python" %}
+```python
+import re, Image
+im = Image.open("oxygen.png")
+row = [im.getpixel((x, 47)) for x in range(0, im.size[0], 7)]
+chrs = [chr(r) for r, g, b, a in row if r == g == b]
+s = ''.join(chrs)
+print ''.join(map(chr, map(int, re.findall(r'\d+',s))))
+```
 
-{% gist 10589129 "Q7  in ruby" %}
+```ruby
+require "RMagick"
+Magick::ImageList.new("oxygen.png").get_pixels(0,45,629,1).map.with_index
+  {|p,i| (p.red/255).chr if i%7==0)}.join.scan(/\d+/){|c| print c.to_i.chr }
+```
 
 ### 第 8 题
 
@@ -121,9 +232,19 @@ print (bstring)
 
 python 中的模块叫 bz2，是内置的；ruby 的需要先下载：`gem install bzip2-ruby` 。
 
-{% gist 10589235 "Q8 in python" %}
+```python
+import bz2
+un = "un 的字符串内容，表示 user name"
+pw = "pw 的字符串内容，表示 password"
+print bz2.decompress(un), bz2.decompress(pw)
+```
 
-{% gist 10589262 "Q8 in ruby" %}
+```ruby
+require 'bzip2'
+un = "同上，需要用双引号括起来"
+pw = "同上，需要用双引号括起来"
+puts Bzip2.uncompress(un), Bzip2.uncompress(pw)
+```
 
 ### 第 9 题
 
@@ -131,9 +252,25 @@ python 中的模块叫 bz2，是内置的；ruby 的需要先下载：`gem insta
 
 提示：源代码给的 first 每两个数字一组，是一个点的位置，从第一个点开始画，一直画到最后一个点，seoncd 也是这样。原图上的点是要告诉你，连好后看点线的外观。这是一头牛。
 
-{% gist 10589325 "Q9 in python" %}
-
-{% gist 10589345 "Q9 in ruby" %}
+```python
+from PIL import Image, ImageDraw
+img = Image.new("RGB",(640,480), 'white')
+draw = ImageDraw.Draw(img)
+draw.polygon(first_list, 'black')
+draw.polygon(second_list, 'grey')
+img.show()
+```
+```ruby
+require "RMagick"
+img = Magick::ImageList.new 'good.jpg'
+gc = Magick::Draw.new
+gc.fill('#CC6600')
+gc.polygon(*first_list)
+gc.fill('white')
+gc.polygon(*second_list)
+gc.draw(img)
+img.display
+```
 
 ### 第 10 题
 
@@ -141,9 +278,21 @@ python 中的模块叫 bz2，是内置的；ruby 的需要先下载：`gem insta
 
 这是一个 [look and say sequence](http://en.wikipedia.org/wiki/Look-and-say_sequence)，它是一个比较特殊的序列。后者是前者读出的结果，比如：前一个数是 11，则后一个数就是 21，表示 2 个 1；再后一个数就是 1 个 2，1 个1，即 1211。
 
-{% gist 10589458 "Q10 in python" %}
+```python
+from re import findall
+def f(n):
+    return "1" if n == 0 else ''.join(
+        ["%d%s"%(len(j)+1, i) for i,j in findall(r'(\d)(\1*)', f(n-1))])
+print len(f(30))
+```
 
-{% gist 10589488 "Q10 in ruby" %}
+```ruby
+def f n
+  n == 0 ? "1":
+    f(n-1).scan(/(\d)(\1*)/).collect{|i| "#{i[1].size+1}#{i[0]}"}.join
+end
+puts f(30).size
+```
 
 额，感觉难度越来越大了……
 
@@ -153,13 +302,37 @@ python 中的模块叫 bz2，是内置的；ruby 的需要先下载：`gem insta
 
 提示：用下一行的黑色像素覆盖上一行的非黑色像素。
 
-{% gist 10589586 "Q11 in python" %}
+```python
+from PIL import Image
+img = Image.open("cave.jpg")
+c,r = img.size
+pix = img.load()
+for j in range(r-1):
+    for i in range(c):
+        if (i+j)%2:
+            pix[i,j] = pix[i,j+1]
+img.show()
+# 注意也可以用 img.getpixel 和 img.putpixel 来操作像素。
+```
 
 或者直接 `Image.open('cave.jpg').resize((320, 240)).show()` 这样也可以。本来原理就是把黑色的像素块拼起来。你也可以在 PS 里选择以邻近的方法将图像大小重新设置为 320*240。
 
 //TODO 作图
 
-{% gist 10589644 "Q11 in ruby" %}
+```ruby
+require "RMagick"
+img = Magick::ImageList.new 'cave.jpg'
+r, c = img.rows, img.columns
+for i in 0..r-2
+  for j in 0..c-1
+    if (i+j).odd?
+      p = img.get_pixels(j, i+1, 1, 1)
+      img.store_pixels(j, i, 1, 1, p)
+    end
+  end
+end
+img.display
+```
 
 ### 第 12 题
 
@@ -169,6 +342,15 @@ python 中的模块叫 bz2，是内置的；ruby 的需要先下载：`gem insta
 
 提示，用可以查看二进制文件的编辑器查看这个 .gfx 文件。在 vim 里是输入 `:%!xxd` 即可。
 
-{% gist 10589685 "Q12 in python" %}
+```python
+raw = open('evil2.gfx','rb').read()
+for i in range(5):
+    open('out%d'%i, 'wb').write(raw[i::5])
+```
 
-{% gist 10589703 "Q12 in ruby" %}
+```ruby
+# 一定要注意，读写文件要强调是二进制
+evil =  File.open("evil2.gfx", 'rb').read
+outputs = (0..4).map { |i| File.open("out#{i}", "wb") }
+evil.each_char.with_index { |c, i| outputs[i%5].write(c) }
+```
