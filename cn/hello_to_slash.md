@@ -1,3 +1,4 @@
+---
 title: Use slash theme
 date: 2013-01-04 14:27
 tags: [octopress, theme, slash]

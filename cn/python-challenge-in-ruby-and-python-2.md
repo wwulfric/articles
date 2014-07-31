@@ -5,9 +5,9 @@ tags: [ruby, python, pythonchallenge]
 categories: [技术]
 ---
 
-perform_complicated_task
-
 继续 python challenge 游戏。这篇文章将努力更新到 23 题。
+
+![python challenge](images/python-challenge.png "python challenge")
 
 ## 第 13-17 题
 

@@ -1,3 +1,4 @@
+---
 title: 使用 Github Page 和 Octopress搭建个人博客
 date: 2012-11-30 00:19
 tags: [git, octopress] 
