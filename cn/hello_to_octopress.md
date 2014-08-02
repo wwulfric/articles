@@ -5,9 +5,9 @@ tags: [git, octopress]
 categories: [技术]
 ---
 
-{% img http://www.lufeipic.tk/f/m/?.png 'Github and Octopress' 'Github and Octopress' %}
-
 **Octopress Blog: 为极客准备的博客！**本文将简单介绍使用 github page 和 octopress搭建博客的几个步骤。
+
+![Github and Octopress](images/github_and_octopress.png "Github and Octopress")
 
 <!-- more -->
 

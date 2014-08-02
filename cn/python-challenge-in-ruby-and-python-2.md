@@ -22,11 +22,13 @@ categories: [技术]
 提示：这里需要用到 12 题的 evil: Bert。打电话给它吧！
 
 ```python
+# python
 import xmlrpclib
 xmlrpclib.ServerProxy('http://www.pythonchallenge.com/pc/phonebook.php').phone('Bert')
 ```
 
 ```ruby
+# ruby
 require "xmlrpc/client"
 phonebook = XMLRPC::Client.new("www.pythonchallenge.com", "/pc/phonebook.php").proxy
 puts phonebook.phone('Bert')
@@ -39,6 +41,7 @@ title 是 walk around，图片是绕来绕去的翔一样的面包，下面是�
 提示：将这张 `10000*1` 的图片按照面包那样绕来绕去的方式重新组成一张 `100*100` 的图片。
 
 ```python
+# python
 from PIL import Image
 im=Image.open(r'wire.png')
 new=Image.new(im.mode,[100,100])
@@ -61,6 +64,7 @@ new.rotate(180).show()
 ```
 
 ```ruby
+# ruby
 require 'RMagick'
 input = Magick::ImageList.new("wire.png")
 output = Magick::Image.new(100, 100)
@@ -91,12 +95,14 @@ output.display
 提示：符合要求的年份中第二大的那一年 1 月 27 日，莫扎特诞生了。
 
 ```python
+# python
 from calendar import *
 [i for i in range(1006,2000,10) if(isleap(i) and weekday(i, 1, 1)==3)]
 #result: [1176, 1356, 1576, 1756, 1976]
 ```
 
 ```ruby
+# ruby
 require "date"
 (1006..1996).step(10) do |i|
   t = Date::new i,1,26
@@ -111,6 +117,7 @@ end
 提示：好吧，我是没想到还可以这样搞……不过即使知道方法，要解决它还是需要花费些功夫的。方法有两种，一种是使用自带的图像库，按照要求移动每一行子图，然后拼接成一幅图。二是将图像转成字符串，然后按照要求移动字符串。ps: 调用 PhotoShop 或 GIMP 的颜色表，可以知道粉色的索引值是 195。
 
 ```python
+# python
 # 移动子图法
 import Image, ImageChops
 im = Image.open("mozart.gif")
@@ -127,6 +134,7 @@ im.show()
 ```python
 # -*- coding: utf-8 -*-
 # 这里的编码声明很重要，必不可少
+# python
 # 移动字符串法
 import Image, re
 im = Image.open("mozart.gif")
@@ -141,6 +149,7 @@ im.show()
 ```
 
 ```ruby
+# ruby
 # 移动子图法
 require 'RMagick'
 im = Magick::ImageList.new("mozart.gif")
@@ -155,6 +164,7 @@ im.display
 ```
 
 ```ruby
+# ruby
 # 移动字符串法
 require 'RMagick'
 im = Magick::ImageList.new("mozart.gif")
@@ -180,6 +190,7 @@ im.display
 3. 给该网址设置 cookie：info=****，info 的内容就是第一步得到的内容。
 
 ```python
+# python
 # step 1
 import urllib,re,bz2
 url  = 'http://www.pythonchallenge.com/pc/def/linkedlist.php?busynothing='
@@ -215,6 +226,7 @@ print urlopen(req).read()
 ```
 
 ```ruby
+# ruby
 # first step
 require "open-uri"
 require "cgi"

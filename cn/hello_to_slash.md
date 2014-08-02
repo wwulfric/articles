@@ -5,7 +5,7 @@ tags: [octopress, theme, slash]
 categories: [技术]
 ---
 
-{% img http://www.lufeipic.tk/f/l/?.jpg 'preview of slash theme' 'preview of slash theme' %}
+![preview of slash theme](images/slash_preview.png  'preview of slash theme')
 
 After I have had my own octopress blog, I start to look for a different theme. And fortunately I've find it. It is slash. Simple and cool. Thanks, [zespia](http://zespia.tw/).
 
