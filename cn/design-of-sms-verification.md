@@ -1,6 +1,6 @@
 ---
 title: 短信验证的设计
-date: TODO
+date: 2014-09-01 01:05
 categories: [技术]
 tags: [otp, TODO]
 ---
