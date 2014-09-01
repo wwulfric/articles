@@ -7,7 +7,7 @@ categories: [技术]
 
 继续 python challenge 游戏。这篇文章将努力更新到 23 题。
 
-![python challenge](images/python-challenge.png "python challenge")
+![python challenge](http://wulfric.qiniudn.com/python-challenge.png "python challenge")
 
 ## 第 13-17 题
 

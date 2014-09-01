@@ -25,9 +25,9 @@ categories: [技术]
 
 ## 合并与提交
 
-开始合并工作---使用 rebase 而不是 merge：使用 rebase 将自己的更改提交合并成一个功能性的提交，这样在 master 分支的历史就会清晰明了，而 merge 会将每一个 commit 插入到历史里，增加了 review 的复杂度。
+开始合并工作---使用 rebase 而不是 merge：使用 rebase 将自己的更改提交合并成一个功能性的提交，这样在 master 分支的历史就会清晰明了，而 merge 会将每一个 commit 插入到历史里，增加了 review 的复杂度。如图所示，merge 提交之后，commit b 插入到 master 的历史纪录里；而 rebase 不会破坏 master 的提交记录。
 
-> TODO rebase 参考 [rebase](http://segmentfault.com/a/1190000000456077)
+![git merge and rebase](http://wulfric.qiniudn.com/git-merge-and-rebase.png)
 
 ``` bash
 git rebase -i origin/master
@@ -46,7 +46,8 @@ git status
 # 冲突编辑完毕后
 # 复制 git log 的最新 commit id
 git checkout master
-git reset --hard origin/master #得到远端最新内容
+git rebase #得到远端最新 master 内容
+# 上面获取远端 master 内容如有异常，可以尝试 git reset --hard origin/master
 git cherry-pick commit_id #该 commit id 就是刚才复制的内容
 # 修改 commit 信息，使用简洁的描述，比如 fixed #99: user management
 git commit --amend 

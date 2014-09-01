@@ -5,21 +5,19 @@ tags: [samba, 远程, 本地]
 categories: [技术]
 ---
 
-一段话
-
-## Samba
-
-![Samba](images/samba.png "Samba")
-
 在开发的时候经常会有这样的情形：在本地做 Git 操作和代码编辑工作，然后在远程服务器/虚拟机上做调试，这样可以保持本地环境的整洁。有以下几种待选方案：
 
 - 将远程文件夹挂载到本地
 - 利用 Rsync/sftp 或其它工具建立本地文件夹和远程文件夹的双向同步
 - 利用 Rsync/sftp 将本地文件夹同步到远端
 
-在网速比较好的情况下，samba 是一个比较优秀的解决方案。它将远程的文件夹加载到本地，可以保持本地和远程文件内容的一致性。
-
 <!--more-->
+
+## Samba
+
+![Samba](http://wulfric.qiniudn.com/samba.png "Samba")
+
+在网速比较好的情况下，samba 是一个比较优秀的解决方案。它将远程的文件夹加载到本地，可以保持本地和远程文件内容的一致性。
 
 ### 安装
 
@@ -101,8 +99,12 @@ sudo restart nmbd
 
 ## Rsync
 
-本地和服务器都需要安装 Rsync
+本地和服务器都需要安装 Rsync。这种工作方式对网络的实时性需求不是很高，而且相对于 sftp，rsync 是增量更新，对带宽的需求更小。
 
-注意：MAC 的系统是 Case-insenstive 的，因此使用 git 作版本控制时，重命名操作会出现问题。一个解决方案是，利用 MAC 自带的 Disk Utility 工具，创建一个 Case-senstive 的 new image。
+![rsync](http://wulfric.qiniudn.com/rsync.jpg)
 
-http://stackoverflow.com/questions/8904327/case-sensitivity-in-git
+一般编辑器都有 rsync 的插件，对于 sublime text 就是 [RSync](https://sublime.wbond.net/packages/RSync)。
+
+值得注意的是，MAC 的系统是 Case-insenstive 的，因此使用 git 作版本控制时，重命名操作会出现问题。一个解决方案是，利用 MAC 自带的 Disk Utility 工具，创建一个 Case-senstive 的 new image[^1]。
+
+[^1]: http://stackoverflow.com/questions/8904327/case-sensitivity-in-git
