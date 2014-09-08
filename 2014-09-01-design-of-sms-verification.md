@@ -41,7 +41,7 @@ TOTP 还有个边界问题，如下图所示。当在 OA 时刻发起短信验�
 真实情况下还要考虑客户端和服务器的时钟偏差，不再赘述。（如果使用短信验证，基本不存在这个问题，因为发起验证的 OTP 也是由服务器产生的。）
 
 
-[^1]: http://zh.wikipedia.org/wiki/%E4%B8%80%E6%AC%A1%E6%80%A7%E5%AF%86%E7%A2%BC
+[^1]: [维基：一次性密码](http://zh.wikipedia.org/zh-cn/%E4%B8%80%E6%AC%A1%E6%80%A7%E5%AF%86%E7%A2%BC)
 
-[^2]: http://blog.seetee.me/archives/73.html
+[^2]: [Google账户两步验证的工作原理](http://blog.seetee.me/archives/73.html)
 
