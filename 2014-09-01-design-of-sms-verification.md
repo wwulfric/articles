@@ -24,7 +24,7 @@ Google Authenticator 的二次验证也是使用的OTP。其核心原理是：�
 
 进行验证时，客户端对密钥和计数器的组合(K,C)使用HMAC（Hash-based Message Authentication Code）算法计算一次性密码，公式如下：
 
-$$HOTP(K,C) = Truncate(HMAC\\_SHA1(K,C))$$
+$$HOTP(K,C) = Truncate(HMAC\_SHA1(K,C))$$
 
 经过截断，得到的 OTP 一般是 6 位数，用户将得到的 OTP 发送到服务器，服务器端经过同样的验证，验证成功则计数器加 1。
 
