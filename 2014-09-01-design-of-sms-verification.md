@@ -34,7 +34,7 @@ TOTP 将 HOTP 中的计数器 C 用当前时间来替代，于是就得到了随
 
 TOTP 还有个边界问题，如下图所示。当在 OA 时刻发起短信验证请求，在理想情况下，我们只有在 OA 时间段发起验证，验证才能成功。也就是说，用户的有效输入时间在 T（当发起时刻靠近 O 时）到 0 之间（当发起时刻靠近 A），也就是说，用户有一定的概率验证几乎必然失败（发起时刻靠近 A，考虑到 OTP 获取延迟和用户输入延迟），这显然是不合理的。
 
-![otp verification](http://wulfric.qiniudn.com/otp.png "otp verification")
+![otp verification](http://wulfric.qiniudn.com/R-otp.png "otp verification")
 
 可以通过在验证时刻验证当前时刻以及前 N 个时间片来解决这个问题。如图所示，我们验证当前时刻和前一时刻，当在 OA 时间片发起验证时，验证区间是 OB 段，这样用户的有效输入时间就是 T~2T，如果我们取 T 为 1 分钟，这会是一个比较合理的结果。
 
