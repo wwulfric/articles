@@ -3,6 +3,7 @@ title: 牛顿迭代法解开方
 date:  2014-09-01 13:03
 tags: [SICP,牛顿迭代法,开方]
 categories: [技术]
+math: true
 ---
 
 
