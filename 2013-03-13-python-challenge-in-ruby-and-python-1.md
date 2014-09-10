@@ -9,7 +9,6 @@ Python challenge 是一个非常有趣的闯关游戏，通过猜谜和编程得
 
 ![python challenge](http://wulfric.qiniudn.com/python-challenge.png "python challenge")
 
-<!--more-->
 
 ## 第 0-6 题
 
