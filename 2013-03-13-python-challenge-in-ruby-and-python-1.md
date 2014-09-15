@@ -98,6 +98,7 @@ copy from the source page
 '''
 print ''.join(re.findall('[^A-Z][A-Z]{3}([a-z])[A-Z]{3}[^A-Z]', s))
 ```
+
 ```ruby
 # ruby
 s = <<'EOF'
@@ -340,7 +341,7 @@ img.show()
 
 或者直接 `Image.open('cave.jpg').resize((320, 240)).show()` 这样也可以。本来原理就是把黑色的像素块拼起来。你也可以在 PS 里选择以邻近的方法将图像大小重新设置为 320*240。
 
-//TODO 作图
+TODO 作图
 
 ```ruby
 # ruby
