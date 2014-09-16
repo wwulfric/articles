@@ -1,6 +1,6 @@
 ---
 title: python challenge in ruby and python 0~12
-time: 2013-03-13 20:36
+date: 2013-03-13 20:36
 tags: [ruby, python, pythonchallenge]
 categories: [技术]
 ---
@@ -8,6 +8,8 @@ categories: [技术]
 Python challenge 是一个非常有趣的闯关游戏，通过猜谜和编程得到关键词，并使用关键词更改网页的 URL 进入到下一关。现在共有 33 关。这篇文章（或者更多）将会专注于使用 python 和 ruby 解决这些问题。
 
 ![python challenge](http://wulfric.qiniudn.com/python-challenge.png "python challenge")
+
+<!--more-->
 
 
 ## 第 0-6 题

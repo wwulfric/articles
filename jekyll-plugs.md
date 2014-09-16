@@ -1,3 +1,10 @@
+---
+title: Jekyll 博客的一些配置
+date:  2014-09-17 01:01
+tags: [jekyll, octopress, hexo, compress, highlight, comment, fontawesome, colorscheme, font]
+categories: [技术]
+---
+
 git submodule
 
 压缩 css: sass: :compressed
@@ -54,3 +61,7 @@ date 样式
 coderay 代码高亮线上不支持
 
 break-word firefox 不支持
+
+受不了了……不支持 plugin，换 hexo……
+
+按需引用 fontawesome http://www.w3cplus.com/preprocessor/create-font-awesome-font-icons-with-sass.html
