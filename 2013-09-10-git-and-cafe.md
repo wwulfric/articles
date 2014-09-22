@@ -11,7 +11,7 @@ categories: [扯淡, 产品]
 
 
 
-> 本文是在 gitcafe 实习时的一些想法。
+本文是在 gitcafe 实习时的一些想法。
 
 
 

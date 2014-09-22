@@ -5,7 +5,7 @@ tags: [git, 教育, SNS, 招聘, 技能]
 categories: [扯淡, 产品]
 ---
 
-> 本文是在 gitcafe 实习时的一些想法。
+本文是在 gitcafe 实习时的一些想法。
 
 突发奇想，假如 gitcafe 可以在校园网内能访问会如何呢？
 
