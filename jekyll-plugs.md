@@ -13,11 +13,11 @@ kramdown: input: GFM
 用到的 Jekyll 插件：
 压缩 HTML: https://github.com/penibelst/jekyll-compress-html
 弃用原因：压缩 js，使其失效
-原因：该压缩方法直接去除换行符，则 script 中的 // 注释会导致该段代码失效
+原因：该压缩方法直接去除换行符，则 script 中的 // 注释会导致该段代码失效，同时，kramdown 生成的 mathjax 会比较依赖换行（[CDATA](https://github.com/gettalong/kramdown/issues/100)），对比了以下生成的 HTML 和压缩后的差别，最终还是取消了该插件的使用
 
 
 kramdown-with-pygments https://github.com/mvdbos/kramdown-with-pygments
-改用 kramdown 的 coderay 来渲染代码
+改用 kramdown 的 coderay 来渲染代码，但 github pages 没有安装 coderay，只能作罢。而基于安全原因，大量自定义的插件无法在 github pages 使用，所以只好分成两个分支，master 分支是生成站点，source 是 Jekyll 主代码。结果就变成了 octopress 的工作方式了……
 
 syntax: github: https://github.com/mojombo/tpw/blob/master/css/syntax.css
 
@@ -65,3 +65,7 @@ break-word firefox 不支持
 受不了了……不支持 plugin，换 hexo……
 
 按需引用 fontawesome http://www.w3cplus.com/preprocessor/create-font-awesome-font-icons-with-sass.html
+
+seo http://pizn.github.io/2012/01/16/the-seo-for-jekyll-blog.html
+
+google fonts
