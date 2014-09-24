@@ -5,7 +5,7 @@ tags: [ruby, python, pythonchallenge]
 categories: [技术]
 ---
 
-继续 python challenge 游戏。这篇文章将努力更新到 23 题。
+[Python Challenge](http://www.pythonchallenge.com/) 是一个非常有趣的闯关游戏，通过猜谜和编程得到关键词，并使用关键词更改网页的 URL 进入到下一关。现在共有 33 关。这篇文章（或者更多）将会专注于使用 python 和 ruby 解决这些问题。继续 python challenge 游戏。这篇文章将努力更新到 23 题。
 
 ![python challenge](http://wulfric.qiniudn.com/python-challenge.png "python challenge")
 
@@ -92,7 +92,7 @@ output.display
 差点做出来了……根据如下条件找出合适的年份：1**6 年 1 月 26 日是星期一，且该年是闰年（注意右下角的前后年份，二月份有29天）。然后就迷茫了。
 
 根据源码的提示，第二小的人，且重要时间是 1 月 27 日（这一点一直没注意到，标了 TODO 我以为和下一题有关呢）。
-提示：符合要求的年份中第二大的那一年 1 月 27 日，莫扎特诞生了。
+提示：符合要求的年份中第二大的那一年 1 月 27 日，[莫扎特](http://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart)诞生了。
 
 ```python
 # python
@@ -186,7 +186,7 @@ im.display
 提示：这一题共有三个步骤：
 
 1. 看网页的源码，改成 busynothing 之后 set-cookie 接连是 B 和 Z，所以，跟踪 busynothing 的数字，得到一段由 Bzip2 压缩的字符串。解压之，得到一段有意义的话。让我们给他的父亲打电话。
-2. 回到 [第 13 题](http://haidao.gitcafe.com/blog/2013/03/18/python-challenge-in-ruby-and-python-2/#menuindex1)，打电话给 Leopold（Mozart 的父亲），根据得到的字符串跳转网址。
+2. 回到第 13 题，打电话给 [Leopold](http://en.wikipedia.org/wiki/Leopold_Mozart)（Mozart 的父亲），根据得到的字符串跳转网址。
 3. 给该网址设置 cookie：info=****，info 的内容就是第一步得到的内容。
 
 ```python
