@@ -53,8 +53,7 @@ gets.tr "a-z", "c-zab"
 # 就这么简单！然后输入字符串就好了！真让人喜欢！
 ```
 
-在官网的解答上还有利用 *nix 系统的 tr 函数的方法，本质上和 ruby 的方法是一样的：
-`curl http://www.pythonchallenge.com/pc/def/map.html | tr a-z c-za-b`。
+在官网的解答上还有利用 *nix 系统的 tr 函数的方法，本质上和 ruby 的方法是一样的：`curl http://www.pythonchallenge.com/pc/def/map.html | tr a-z c-za-b`。
 
 ### 第 2 题
 
@@ -75,7 +74,7 @@ if re.match('[a-zA-Z]',a):
     bstring = bstring+a
 ```
 
-其中最后判断的部分可以换成 `print re.sub('[^a-z]','', s)`。
+其中最后判断的部分可以换成`print re.sub('[^a-z]','', s)`。
 
 ```ruby
 # ruby
@@ -225,7 +224,7 @@ end
 
 一进去就感到中间那条线很可疑！全是灰色的块块，我们知道灰色的 RGB 是相等的，且从 0-255，不正是 ASCII 码吗。好的，把这些灰色块块换成数字，再换成 ASCII 码吧。
 
-提示：python 需要 PIL 模块，ruby 需要 Rmagick 模块。python 通过 pip 安装 PIL；ruby 安装 Rmagick 需要先安装 `sudo apt-get install libmagickwand-dev` ，然后直接 `gem install rmagick` 。
+提示：python 需要 PIL 模块，ruby 需要 Rmagick 模块。python 通过 pip 安装 PIL；ruby 安装 Rmagick 需要先安装`sudo apt-get install libmagickwand-dev`，然后直接`gem install rmagick`。
 
 ```python
 # python
@@ -248,7 +247,7 @@ Magick::ImageList.new("oxygen.png").get_pixels(0,45,629,1).map.with_index
 
 蜜蜂（bee）！源代码中一串可疑的字符串（BZ 开头）！其实我也是看提示才知道用到了 python 的 bz2 模块……
 
-python 中的模块叫 bz2，是内置的；ruby 的需要先下载：`gem install bzip2-ruby` 。
+python 中的模块叫 bz2，是内置的；ruby 的需要先下载：`gem install bzip2-ruby`。
 
 ```python
 # python
@@ -341,7 +340,7 @@ img.show()
 # 注意也可以用 img.getpixel 和 img.putpixel 来操作像素。
 ```
 
-或者直接 `Image.open('cave.jpg').resize((320, 240)).show()` 这样也可以。本来原理就是把黑色的像素块拼起来。你也可以在 PS 里选择以邻近的方法将图像大小重新设置为 320*240。
+或者直接`Image.open('cave.jpg').resize((320, 240)).show()`这样也可以。本来原理就是把黑色的像素块拼起来。你也可以在 PS 里选择以邻近的方法将图像大小重新设置为 320*240。
 
 ```ruby
 # ruby
@@ -361,11 +360,11 @@ img.display
 
 ### 第 12 题
 
-这一题真难……首先仔细观察源码（源码才几行有什么好观察的！），注意到图片的名字叫 evil1.jpg，诶～title 告诉我们要 dealing evil，那么就先看看 evil2.jpg 是什么。有惊喜吧！它告诉我们不是 jpg，是 gfx。先不管，继续 dealing evil，换 evil3.jpg，没啦！不管，还是继续，evil4.jpg：一张坏掉的图？用文本编辑器打开它， `bert is evil, go back!`
+这一题真难……首先仔细观察源码（源码才几行有什么好观察的！），注意到图片的名字叫 evil1.jpg，诶～title 告诉我们要 dealing evil，那么就先看看 evil2.jpg 是什么。有惊喜吧！它告诉我们不是 jpg，是 gfx。先不管，继续 dealing evil，换 evil3.jpg，没啦！不管，还是继续，evil4.jpg：一张坏掉的图？用文本编辑器打开它，`bert is evil, go back!`
 
-好吧，先记住 bert，url 改成 bert.html 会有一张图，不过看起来没什么用，还是回到 evil2 吧！把 jpg 改成 gfx，好，得到一个文件。剩下的所有工作都是在这个文件里进行。仔细观察这个文件的头部，会发现它很奇怪。有点熟悉，但是又不是那么熟悉。~~好吧我是看了别人的提示才知道的。~~ 原来这个文件中，隐藏着若干个图片！每隔 5 个字符看，很容易的就能找到 GIF 和 PNG。还等什么，马上写代码把他们分开吧！
+好吧，先记住 bert，url 改成 bert.html 会有一张图，不过看起来没什么用，还是回到 evil2 吧！把 jpg 改成 gfx，好，得到一个文件。剩下的所有工作都是在这个文件里进行。仔细观察这个文件的头部，会发现它很奇怪。有点熟悉，但是又不是那么熟悉。 ~~好吧我是看了别人的提示才知道的。~~ 原来这个文件中，隐藏着若干个图片！每隔 5 个字符看，很容易的就能找到 GIF 和 PNG。还等什么，马上写代码把他们分开吧！
 
-提示，用可以查看二进制文件的编辑器查看这个 .gfx 文件。在 vim 里是输入 `:%!xxd` 即可。
+提示，用可以查看二进制文件的编辑器查看这个 .gfx 文件。在 vim 里是输入`:%!xxd`即可。
 
 ```python
 # python

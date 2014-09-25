@@ -38,7 +38,7 @@ Jekyll 提供了内置的对 Sass 和 CoffeeScript 的支持，见 [Assets](http
 
 可见，src 处已经没有 url 了，而只是图片的 base64 格式源码。当你想隐藏你的图床时，比如，七牛云可以加水印，但是如果知道 url 的话，很容易就可以去掉水印，转成 base64 可以防止这种情况。
 
-除此之外，我还利用 minimagick 库自动给图片加了宽度和高度属性[^1]。即读在线文件，获取尺寸，加到 img 里。对于 R-图片（我给在 rMBP 上制作的图片都加了 R- 前缀），即 retina 图片，width 设为1/2。另外还同时给 img 加上了 figure  wrapper 和 figcaption。代码如下，打开类 `Kramdown::Converter::Html` 并重写`convert_img`方法。
+除此之外，我还利用 minimagick 库自动给图片加了宽度和高度属性[^1]。即读在线文件，获取尺寸，加到 img 里。对于 R-图片（我给在 rMBP 上制作的图片都加了 R- 前缀），即 retina 图片，width 设为1/2。另外还同时给 img 加上了 figure  wrapper 和 figcaption。代码如下，打开类`Kramdown::Converter::Html`并重写`convert_img`方法。
 
 ```ruby
 def convert_img(el, indent)

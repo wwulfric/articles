@@ -11,17 +11,17 @@ categories: [技术]
 
 ## 编辑
 
-从 master 分支上新建分支，通过 `git checkout -b new-feature` 创建 `new-feature` 分支，开始工作
+从 master 分支上新建分支，通过`git checkout -b new-feature`创建`new-feature`分支，开始工作
 
 - 编辑
 - 提交
 - 重复上述步骤
     
-完成之后，提交到仓库 `git push origin new-feature`
+完成之后，提交到仓库`git push origin new-feature`。
     
 ## Code Review
 
-提交之后，发 pull request，拉同事来做 code review。Code review 完成之后，在本地执行 `git fetch`，从远端下载最新的更新。
+提交之后，发 pull request，拉同事来做 code review。Code review 完成之后，在本地执行`git fetch`，从远端下载最新的更新。
 
 ## 合并与提交
 

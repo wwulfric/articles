@@ -16,7 +16,7 @@ math: true
 
 OTP（one time password），即一次性验证密码，也称动态口令。一次性密码的产生方式，主要是以时间差做为服务器与密码产生器的同步条件。在需要登录的时候，就利用密码产生器产生一次性密码，OTP一般分为计次使用（HOTP）以及计时使用（TOTP）两种，计次使用的OTP产出后，可在不限时间内使用；计时使用的OTP则可设定密码有效时间，从30秒到两分钟不等，而OTP在进行认证之后即废弃不用，下次认证必须使用新的密码，增加了试图不经授权存取有限制资源的难度[^1]。
 
-Google Authenticator 的二次验证也是使用的OTP。其核心原理是：服务器和客户端（一般是 `Google Authenticator` app）保存同一份密钥，客户端根据该密钥和当前时间戳计算得到6位数字，发到服务器，服务器根据同样的算法得到6位数字。做比较之后判断客户端传来的数字是否合法。详述如下[^2]：
+Google Authenticator 的二次验证也是使用的OTP。其核心原理是：服务器和客户端（一般是`Google Authenticator`app）保存同一份密钥，客户端根据该密钥和当前时间戳计算得到6位数字，发到服务器，服务器根据同样的算法得到6位数字。做比较之后判断客户端传来的数字是否合法。详述如下[^2]：
 
 ![Google Authenticator View](http://wulfric.qiniudn.com/google_authenticator_view.png "Google Authenticator View")
 

@@ -31,7 +31,7 @@ categories: [技术]
     ui = true
 ```
 
-配置好后，你就可以使用 `git ci`, `git co`, `git st` 等命令了。
+配置好后，你就可以使用`git ci`, `git co`, `git st`等命令了。
 
 在家目录下创建 .gitignore_global，这个文件中放的是全局的 git ignore 文件，比如编辑器的配置文件，缓存文件，编译的文件等，下为例子
 
