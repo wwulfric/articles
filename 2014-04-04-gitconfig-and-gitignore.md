@@ -83,7 +83,7 @@ Thumbs.db
 *.sublime-project
 ```
 
-在项目下的 .gitignore 文件应该放和项目紧密相关的 ignore 文件，比如项目的配置，数据库的配置等，如：
+在项目下的 .gitignore 文件应该放和项目紧密相关的 ignore 文件，比如项目的配置，数据库的配置等，如：
 
 ```bash
 */conf_set.php

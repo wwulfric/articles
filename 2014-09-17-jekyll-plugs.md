@@ -61,7 +61,7 @@ def convert_img(el, indent)
 end
 ```
 
-对于博客中常用的图标，我是用的是[Font Awesome](http://fortawesome.github.io/Font-Awesome/)。Font Awesome 图标比较多，我们可以[按需引用](http://www.w3cplus.com/preprocessor/create-font-awesome-font-icons-with-sass.html)，或者直接[定制](http://fontello.com/)需要的图标。
+对于博客中常用的图标，我是用的是 [Font Awesome](http://fortawesome.github.io/Font-Awesome/)。Font Awesome 图标比较多，我们可以[按需引用](http://www.w3cplus.com/preprocessor/create-font-awesome-font-icons-with-sass.html)，或者直接[定制](http://fontello.com/)需要的图标。
 
 其他可供参考的优化方法：[seo](http://pizn.github.io/2012/01/16/the-seo-for-jekyll-blog.html)。
 
