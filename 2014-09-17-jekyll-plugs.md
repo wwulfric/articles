@@ -81,6 +81,6 @@ Jekyll 的代码高亮默认是使用 highlight tag。我则只使用 [fanced co
 
 在做博客样式的时候，我坚持轻交互。即如果不是没有交互就不行的情况，就不加交互。比如利用输入框边框颜色的变化来表示获得焦点和失去焦点的差别是非常合理的，鼠标经过代码块时边框变色就是不必要的。链接 hover 的时候有变化（下划线，变色等）是必要的，鼠标经过的时候头像旋转就是不必要的，等等。
 
-PS: 本博客将在一千年以后支持 IE，敬请期待~
+PS: 本博客将在一千年以后兼容 IE，敬请期待~
 
 [^1]: http://stackoverflow.com/questions/1247685/should-i-specify-height-and-width-attributes-for-my-imgs-in-html
