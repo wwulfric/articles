@@ -31,16 +31,16 @@ Jekyll 提供了内置的对 Sass 和 CoffeeScript 的支持，见 [Assets](http
 
 还有一个插件 [jekyll_image_encode](https://github.com/GSI/jekyll_image_encode)，可以将图片转成 base64。其实本质上和把图片下载到本地一样，只是更加自动化。base64 转化后的 img 标签是这样的：
 
-```html
+~~~html
 <img src="data:image;base64, iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c
 6QAAAAxJREFUCNdj+P//PwAF/gL+3MxZ5wAAAABJRU5ErkJggg== " />
-```
+~~~
 
 可见，src 处已经没有 url 了，而只是图片的 base64 格式源码。当你想隐藏你的图床时，比如，七牛云可以加水印，但是如果知道 url 的话，很容易就可以去掉水印，转成 base64 可以防止这种情况。
 
 除此之外，我还利用 minimagick 库自动给图片加了宽度和高度属性[^1]。即读在线文件，获取尺寸，加到 img 里。对于 R-图片（我给在 rMBP 上制作的图片都加了 R- 前缀），即 retina 图片，width 设为1/2。另外还同时给 img 加上了 figure  wrapper 和 figcaption。代码如下，打开类`Kramdown::Converter::Html`并重写`convert_img`方法。
 
-```ruby
+~~~ruby
 def convert_img(el, indent)
   image = MiniMagick::Image.open el.attr['src']
   width = image[:width]
@@ -59,11 +59,11 @@ def convert_img(el, indent)
     </figcaption>
   </figure>"
 end
-```
+~~~
 
 对于博客中常用的图标，我是用的是 [Font Awesome](http://fortawesome.github.io/Font-Awesome/)。Font Awesome 图标比较多，我们可以[按需引用](http://www.w3cplus.com/preprocessor/create-font-awesome-font-icons-with-sass.html)，或者直接[定制](http://fontello.com/)需要的图标。
 
-其他可供参考的优化方法：[seo](http://pizn.github.io/2012/01/16/the-seo-for-jekyll-blog.html)。
+其他可供参考的优化方法：[seo](http://pizn.github.io/2012/01/16/the-seo-for-jekyll-blog.html)。我把每篇文章的 tags 作为 keywords 放在 html 的 header 里，把每篇文章的第一段作为 description 也放在 html 的 header 里，尽量对搜索引擎友好。
 
 ## 样式
 

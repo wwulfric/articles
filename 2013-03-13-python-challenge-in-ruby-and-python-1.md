@@ -21,7 +21,7 @@ categories: [技术]
 从这一题开始就需要一些编程的技能了。请仔细观察图中的 6 个字母的关系。 
 提示：将题目给出的每一个字母向后移动两个位置。
 
-```python
+~~~python
 # python
 # 这是我的 python 解法，相当的 C 呢
 astring='''g fmnc wms bgblr rpylqjyrc gr zw fylb. rfyrq ufyr amknsrcpq ypc dmp.
@@ -34,9 +34,9 @@ for a in astring:
         a=chr((ord(a)-95)%26+97)
     bstring=bstring+a
 print (bstring)
-```
+~~~
 
-```python
+~~~python
 # python
 # 推荐的做法
 import string
@@ -46,12 +46,12 @@ text='''g fmnc wms bgblr rpylqjyrc gr zw fylb. rfyrq ufyr amknsrcpq ypc dmp.
 table = string.maketrans(string.ascii_lowercase,
                          string.ascii_lowercase[2:]+string.ascii_lowercase[:2])
 text.translate(table)
-```
-```ruby
+~~~
+~~~ruby
 # ruby
 gets.tr "a-z", "c-zab"
 # 就这么简单！然后输入字符串就好了！真让人喜欢！
-```
+~~~
 
 在官网的解答上还有利用 *nix 系统的 tr 函数的方法，本质上和 ruby 的方法是一样的：`curl http://www.pythonchallenge.com/pc/def/map.html | tr a-z c-za-b`。
 
@@ -63,7 +63,7 @@ gets.tr "a-z", "c-zab"
 
 我选取的代码都是识别字母的方法，判断频率的方法也类似，不再赘述。
 
-```python
+~~~python
 # python
 # 我的代码，判断每个字符是否是字母
 import re
@@ -72,17 +72,17 @@ bstring = ''
 for a in astring:
 if re.match('[a-zA-Z]',a):
     bstring = bstring+a
-```
+~~~
 
 其中最后判断的部分可以换成`print re.sub('[^a-z]','', s)`。
 
-```ruby
+~~~ruby
 # ruby
 s = <<'EOF'
 # copy from the source page
 EOF
 puts s.scan(/[a-z]/).join
-```
+~~~
 
 ### 第 3 题
 
@@ -90,7 +90,7 @@ puts s.scan(/[a-z]/).join
 
 提示：用正则表达式查找更方便。前面虽然也用到了正则，但是这里不用正则的话就会很麻烦。
 
-```python
+~~~python
 # python
 # 我的代码比较笨，但是方法是一样的，就不贴上来了。
 import re
@@ -98,15 +98,15 @@ s = '''
 copy from the source page
 '''
 print ''.join(re.findall('[^A-Z][A-Z]{3}([a-z])[A-Z]{3}[^A-Z]', s))
-```
+~~~
 
-```ruby
+~~~ruby
 # ruby
 s = <<'EOF'
 copy from the source page
 EOF
 puts s.scan(/[^A-Z][A-Z]{3}([a-z])[A-Z]{3}[^A-Z]/).join
-```
+~~~
 
 ### 第 4 题
 
@@ -114,7 +114,7 @@ puts s.scan(/[^A-Z][A-Z]{3}([a-z])[A-Z]{3}[^A-Z]/).join
 
 提示：当遇到问题退出时，将最后得到的数字复制到网址上，看看有什么提示，按照提示做就行了。
 
-```python
+~~~python
 # python
 import re
 from urllib import urlopen
@@ -128,9 +128,9 @@ for i in range(400):
     print(temp)
     f=urlopen(astring+temp)
     a=f.read()
-```
+~~~
 
-```ruby
+~~~ruby
 # ruby
 require "open-uri"
 n=12345
@@ -149,16 +149,16 @@ end
 # 需要注意的是，我本来是把 break 放在 open 这个 block 里的，我以为当 s 匹配到 htm 时，
 # 接着 break 就可以退出了。但是 ruby 的 break 是退出最临近的 block，所以 loop 还是会
 # 死循环下去。因此不得不加了一个 flag。
-```
+~~~
 
 或者同时借助 ruby 和 bash 命令，在 命令行如下输入，也可以得到需要的结果。
 
-```ruby
+~~~ruby
 # ruby
 ruby -wle 'n = 12345; print n = $1 while 
           `GET "http://www.pythonchallenge.com/pc/def/linkedlist.php?nothing=#{n}"`
           =~ /(\d+)$/'
-```
+~~~
 
 ### 第 5 题
 
@@ -166,7 +166,7 @@ ruby -wle 'n = 12345; print n = $1 while
 
 提示：将该对象通过 pickle 模块 load 出来后，仔细观察，不妨把 data 按行打印出来看看。每一行的数字加起来都是 95，猜测每一行由 95 个字符构成，剩下的事情就简单了。
 
-```python
+~~~python
 # python
 # 推荐的做法
 import urllib2, sys, pickle
@@ -175,7 +175,7 @@ data = pickle.loads(pickle_data)
 for line in data:
     for char, count in line: sys.stdout.write(char * count)
     sys.stdout.write("\n")
-```
+~~~
 
 这个真的就只能 python 做了……
 
@@ -187,7 +187,7 @@ for line in data:
 
 进入 zip，首先看到的就是 readme.txt，它告诉我们从 90052 开始。那就开始吧，和第 4 题一样。直到找不到数字的时候，输出最后一个文件的内容，它告诉我们去收集 comment，OK！收集 comment 然后输出就行了！
 
-```python
+~~~python
 # python
 f = "channel.zip"
 z = zipfile.ZipFile(f)
@@ -195,9 +195,9 @@ name = '90052.txt'
 while 1:
     print z.getinfo(name).comment,
     name = z.read(name).split()[-1] + '.txt'
-```
+~~~
 
-```ruby
+~~~ruby
 # ruby
 require "zip/zip"
 zipfilename = "/home/haidao/Downloads/channel.zip"
@@ -214,7 +214,7 @@ Zip::ZipFile.open(zipfilename) do |zipfile|
   end
   puts output.join
 end
-```
+~~~
 
 ## 第 7-12 题
 
@@ -226,7 +226,7 @@ end
 
 提示：python 需要 PIL 模块，ruby 需要 Rmagick 模块。python 通过 pip 安装 PIL；ruby 安装 Rmagick 需要先安装`sudo apt-get install libmagickwand-dev`，然后直接`gem install rmagick`。
 
-```python
+~~~python
 # python
 import re, Image
 im = Image.open("oxygen.png")
@@ -234,14 +234,14 @@ row = [im.getpixel((x, 47)) for x in range(0, im.size[0], 7)]
 chrs = [chr(r) for r, g, b, a in row if r == g == b]
 s = ''.join(chrs)
 print ''.join(map(chr, map(int, re.findall(r'\d+',s))))
-```
+~~~
 
-```ruby
+~~~ruby
 # ruby
 require "RMagick"
 Magick::ImageList.new("oxygen.png").get_pixels(0,45,629,1).map.with_index
   {|p,i| (p.red/255).chr if i%7==0)}.join.scan(/\d+/){|c| print c.to_i.chr }
-```
+~~~
 
 ### 第 8 题
 
@@ -249,21 +249,21 @@ Magick::ImageList.new("oxygen.png").get_pixels(0,45,629,1).map.with_index
 
 python 中的模块叫 bz2，是内置的；ruby 的需要先下载：`gem install bzip2-ruby`。
 
-```python
+~~~python
 # python
 import bz2
 un = "un 的字符串内容，表示 user name"
 pw = "pw 的字符串内容，表示 password"
 print bz2.decompress(un), bz2.decompress(pw)
-```
+~~~
 
-```ruby
+~~~ruby
 # ruby
 require 'bzip2'
 un = "同上，需要用双引号括起来"
 pw = "同上，需要用双引号括起来"
 puts Bzip2.uncompress(un), Bzip2.uncompress(pw)
-```
+~~~
 
 ### 第 9 题
 
@@ -271,7 +271,7 @@ puts Bzip2.uncompress(un), Bzip2.uncompress(pw)
 
 提示：源代码给的 first 每两个数字一组，是一个点的位置，从第一个点开始画，一直画到最后一个点，seoncd 也是这样。原图上的点是要告诉你，连好后看点线的外观。这是一头牛。
 
-```python
+~~~python
 # python
 from PIL import Image, ImageDraw
 img = Image.new("RGB",(640,480), 'white')
@@ -279,9 +279,9 @@ draw = ImageDraw.Draw(img)
 draw.polygon(first_list, 'black')
 draw.polygon(second_list, 'grey')
 img.show()
-```
+~~~
 
-```ruby
+~~~ruby
 # ruby
 require "RMagick"
 img = Magick::ImageList.new 'good.jpg'
@@ -292,7 +292,7 @@ gc.fill('white')
 gc.polygon(*second_list)
 gc.draw(img)
 img.display
-```
+~~~
 
 ### 第 10 题
 
@@ -300,23 +300,23 @@ img.display
 
 这是一个 [look and say sequence](http://en.wikipedia.org/wiki/Look-and-say_sequence)，它是一个比较特殊的序列。后者是前者读出的结果，比如：前一个数是 11，则后一个数就是 21，表示 2 个 1；再后一个数就是 1 个 2，1 个1，即 1211。
 
-```python
+~~~python
 # python
 from re import findall
 def f(n):
     return "1" if n == 0 else ''.join(
         ["%d%s"%(len(j)+1, i) for i,j in findall(r'(\d)(\1*)', f(n-1))])
 print len(f(30))
-```
+~~~
 
-```ruby
+~~~ruby
 # ruby
 def f n
   n == 0 ? "1":
     f(n-1).scan(/(\d)(\1*)/).collect{|i| "#{i[1].size+1}#{i[0]}"}.join
 end
 puts f(30).size
-```
+~~~
 
 额，感觉难度越来越大了……
 
@@ -326,7 +326,7 @@ puts f(30).size
 
 提示：用下一行的黑色像素覆盖上一行的非黑色像素。
 
-```python
+~~~python
 # python
 from PIL import Image
 img = Image.open("cave.jpg")
@@ -338,11 +338,11 @@ for j in range(r-1):
             pix[i,j] = pix[i,j+1]
 img.show()
 # 注意也可以用 img.getpixel 和 img.putpixel 来操作像素。
-```
+~~~
 
 或者直接`Image.open('cave.jpg').resize((320, 240)).show()`这样也可以。本来原理就是把黑色的像素块拼起来。你也可以在 PS 里选择以邻近的方法将图像大小重新设置为 320*240。
 
-```ruby
+~~~ruby
 # ruby
 require "RMagick"
 img = Magick::ImageList.new 'cave.jpg'
@@ -356,7 +356,7 @@ for i in 0..r-2
   end
 end
 img.display
-```
+~~~
 
 ### 第 12 题
 
@@ -366,17 +366,17 @@ img.display
 
 提示，用可以查看二进制文件的编辑器查看这个 .gfx 文件。在 vim 里是输入`:%!xxd`即可。
 
-```python
+~~~python
 # python
 raw = open('evil2.gfx','rb').read()
 for i in range(5):
     open('out%d'%i, 'wb').write(raw[i::5])
-```
+~~~
 
-```ruby
+~~~ruby
 # ruby
 # 一定要注意，读写文件要强调是二进制
 evil =  File.open("evil2.gfx", 'rb').read
 outputs = (0..4).map { |i| File.open("out#{i}", "wb") }
 evil.each_char.with_index { |c, i| outputs[i%5].write(c) }
-```
+~~~

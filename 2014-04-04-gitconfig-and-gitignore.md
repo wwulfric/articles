@@ -11,7 +11,7 @@ categories: [技术]
 
 在家目录下创建 .gitconfig 文件，
 
-``` bash
+~~~ bash
 [user]
 	name = 你的名字
 	email = 你的邮箱
@@ -29,13 +29,13 @@ categories: [技术]
     throw = reset --hard HEAD
 [color]
     ui = true
-```
+~~~
 
 配置好后，你就可以使用`git ci`, `git co`, `git st`等命令了。
 
 在家目录下创建 .gitignore_global，这个文件中放的是全局的 git ignore 文件，比如编辑器的配置文件，缓存文件，编译的文件等，下为例子
 
-``` bash
+~~~ bash
 # Compiled source #
 ###################
 *.com
@@ -81,11 +81,11 @@ Thumbs.db
 # sublime project files #
 #####################
 *.sublime-project
-```
+~~~
 
 在项目下的 .gitignore 文件应该放和项目紧密相关的 ignore 文件，比如项目的配置，数据库的配置等，如：
 
-```bash
+~~~bash
 */conf_set.php
 database.yml
-```
+~~~

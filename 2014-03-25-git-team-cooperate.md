@@ -29,7 +29,7 @@ categories: [技术]
 
 ![git merge and rebase](http://wulfric.qiniudn.com/R-git-merge-and-rebase.png)
 
-``` bash
+~~~ bash
 git rebase -i origin/master
 # 该命令会新建一个未命名的分支，在该分支上执行合并
 # 执行后会跳到编辑页面，保留第一个 pick，其他 pick 改成 squash，保存退出
@@ -53,5 +53,5 @@ git cherry-pick commit_id #该 commit id 就是刚才复制的内容
 git commit --amend 
 # 检查一下，提交更改
 git push origin master
-```
+~~~
 
