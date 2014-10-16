@@ -1,5 +1,5 @@
 ---
-title: Jekyll 博客的一些配置
+title: Jekyll 博客的一些优化插件与配置
 date:  2014-09-17 01:01
 tags: [jekyll, compress, highlight, fontawesome, colorscheme, font]
 categories: [技术]
@@ -61,7 +61,7 @@ def convert_img(el, indent)
 end
 ~~~
 
-对于博客中常用的图标，我是用的是 [Font Awesome](http://fortawesome.github.io/Font-Awesome/)。Font Awesome 图标比较多，我们可以[按需引用](http://www.w3cplus.com/preprocessor/create-font-awesome-font-icons-with-sass.html)，或者直接[定制](http://fontello.com/)需要的图标。
+对于博客中常用的图标，我是用的是 [Font Awesome](http://fortawesome.github.io/Font-Awesome/)。Font Awesome 图标比较多，我们可以[按需引用](http://www.w3cplus.com/preprocessor/create-font-awesome-font-icons-with-sass.html)，或者直接[定制](http://fontello.com/)需要的图标。前者通用性更好，但实现复杂；对于博客而言，直接定制即可。
 
 其他可供参考的优化方法：[seo](http://pizn.github.io/2012/01/16/the-seo-for-jekyll-blog.html)。我把每篇文章的 tags 作为 keywords 放在 html 的 header 里，把每篇文章的第一段作为 description 也放在 html 的 header 里，尽量对搜索引擎友好。
 
@@ -80,6 +80,12 @@ Jekyll 的代码高亮默认是使用 highlight tag。我则只使用 [fanced co
 对于字体的选择，我使用的是和 [slash 主题](https://github.com/tommy351/Octopress-Theme-Slash/)相同的 font-family，尚未对 Windows 字体做兼容性处理。关于字体的选择，可参考[这篇文章](https://ruby-china.org/topics/14005)。
 
 在做博客样式的时候，我坚持轻交互。即如果不是没有交互就不行的情况，就不加交互。比如利用输入框边框颜色的变化来表示获得焦点和失去焦点的差别是非常合理的，鼠标经过代码块时边框变色就是不必要的。链接 hover 的时候有变化（下划线，变色等）是必要的，鼠标经过的时候头像旋转就是不必要的，等等。
+
+最终的样式如图所示：
+
+![Preview](http://wulfric.qiniudn.com/R-preview.png "Preview")
+
+如果对不同平台下的样式有疑问，欢迎通过评论告诉我~
 
 PS: 本博客将在一千年以后兼容 IE，敬请期待~
 
