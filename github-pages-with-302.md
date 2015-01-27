@@ -40,3 +40,5 @@ X-Cache-Hits: 0
 X-Timer: S1413632716.122644,VS0,VE85
 Vary: Accept-Encoding
 ~~~
+
+常规的绑定域名方式：A CNAME(ALIAS) to github 给出的 IP 地址

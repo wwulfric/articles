@@ -18,7 +18,7 @@ categories: [技术]
 
 ### 第 1 题
 
-从这一题开始就需要一些编程的技能了。请仔细观察图中的 6 个字母的关系。 
+从这一题开始就需要一些编程的技能了。请仔细观察[图中](http://www.pythonchallenge.com/pc/def/map.jpg)的 6 个字母的关系。 
 提示：将题目给出的每一个字母向后移动两个位置。
 
 ~~~python
@@ -50,7 +50,7 @@ text.translate(table)
 ~~~ruby
 # ruby
 gets.tr "a-z", "c-zab"
-# 就这么简单！然后输入字符串就好了！真让人喜欢！
+# 就这么简单！然后输入字符串就好了！真教人喜欢！
 ~~~
 
 在官网的解答上还有利用 *nix 系统的 tr 函数的方法，本质上和 ruby 的方法是一样的：`curl http://www.pythonchallenge.com/pc/def/map.html | tr a-z c-za-b`。
@@ -113,6 +113,8 @@ puts s.scan(/[^A-Z][A-Z]{3}([a-z])[A-Z]{3}[^A-Z]/).join
 进入源代码页可以发现可点击的链接，点进去再结合说明就知道了，你得不断换 nothing 后面的数字，直到有人告诉你该停下来了 :)
 
 提示：当遇到问题退出时，将最后得到的数字复制到网址上，看看有什么提示，按照提示做就行了。
+
+请记住这一题的图片的样子，以后会用到~
 
 ~~~python
 # python
@@ -215,6 +217,8 @@ Zip::ZipFile.open(zipfilename) do |zipfile|
   puts output.join
 end
 ~~~
+
+[0](http://www.pythonchallenge.com/pc/def/0.html), [1](http://www.pythonchallenge.com/pc/def/map.html), [2](http://www.pythonchallenge.com/pc/def/ocr.html), [3](http://www.pythonchallenge.com/pc/def/equality.html), [4](http://www.pythonchallenge.com/pc/def/linkedlist.php), [5](http://www.pythonchallenge.com/pc/def/peak.html), [6](http://www.pythonchallenge.com/pc/def/channel.html)
 
 ## 第 7-12 题
 

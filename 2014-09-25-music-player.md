@@ -1,6 +1,6 @@
 ---
 title: Linux PC 网易云音乐下载方案
-date:  2014-09-25 23：53
+date:  2014-09-25 23:53
 tags: [虾米, 网易, 落网, foobar, iTunes, btsync]
 categories: [技术, 音乐]
 ---
@@ -21,3 +21,5 @@ OK，完工啦。
 不使用 dropbox 等同步盘的原因：BTSync 足够简单，只需安装不需注册登录等繁琐的步骤。同步的文件夹只要维护一个唯一的 ID 即可。
 
 PS: 强烈推荐一个优秀的音乐发现网站：[落网](http://www.luoo.net/)
+
+UPDATE: 现在网易云音乐已经出了 MAC 版，不必再从手机端下载同步到 MAC 了。但这时候我需要同步 itunes 的音乐到手机了…… BTSync 反过来用就好了。

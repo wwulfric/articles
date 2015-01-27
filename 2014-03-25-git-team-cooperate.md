@@ -1,7 +1,7 @@
 ---
 title: Git 团队协作实践
 date: 2014-03-25 14:55
-tags: [git, 协作, rebase, merge] 
+tags: [git, 协作, rebase, merge]
 categories: [技术]
 ---
 
@@ -16,9 +16,9 @@ categories: [技术]
 - 编辑
 - 提交
 - 重复上述步骤
-    
+
 完成之后，提交到仓库`git push origin new-feature`。
-    
+
 ## Code Review
 
 提交之后，发 pull request，拉同事来做 code review。Code review 完成之后，在本地执行`git fetch`，从远端下载最新的更新。
@@ -50,8 +50,17 @@ git rebase #得到远端最新 master 内容
 # 上面获取远端 master 内容如有异常，可以尝试 git reset --hard origin/master
 git cherry-pick commit_id #该 commit id 就是刚才复制的内容
 # 修改 commit 信息，使用简洁的描述，比如 fixed #99: user management
-git commit --amend 
+git commit --amend
 # 检查一下，提交更改
 git push origin master
 ~~~
 
+little tips:
+
+在做衍合的时候，先衍合到共同的历史记录，然后再衍合
+~~~ shell
+# a--b--c
+# \--d--e
+git rebase -i a
+git rebase -i origin/master
+~~~
