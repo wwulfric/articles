@@ -69,9 +69,9 @@ end
 
 使用 markdown 写博客，我比较坚持的一点就是，写出的 markdown 文件尽最大可能保持自文档特性，即语法简洁容易理解，尽量不包含 github  不支持显示的语法。换句话说，就是尽量以 [GFM--GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown) 为标准。所以我避免使用一切 Jekyll tag，除了数学公式（github 现在还不支持常见的以`$`符识别 tex 的特性，但数学公式实在不可避免）。
 
-Jekyll 的代码高亮默认是使用 highlight tag。我则只使用 [fanced codes block](https://help.github.com/articles/github-flavored-markdown#fenced-code-blocks) 来标识代码，而 kramdown 不支持 pygments。为代码高亮带来不少麻烦。可以使用[该插件](https://github.com/mvdbos/kramdown-with-pygments)来 hack kramdown 使之支持 pygments。配合 github 风格的代码高亮 [syntax](github: https://github.com/mojombo/tpw/blob/master/css/syntax.css)，神清气爽。当然，kramdown 自带 coderay 也可以完成代码高亮，两种方法任选一即可。需要注意的是，基于安全原因，大量自定义的插件无法在 github pages 使用，请注意你的 Jekyll 的工作方式。
+Jekyll 的代码高亮默认是使用 highlight tag。我则只使用 [fanced codes block](https://help.github.com/articles/github-flavored-markdown#fenced-code-blocks) 来标识代码，而 kramdown 不支持 pygments。为代码高亮带来不少麻烦。可以使用[该插件](https://github.com/mvdbos/kramdown-with-pygments)来 hack kramdown 使之支持 pygments。配合 github 风格的代码高亮 [syntax](https://github.com/mojombo/tpw/blob/master/css/syntax.css)，神清气爽。当然，kramdown 自带 coderay 也可以完成代码高亮，两种方法任选一即可。需要注意的是，基于安全原因，大量自定义的插件无法在 github pages 使用，请注意你的 Jekyll 的工作方式。
 
-对于图片的显示，我选择的是[fancybox](fancyapps.com/fancybox/)。
+对于图片的显示，我选择的是[fancybox](http://fancyapps.com/fancybox/)。
 
 对于网页的配色（color scheme），我在[这个方案](https://kuler.adobe.com/main-cxcedar-color-theme-4237607/)的基础上做了些修改，得到了[我的 color scheme](https://kuler.adobe.com/Copy-of-the-main-cxcedar-color-theme-4361434/)。这五种颜色分别用作链接色、重要标题背景色、mark 背景色、强调色和主文字颜色。
 
