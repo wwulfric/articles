@@ -1,9 +1,9 @@
- ---
- title: 为 Jekyll 博客添加微搜索
- date:  2015-01-28 16:47
- tags: [jekyll, tinysou, search]
- categories: [技术]
- ---
+---
+title: 为 Jekyll 博客添加微搜索
+date: 2015-01-28 16:47
+tags: [jekyll, tinysou, search]
+categories: [技术]
+---
 
  作为静态博客，搜索是个不太好做的功能。一般的处理方式是，在 Jekyll build 的时候，把页面信息写入一个文件中，然后在搜索的时候用 js 作匹配。客户端的浏览器会较为吃力。[微搜索](http://tinysou.com/) 是一个提供静态搜索的服务，功能强大，可定制性强，还可支持拼音搜索，非常适于作为博客这样开放，静态的内容的搜索引擎。
 
