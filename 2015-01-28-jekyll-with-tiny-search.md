@@ -15,33 +15,57 @@ categories: [技术]
 
 我在 Jekyll 博客的根目录下新建了一个`search.html`，其内容如下：
 
-~~~html
----
+
+
+``` html
 layout: page
+
 title: Search
-permalink: /search/
----
+
+## permalink: /search/
 
 <form><input type='text' id='ts-search-input'></form>
+
 <div id='ts-results-container'></div>
+
 <script>
+
 var option = {
+
 engineKey: '这里是你的 engine key',
+
 resultContainingElement: '#ts-results-container',
+
 renderStyle: 'inline'
+
 };
+
 (function(w,d,t,u,n,s,e){
+
 s = d.createElement(t);
+
 s.src = u;
+
 s.async = 1;
+
 w[n] = function(r){
+
 w[n].opts = r;
+
 };
+
 e = d.getElementsByTagName(t)[0];
+
 e.parentNode.insertBefore(s, e);
+
 })(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+
 _ts(option);
+
 </script>
-~~~
+
+```
+
+
 
 我还没找到合适的展示方式和样式，所以现在先这样啦~得改好了样式再来更新好了。
