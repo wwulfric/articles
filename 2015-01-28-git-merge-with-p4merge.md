@@ -50,6 +50,6 @@ $ sudo chmod +x /usr/local/bin/extDiff
     prompt = false
 ~~~
 
-好了，当合并（merge/rebase） 出现冲突时，执行`git mergetool`，即可调出 P4Merge 来解决冲突了。唯一的缺点是，目前还不支持 Retina 屏，看起来有些糊。
+好了，当合并（merge/rebase） 出现冲突时，执行`git mergetool`，即可调出 P4Merge 来解决冲突了。唯一的缺点是，目前还不支持 Retina 屏，看起来有些糊。(PS：可以用工具[Retinizer](http://retinizer.mikelpr.com/)来解决这一问题)
 
 更多细节参见官网[链接](http://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#External-Merge-and-Diff-Tools)。
