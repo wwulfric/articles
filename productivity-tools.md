@@ -72,7 +72,12 @@ end
 ## 命令行工具
 
 zsh,
+
+[为什么要使用 zsh](https://www-s.acm.illinois.edu/workshops/zsh/why.html)
+
 tab 切换，../ 跳转 
+
+cdf
 
 oh-my-zsh, 
 
@@ -115,6 +120,8 @@ vim-surround, vim-repeat
 
 text object, kill ring, undo tree
 
+vim 快捷键的作用，emacs快捷键的作用 ctrl+f/b/n/p
+
 ## 其他可能有用的开发工具
 
 boris, pry, ipython 分别是 PHP, ruby, python 下 **更好** 的 REPL，知道任何一个便知道另外两个的用处。需要一提的是，ipython 的功能则要强大的多得多。
@@ -151,6 +158,9 @@ pyenv, rbenv, rvm, nvm 语言版本管理
 
 ruby 的工具
 vagarnt，homebrew, 三个版本管理工具 rbenv,rvm,ruby-lang,部署工具 mina, capistrono,服务器 puma,passenger,unicorn,thin, 前端模板 haml, slim. coffeescript. 
+
+别人的总结：
+作为的一个程序员，我觉得shell是一个必不可少的工具，使用它能够毫不费劲地操作计算机。在shell提示下，通过调用各种各样的工具，并结合管道，将这些工具根据自己需要组合起来，创建和制定宏工具，甚至编写shell script来将简单而重复的工作自动化，做到Don't repeat your self。
 
 
 [^1]: http://www.yangzhiping.com/tech/homebrew-cask.html
