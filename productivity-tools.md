@@ -104,7 +104,7 @@ p4merge 也是[测评](http://www.slant.co/topics/48/~what-are-the-best-visual-m
 
 PS: p4merge 并没有针对 Retina 屏优化，请使用 [Retinizer](http://retinizer.mikelpr.com/) 工具修正一下。
 
-[tig](https://github.com/jonas/tig)（git cli 的工具，效果和sourcetree很像，适用范围不同，不需要记 git log, git diff 等命令）
+[tig](https://github.com/jonas/tig) 则是终端的 git 工具，（git cli 的工具，效果和sourcetree很像，适用范围不同，不需要记 git log, git diff 等命令）
 
 ## 虚拟化工具
 

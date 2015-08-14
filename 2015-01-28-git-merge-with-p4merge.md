@@ -1,7 +1,7 @@
 ---
 title: 使用 P4Merge 作为 GIT 的可视化合并工具
 date:  2015-01-28 23:43
-tags: [p4merge, git, merge]
+tags: [P4Merge, git, merge]
 categories: [技术]
 ---
 
