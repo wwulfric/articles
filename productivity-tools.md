@@ -40,6 +40,7 @@ end
 
 [Alfred](http://www.alfredapp.com/) [mac talk 的教程](http://macshuo.com/?p=625) [教程2](http://wellsnake.com/jekyll/update/2014/06/15/001/) 
 
+
 [dash](https://kapeli.com/dash) 
 
 文档集合工具
@@ -159,8 +160,6 @@ pyenv, rbenv, rvm, nvm 语言版本管理
 ruby 的工具
 vagarnt，homebrew, 三个版本管理工具 rbenv,rvm,ruby-lang,部署工具 mina, capistrono,服务器 puma,passenger,unicorn,thin, 前端模板 haml, slim. coffeescript. 
 
-别人的总结：
-作为的一个程序员，我觉得shell是一个必不可少的工具，使用它能够毫不费劲地操作计算机。在shell提示下，通过调用各种各样的工具，并结合管道，将这些工具根据自己需要组合起来，创建和制定宏工具，甚至编写shell script来将简单而重复的工作自动化，做到Don't repeat your self。
 
 
 [^1]: http://www.yangzhiping.com/tech/homebrew-cask.html
