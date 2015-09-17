@@ -21,18 +21,18 @@ categories: [技术]
 
 提示：这里需要用到 12 题的 evil: Bert。打电话给它吧！
 
-~~~python
+```python
 # python
 import xmlrpclib
 xmlrpclib.ServerProxy('http://www.pythonchallenge.com/pc/phonebook.php').phone('Bert')
-~~~
+```
 
-~~~ruby
+```ruby
 # ruby
 require "xmlrpc/client"
 phonebook = XMLRPC::Client.new("www.pythonchallenge.com", "/pc/phonebook.php").proxy
 puts phonebook.phone('Bert')
-~~~
+```
 
 ### 第 14 题
 
@@ -40,7 +40,7 @@ title 是 walk around，图片是绕来绕去的翔一样的面包，下面是�
 
 提示：将这张`10000*1`的图片按照面包那样绕来绕去的方式重新组成一张`100*100`的图片。
 
-~~~python
+```python
 # python
 from PIL import Image
 im=Image.open(r'wire.png')
@@ -61,9 +61,9 @@ for n,data in enumerate(l):
           direc=(n,n+1)
       new.paste(im.crop((tmp,0,tmp1,1)).rotate(90*dn),direc)
 new.rotate(180).show()
-~~~
+```
 
-~~~ruby
+```ruby
 # ruby
 require 'RMagick'
 input = Magick::ImageList.new("wire.png")
@@ -85,7 +85,7 @@ l = 0
   l += i-1
 end
 output.display
-~~~
+```
 
 ### 第 15 题
 
@@ -94,21 +94,21 @@ output.display
 根据源码的提示，第二小的人，且重要时间是 1 月 27 日（这一点一直没注意到，标了 TODO 我以为和下一题有关呢）。
 提示：符合要求的年份中第二大的那一年 1 月 27 日，[莫扎特](http://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart)诞生了。
 
-~~~python
+```python
 # python
 from calendar import *
 [i for i in range(1006,2000,10) if(isleap(i) and weekday(i, 1, 1)==3)]
 #result: [1176, 1356, 1576, 1756, 1976]
-~~~
+```
 
-~~~ruby
+```ruby
 # ruby
 require "date"
 (1006..1996).step(10) do |i|
   t = Date::new i,1,26
   puts i if t.monday? && t.leap?
 end
-~~~
+```
 
 ### 第 16 题
 
@@ -116,7 +116,7 @@ end
 
 提示：好吧，我是没想到还可以这样搞……不过即使知道方法，要解决它还是需要花费些功夫的。方法有两种，一种是使用自带的图像库，按照要求移动每一行子图，然后拼接成一幅图。二是将图像转成字符串，然后按照要求移动字符串。ps: 调用 PhotoShop 或 GIMP 的颜色表，可以知道粉色的索引值是 195。
 
-~~~python
+```python
 # python
 # 移动子图法
 import Image, ImageChops
@@ -129,9 +129,9 @@ for i in range(r):
     index = rowstr.index(chr(195))
     im.paste(ImageChops.offset(row, -index), box)
 im.show()
-~~~
+```
 
-~~~python
+```python
 # -*- coding: utf-8 -*-
 # 这里的编码声明很重要，必不可少
 # python
@@ -146,9 +146,9 @@ magic = chr(195)
 imstr = re.compile(r"^(.*?)(%s{5}.*?)$"%magic, re.M).sub(r"\2\1", imstr).replace("\n","")
 im.fromstring(imstr)
 im.show()
-~~~
+```
 
-~~~ruby
+```ruby
 # ruby
 # 移动子图法
 require 'RMagick'
@@ -161,9 +161,9 @@ r.times do |y|
   im.store_pixels(0,y,c,1, rowp[i..c]+rowp[0..i])
 end
 im.display
-~~~
+```
 
-~~~ruby
+```ruby
 # ruby
 # 移动字符串法
 require 'RMagick'
@@ -177,7 +177,7 @@ r.times do |y|
   im.import_pixels 0,y,c,1,"RGB",tmp
 end
 im.display
-~~~
+```
 
 ### 第 17 题
 
@@ -189,7 +189,7 @@ im.display
 2. 回到第 13 题，打电话给 [Leopold](http://en.wikipedia.org/wiki/Leopold_Mozart)（Mozart 的父亲），根据得到的字符串跳转网址。
 3. 给该网址设置 cookie：info=****，info 的内容就是第一步得到的内容。
 
-~~~python
+```python
 # python
 # step 1
 import urllib,re,bz2
@@ -223,9 +223,9 @@ info = "the flowers are on their way"
 url = "http://www.pythonchallenge.com/pc/stuff/violin.php"
 req = Request(url, headers={'Cookie': 'info=' + quote_plus(info)})
 print urlopen(req).read()
-~~~
+```
 
-~~~ruby
+```ruby
 # ruby
 # first step
 require "open-uri"
@@ -257,5 +257,16 @@ require "open-uri"
 message = "the flowers are on their way"
 url = "http://www.pythonchallenge.com/pc/stuff/violin.php"
 puts open(url,"Cookie"=>"info="+CGI.escape(message)).read
-~~~
+```
 
+## 第 18-23 题
+
+### 第 18 题
+
+看源码，让我们找出图片的区别。一眼能看出来是亮度不同，于是逐一试验：dark, darkness, bright, brightness。Got it! 
+
+```html
+<!-- maybe consider deltas.gz -->
+```
+
+什么意思呢？把 url 改成这个，即可下载该 gz 文件。解压之，是个纯文本文件。粗略看一下，应该是左右两个文件。分开，求 diff，观察。

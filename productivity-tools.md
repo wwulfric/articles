@@ -125,7 +125,7 @@ vim 快捷键的作用，emacs快捷键的作用 ctrl+f/b/n/p
 
 ## 其他可能有用的开发工具
 
-boris, pry, ipython 分别是 PHP, ruby, python 下 **更好** 的 REPL，知道任何一个便知道另外两个的用处。需要一提的是，ipython 的功能则要强大的多得多。
+boris, pry, ipython 分别是 PHP, ruby, python 下 **更好** 的 REPL，知道任何一个便知道另外两个的用处。需要一提的是，ipython 的功能则要强大的多得多。nesh, i.js, bpython
 
 [vdebug](https://github.com/joonty/vdebug) 是 Vim 下的 PHP 调试工具，在 xdebug 外包裹了一层壳，更加易用。其功能如下所示。
 - F5: start/run (to next breakpoint/end of script)
