@@ -7,7 +7,7 @@ categories: [技术]
 
 matplotlib 是 python 下的 2D 数学绘图工具，仿 matlab 编写而成，功能强大，是 python 数值计算库中非常重要的一员。安装很简单，`pip install matplotlib` 即可。如果安装时遇到什么问题，一般是依赖没有安装完全，按照错误提示一路安装过去便是，参照 [Installing — Matplotlib](http://matplotlib.org/users/installing.html)。强烈建议同时安装 ipython: `pip install "ipython[notebook]"`。ipython 的依赖关系较多，请耐心查看[文档](http://ipython.readthedocs.org/en/stable/)，所依赖的一些非 python 的程序可以通过系统的包管理工具安装，比如 `brew install zeromq`。
 
-![ipython xkcd](http://jakevdp.github.com/figures/xkcd_version.png "ipython xkcd [^2]")
+![ipython xkcd](http://jakevdp.github.com/figures/xkcd_version.png "ipython xkcd")
 
 安装完成之后，先在 python 下执行如下命令，这个命令第一次调用的时候会生成 cache 文件，速度较慢，生成之后就不会出现卡顿的情况了。
 
@@ -42,6 +42,8 @@ import matplotlib
 #config InlineBackend.figure_format='retina'
 %matplotlib inline
 ```
+
+PS: 配图为[XKCD](https://zh.wikipedia.org/zh/Xkcd)[^2]。
 
 [^1]: [Sane color scheme for Matplotlib](http://www.huyng.com/posts/sane-color-scheme-for-matplotlib/)
 
