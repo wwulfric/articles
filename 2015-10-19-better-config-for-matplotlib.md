@@ -1,13 +1,13 @@
 ---
 title: python 数学绘图工具 matplotlib 的优化配置
 date: 2015-10-19 23:37
-tags: [ipython, matplotlib , matlab, retina]
+tags: [ipython, matplotlib, matlab, retina]
 categories: [技术]
 ---
 
 matplotlib 是 python 下的 2D 数学绘图工具，仿 matlab 编写而成，功能强大，是 python 数值计算库中非常重要的一员。安装很简单，`pip install matplotlib` 即可。如果安装时遇到什么问题，一般是依赖没有安装完全，按照错误提示一路安装过去便是，参照 [Installing — Matplotlib](http://matplotlib.org/users/installing.html)。强烈建议同时安装 ipython: `pip install "ipython[notebook]"`。ipython 的依赖关系较多，请耐心查看[文档](http://ipython.readthedocs.org/en/stable/)，所依赖的一些非 python 的程序可以通过系统的包管理工具安装，比如 `brew install zeromq`。
 
-![ipython xkcd [^2]](http://jakevdp.github.com/figures/xkcd_version.png "ipython xkcd [^2]")
+![ipython xkcd](http://jakevdp.github.com/figures/xkcd_version.png "ipython xkcd [^2]")
 
 安装完成之后，先在 python 下执行如下命令，这个命令第一次调用的时候会生成 cache 文件，速度较慢，生成之后就不会出现卡顿的情况了。
 
@@ -24,7 +24,7 @@ fontList.cache matplotlibrc   tex.cache
 
  matplotlib 默认的颜色配置不好看。为了使 matlab 用户易于上手，matplotlib 的默认配色采用了与之相同的配色方案。这种对比明显的配色方案在出版物上观看时效果很好，但是并不适于在屏幕上观看。[^1]
 
-一位女程序员 [olgabot (Olga Botvinnik)](https://github.com/olgabot) 表示不能忍，于是写了一个库改善 matplotlib 的配色：[olgabot/prettyplotlib](https://github.com/olgabot/prettyplotlib)。我颤抖着进入她的主页，然后跪着看完了她的 CV：MIT 本科双学位（数学和生物），生物信息学博士，玩的了设计，写的了代码，还能做俄-英的医疗口译……好吧，我们还是继续说配色的事情。对于 python 和 R 语言在数值计算领域孰优孰劣的争论中，其中一种观点就是，matplotlib 的配色和 ggplot 相比，太哔丑了。
+一位女程序员 [olgabot (Olga Botvinnik)](https://github.com/olgabot) 表示不能忍，于是写了一个库改善 matplotlib 的配色: [olgabot/prettyplotlib](https://github.com/olgabot/prettyplotlib)。我颤抖着进入她的主页，然后跪着看完了她的 CV: MIT 本科双学位（数学和生物），生物信息学博士，玩的了设计，写的了代码，还能做俄-英的医疗口译……好吧，我们还是继续说配色的事情。对于 python 和 R 语言在数值计算领域孰优孰劣的争论中，其中一种观点就是，matplotlib 的配色和 ggplot 相比，太哔丑了。
 
 ![](http://p3.so.qhimg.com/bdr/_240_/t01ce564441aac5e49d.jpg)
 
