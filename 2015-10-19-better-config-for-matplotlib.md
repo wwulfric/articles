@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt
 fontList.cache matplotlibrc   tex.cache
 ```
 
- matplotlib 默认的颜色配置不好看。为了使 matlab 用户易于上手，matplotlib 的默认配色采用了与之相同的配色方案。这种对比明显的配色方案在出版物上观看时效果很好，但是并不适于在屏幕上观看。[^1]
+ matplotlib 默认的颜色配置不好看。为了使 matlab 用户易于上手，matplotlib 的默认配色采用了与之相同的配色方案。这种对比明显的配色方案在出版物上观看时效果很好，但是并不适于在屏幕上观看[^1]。
 
 一位女程序员 [olgabot (Olga Botvinnik)](https://github.com/olgabot) 表示不能忍，于是写了一个库改善 matplotlib 的配色: [olgabot/prettyplotlib](https://github.com/olgabot/prettyplotlib)。我颤抖着进入她的主页，然后跪着看完了她的 CV: MIT 本科双学位（数学和生物），生物信息学博士，玩的了设计，写的了代码，还能做俄-英的医疗口译……好吧，我们还是继续说配色的事情。对于 python 和 R 语言在数值计算领域孰优孰劣的争论中，其中一种观点就是，matplotlib 的配色和 ggplot 相比，太哔丑了。
 
