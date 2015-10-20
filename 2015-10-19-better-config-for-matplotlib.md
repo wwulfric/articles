@@ -26,7 +26,7 @@ fontList.cache matplotlibrc   tex.cache
 
 一位女程序员 [olgabot (Olga Botvinnik)](https://github.com/olgabot) 表示不能忍，于是写了一个库改善 matplotlib 的配色: [olgabot/prettyplotlib](https://github.com/olgabot/prettyplotlib)。我颤抖着进入她的主页，然后跪着看完了她的 CV: MIT 本科双学位（数学和生物），生物信息学博士，玩的了设计，写的了代码，还能做俄-英的医疗口译……好吧，我们还是继续说配色的事情。对于 python 和 R 语言在数值计算领域孰优孰劣的争论中，其中一种观点就是，matplotlib 的配色和 ggplot 相比，太哔丑了。
 
-![](http://p3.so.qhimg.com/bdr/_240_/t01ce564441aac5e49d.jpg)
+![](http://wulfric.qiniudn.com/shuo-de-hao-you-dao-li.jpg)
 
 好嘛好嘛，学习别人的优点就好啦。matplotlib 提供对其配色等的个性化配置，参见[官方文档](http://matplotlib.org/users/customizing.html)，注意系统不同，配置文件的位置也不同。上面曾引用的文章中就给出了模仿 ggplot 配色的 [gist](https://gist.github.com/huyng/816622)。还有这个库 [daler/matplotlibrc](https://github.com/daler/matplotlibrc)，给出了几个不同的配色。按照官方文档的提示，把喜欢的配色文件的内容复制到你的 matplotlibrc 文件中即可。
 
