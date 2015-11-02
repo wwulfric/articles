@@ -1,7 +1,7 @@
 ---
 title: python 数学绘图工具 matplotlib 的优化配置
 date: 2015-10-19 23:37
-tags: [ipython, matplotlib, matlab, retina]
+tags: [ipython, matplotlib, matlab, retina, 中文]
 categories: [技术]
 ---
 
@@ -42,6 +42,8 @@ import matplotlib
 #config InlineBackend.figure_format='retina'
 %matplotlib inline
 ```
+
+matplotlib 默认不支持中文显示，查看[这里](http://hyry.dip.jp/tech/book/page/scipy/matplotlib_fast_plot.html#id6)的设置。
 
 PS: 配图为[XKCD](https://zh.wikipedia.org/zh/Xkcd)[^2]。
 
