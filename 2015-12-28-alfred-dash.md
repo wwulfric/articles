@@ -1,6 +1,6 @@
 ---
 title: Alfred 和 dash 介绍
-date: 2015-08-14 13:33
+date: 2015-12-28 13:33
 categories: [技术]
 tags: [MAC, alfred, dash]
 ---
