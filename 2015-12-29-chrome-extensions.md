@@ -68,7 +68,7 @@ F: 同上，跳转在新标签页完成
 
 论文管理利器，如下图所示。在有下载权限的前提下，可以一键下载论文到指定目录，生成索引等。现有的 pdf 论文库的迁移也很方便，有相应的插件支持。
 
-![zotero.png](http://wulfric.qiniudn.com/zotero.png "zotero.png")
+![zotero](http://wulfric.qiniudn.com/zotero.png "zotero.png")
 
 推荐参考阳老的 zotero [博文](http://www.yangzhiping.com/tech/zotero1.html)。一共有 6 篇。
 
@@ -84,20 +84,19 @@ chrome 下的 evernote 插件，优雅浏览页面和同步到 evernote，还可
 
 gmail 等富文本输入框中可以先输入 markdown 然后右键 toggle 转成 富文本，如下图示。
 
-![markdown-toggle.png](http://wulfric.qiniudn.com/markdown-toggle.png "markdown-toggle.png")
+![markdown toggle](http://wulfric.qiniudn.com/markdown-toggle.png "markdown-toggle.png")
 
 ## 辅助开发
 
 ### postman
 
-管理URL功能。变量。导入导出，curl。sync。environments
 Postman 是强大易用的 API 测试工具，如下图所示。
 
 ![postman](http://wulfric.qiniudn.com/postman.png "postman")
 
 左侧是常用 URL collection 和 history，还可以按照个人和团队来区分 collection，非常的方便。主面板就是调试页面，功能非常强大，提供了很多方便的工具，其中之一是将当前在调试的请求直接生成代码，如下图示，目前流行的语言基本都可以支持。此外还有环境变量和预设值功能。
 
-![postman-code.png](http://wulfric.qiniudn.com/postman-code.png "postman-code.png")
+![postman code](http://wulfric.qiniudn.com/postman-code.png "postman-code.png")
 
 ### json formatter
 
@@ -125,7 +124,7 @@ Postman 是强大易用的 API 测试工具，如下图所示。
 
 ### ublock origin
 
-更好的广告屏蔽插件。
+更好的广告屏蔽插件。可以很直观的看到当前页面的屏蔽列表，还可以临时放行或屏蔽相关 URL（根据域名或 MIMETYPE）。私以为要强于 ABP。
 
 ![](http://wulfric.qiniudn.com/R-ublock-origin.png)
 
@@ -135,7 +134,7 @@ Postman 是强大易用的 API 测试工具，如下图所示。
 
 ### office 预览和编辑
 
-直接浏览 office 文件。
+装该插件之前，网页上的 office 文件点击之后会下载，装了之后可以直接浏览 office 文件。
 
 ### tampermonkey
 
@@ -145,4 +144,4 @@ Postman 是强大易用的 API 测试工具，如下图所示。
 
 可以自定义相关页面的样式，还可以导入他人已经配置好的样式，如下图所示。
 
-![](http://wulfric.qiniudn.com/R-stylebot.png)
+![stylebot](http://wulfric.qiniudn.com/R-stylebot.png)
