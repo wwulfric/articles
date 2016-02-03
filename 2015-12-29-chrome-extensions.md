@@ -102,7 +102,7 @@ Postman 是强大易用的 API 测试工具，如下图所示。
 
 调试的时候 get 的 json 页面可以以结构化的形式显示。这样的插件很多，功能也都是大同小异，随便选一个安装即可。
 
-![json formatter](http://wulfric.qiniudn.com/json-formatter.png "json formatter")
+![json formatter](http://wulfric.qiniudn.com/R-json-formatter.png "json formatter")
 
 ### coffeeconsole
 
