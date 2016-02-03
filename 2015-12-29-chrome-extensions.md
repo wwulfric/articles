@@ -82,7 +82,7 @@ chrome 下的 evernote 插件，优雅浏览页面和同步到 evernote，还可
 
 ### markdown here
 
-gmail 等富文本输入框中可以先输入 markdown 然后右键 toggle 转成 富文本，如下图示。
+gmail 等富文本输入框中可以先输入 markdown 然后右键 toggle 转成富文本，如下图示。
 
 ![markdown toggle](http://wulfric.qiniudn.com/markdown-toggle.png "markdown-toggle.png")
 
@@ -94,7 +94,7 @@ Postman 是强大易用的 API 测试工具，如下图所示。
 
 ![postman](http://wulfric.qiniudn.com/postman.png "postman")
 
-左侧是常用 URL collection 和 history，还可以按照个人和团队来区分 collection，非常的方便。主面板就是调试页面，功能非常强大，提供了很多方便的工具，其中之一是将当前在调试的请求直接生成代码，如下图示，目前流行的语言基本都可以支持。此外还有环境变量和预设值功能。
+左侧是常用 URL collection 和 history，还可以按照个人和团队来区分 collection，非常的方便。主面板就是调试页面，功能非常强大，提供了很多方便的工具，其中之一是将当前在调试的请求直接生成代码，如下图示，目前流行的语言基本都可以支持。此外还有环境变量和预设值，以及测试集成功能。
 
 ![postman code](http://wulfric.qiniudn.com/postman-code.png "postman-code.png")
 
@@ -134,7 +134,7 @@ Postman 是强大易用的 API 测试工具，如下图所示。
 
 ### office 预览和编辑
 
-装该插件之前，网页上的 office 文件点击之后会下载，装了之后可以直接浏览 office 文件。
+Google 官方插件。装该插件之前，网页上的 office 文件点击之后会下载，装了之后可以直接浏览 office 文件。
 
 ### tampermonkey
 

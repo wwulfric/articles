@@ -28,7 +28,7 @@ fontList.cache matplotlibrc   tex.cache
 
 ![](http://wulfric.qiniudn.com/shuo-de-hao-you-dao-li.jpg)
 
-好嘛好嘛，学习别人的优点就好啦。matplotlib 提供对其配色等的个性化配置，参见[官方文档](http://matplotlib.org/users/customizing.html)，注意系统不同，配置文件的位置也不同。上面曾引用的文章中就给出了模仿 ggplot 配色的 [gist](https://gist.github.com/huyng/816622)。还有这个库 [daler/matplotlibrc](https://github.com/daler/matplotlibrc)，给出了几个不同的配色。按照官方文档的提示，把喜欢的配色文件的内容复制到你的 matplotlibrc 文件中即可。
+好嘛好嘛，学习别人的优点就好啦。matplotlib 提供对其配色等的个性化配置，参见[官方文档](http://matplotlib.org/users/customizing.html)，注意系统不同，配置文件的位置也不同。这篇[文章](https://www.huyng.com/posts/sane-color-scheme-for-matplotlib)中就给出了模仿 ggplot 配色的 [gist](https://gist.github.com/huyng/816622)。还有这个库 [daler/matplotlibrc](https://github.com/daler/matplotlibrc)，给出了几个不同的配色。按照官方文档的提示，把喜欢的配色文件的内容复制到你的 matplotlibrc 文件中即可。（配色问题有所更新，现在你不再需要自己修改配置文件了，官方已经内置了优雅的配色，请查看到最后）
 
 最好的使用 matplotlib 的环境是 `ipython notebook`，这是一个类似于 Matlab 交互式编程的界面。在 bash 中执行 `ipython notebook`，会在后台启动一个本地 tornado 服务，之后便可在 `http://localhost:8888/notebooks` 中使用 notebook。效果可以查看 nbviewer 的任何一个链接，比如[这个](http://nbviewer.ipython.org/url/jakevdp.github.com/downloads/notebooks/XKCD_plots.ipynb)。
 
@@ -45,7 +45,21 @@ import matplotlib
 
 matplotlib 默认不支持中文显示，查看[这里](http://hyry.dip.jp/tech/book/page/scipy/matplotlib_fast_plot.html#id6)的设置。
 
-PS: 配图为[XKCD](https://zh.wikipedia.org/zh/Xkcd)[^2]。
+PS1: 配图为[XKCD](https://zh.wikipedia.org/zh/Xkcd)[^2]。
+
+PS2: 1.5 版本的 matplotlib 已经内置了 ggplot 配色，参见[文档](http://matplotlib.org/users/style_sheets.html)，
+[示例](http://matplotlib.org/examples/style_sheets/plot_ggplot.html)。
+
+```python
+import matplotlib.pyplot as plt
+print plt.style.available
+# [u'dark_background', u'bmh', u'grayscale', u'ggplot', u'fivethirtyeight']
+plt.style.use('ggplot')
+```
+
+![ggplot](http://matplotlib.org/_images/plot_ggplot.png)
+
+2.0 版本的 matplotlib 已经要抛弃传统 matlab 配色了，改用「viridis」配色，参见[文档](http://matplotlib.org/style_changes.html)，不妨看下那个视频，蛮有趣的，他们是怎么做决定使用哪个内置配色的~顺便到[这里](http://bids.github.io/colormap/)看看新增配色。
 
 [^1]: [Sane color scheme for Matplotlib](http://www.huyng.com/posts/sane-color-scheme-for-matplotlib/)
 
