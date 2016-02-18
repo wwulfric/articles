@@ -46,7 +46,7 @@ ipython notebook 基于 [jupyter](http://jupyter.org/)，功能丰富。jupyter 
 
 ### ruby
 
-ruby 自带的 irb 默认功能是挺简单的，但是配置好 irbrc 后，也是可以实现常见的高亮和提示功能的。然而在 ruby 世界用 pry 的更多，pry  默认配置已经足够好，还可以配置 pryrc，完全定制 pry 的样式和功能。pry 提供了一些实用[插件](https://github.com/pry/pry/wiki/Available-plugins)。甚至有 [pry-theme](https://github.com/kyrylo/pry-theme) 这样的项目。ruby 世界对颜值的追求一向不落人后。
+ruby 自带的 irb 默认功能是挺简单的，但是配置好 irbrc 后，也是可以实现常见的高亮和提示功能的。然而在 ruby 世界用 pry 的更多，pry  默认配置已经足够好，还可以配置 pryrc，完全定制 pry 的样式和功能。pry 提供了一些实用[插件](https://github.com/pry/pry/wiki/Available-plugins)，甚至有 [pry-theme](https://github.com/kyrylo/pry-theme) 这样的项目。ruby 世界对颜值的追求一向不落人后。
 
 ![pry-rails-console](http://wulfric.qiniudn.com/R-pry-rails-console.png "pry-rails-console.png")
 
