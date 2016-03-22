@@ -10,7 +10,7 @@ tags: [instagram, javascript, unfollowgram]
 
 首先我想借助官方的力量，可是并没有在 instagram 里找到人工服务的地方，也没有发现提交工单的表单；去 twitter @ 也没人理。要是 instagram 的 web 页面能够有 unfollow 的按钮，那倒还好办，异步发一堆 unfollow 请求就行了（被盗的 twitter 就是这样取消所有关注的，其实就是简单的`$(something).click()`），可惜没有。移动端不是很了解，不知道如何将一堆点击操作换成代码。也曾经想利用 instagram 的 API 自己写一个批量 unfollow 的脚本，然而 instagram 的安全等级太高，给出的权限很少，申请高级的权限还被拒了，所以这条路也走不通了。只好另寻他法了。
 
-于是在 quora 的帮助下 找到了 [unfollowgram](http://unfollowgram.com/)。
+于是在 quora 的帮助下找到了 [unfollowgram](http://unfollowgram.com/)。
 
 进入 unfollowgram 主页，按照要求使用 instagram 的帐号登录之后，选择「who doesn’t follow me back」选项，然后执行如下代码，获取所有的将要 unfollow 的用户的 id。
 
@@ -31,15 +31,28 @@ var unfollow = function(uids) {
     type: 'POST',
     url: 'http://unfollowgram.com/en/unfollow.ajax',
     data: 'uid=' + uid,
-    async: false
+    // async: false
   });
+  console.log(uids.length);
   if (uids.length > 0) {
     setTimeout(unfollow, 180000, uids);
   }
 }
 ```
 
-接下来执行`unfollow(uids)` 即可。1000 个请求，每 3 分钟执行一个，没办法，只能放那儿跑了，还得注意 unfollowgram 可能会被登出。
+接下来执行`unfollow(uids)`即可。1000 个请求，每 3 分钟执行一个，没办法，只能放那儿跑了，还得注意 unfollowgram 可能会被登出。
 
 仍然不够完美，如果你有更好的方法，请务必告诉我。
 
+PS: 在 instagram web 端找到了 unfollow 的方法，但是官网也有速度限制，目前来看每分钟一个问题不大，6s 一个经常遇到速度限制。
+
+``` javascript
+var unfollow = function(uids) {
+    uid = uids.shift();
+    $.post("https://www.instagram.com/web/friendships/" + uid + "/unfollow/");
+    console.log(uids.length);
+    if (uids.length > 0) {
+        setTimeout(unfollow, 60000, uids);
+    }
+}
+```
