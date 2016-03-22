@@ -1,15 +1,17 @@
 ---
-title: Ruby on Rails 开发环境搭建（nginx/passenger/mina/postgresql）
+title: Ruby on Rails 开发环境搭建
 date: 2016-03-21 16:37
 categories: [技术]
 tags: [ubuntu, ruby, rbenv, nginx, passenger, mina, rails, postgresql]
 ---
 
-准备搭生产环境的时候参考了阿里云，linode 和 digital ocean。DO 两三百的延迟实在不能忍受，ping 了下阿里只有 2ms，那就选这个吧！
 
-![使用优惠码可以打九折 dj7mxg](http://wulfric.qiniudn.com/aliyun-youhuima.tiff "aliyun-youhuima.tiff")
 
-因为是自己的个人机器，所以就按照自己熟悉的 ubuntu 来配了。用 rbenv 来管理安装 ruby，用 passenger/nginx 作服务器，postgresql 作数据库，mina 来部署应用。
+准备搭生产环境做一些玩具（ubuntu ruby rails nginx passenger mina postgresql），参考了阿里云，linode 和 digital ocean。DO 两三百的延迟实在不能忍受，ping 了下阿里只有 2ms，那就选这个吧！
+
+![使用优惠码可以打九折 dj7mxg](http://wulfric.qiniudn.com/aliyun-youhuima.jpg "aliyun-youhuima")
+
+因为是自己的个人机器，所以就按照自己熟悉的 ubuntu 来配了。用 rbenv 来管理安装 ruby，用 passenger with nginx 作服务器，postgresql 作数据库，mina 来部署应用。
 
 
 ## 生产环境配置
@@ -134,7 +136,7 @@ sudo apt-get install -y nginx-extras passenger
 
 完成之后，执行`passenger-install-nginx-module`，它会提醒你重新编译安装 nginx，按照提示一路安装过去即可。安装完毕，执行`sudo /usr/bin/passenger-config validate-install`检查是否安装成功。
 
-新安装的 nginx 位于`/opt/nginx`，查看帮助`sudo /opt/nginx/sbin/nginx`。
+新安装的 nginx 位于`/opt/nginx`，查看帮助`sudo /opt/nginx/sbin/nginx -h`。
 
 参照[官方说明](https://www.phusionpassenger.com/library/deploy/nginx/deploy/ruby/)配置 nginx 部署网站。我的例子如下。
 
@@ -142,6 +144,7 @@ sudo apt-get install -y nginx-extras passenger
 ``` bash
 server {
     listen 80;
+    # 如果不支持 ipv6，这里需要注释掉
     listen [::]:80;
 
     server_name domain_name.com;
@@ -155,7 +158,7 @@ server {
 }
 ```
 
-虽然配置好了，但是还需等待本地配置完成之后才能看到效果。
+虽然配置好了，但是还需等待本地配置完成并部署成功之后才能看到效果。
 
 
 ### 安装 postgresql
@@ -173,7 +176,7 @@ sudo apt-get install postgresql-9.4 libpq-dev
 
 安装完毕开始配置[^2]。
  
-```bash
+``` bash
 # 当服务器登录用户名和 postgresql 用户名相同时，postgresql 默认可以无需密码登录，所以我们先创建一个 wwwroot 用户
 sudo -u postgres createuser --superuser $USER
 # 以 postgres 身份进入数据库
