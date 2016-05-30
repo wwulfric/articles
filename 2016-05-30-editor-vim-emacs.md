@@ -25,9 +25,9 @@ vim 和 emacs 都可以运行在终端，也有图形化的软件，非常适合
 
 虽然默认的功能很强大，但不得不说，默认的配色真是难看，相比于 sublime text 和 atom 这样开箱即用又非常美观的编辑器（sublime text 的默认配色在其他编辑器里也很流行，可见一斑），这等于直接拒绝了一批颜控。
 
-为了实现强大的功能，vim 选择了多模式编辑（Normal, Insert, Visual 模式），emacs 则选择了复杂的[快捷键](https://www.gnu.org/software/emacs/refcards/pdf/refcard.pdf)。这些因素导致了这两个编辑器学习曲线陡峭，使用体验不够友好。对于一个刚上手的 vim 用户，他的内心一共有三个疑问：为什么 vim 只帮助乌干达的可怜儿童？怎么输入？怎么关掉？相比而言，一个刚上手 emacs 的用户心中的疑问就比较少：好了，我试着敲了一些字母了，现在怎么关掉？
+为了实现强大的功能，vim 选择了多模式编辑（Normal, Insert, Visual 模式），emacs 则选择了复杂的[快捷键](https://www.gnu.org/software/emacs/refcards/pdf/refcard.pdf)。这些因素导致了这两个编辑器学习曲线陡峭，使用体验不够友好。对于一个刚上手的 vim 用户，他的内心一共有三个疑问：为什么 vim 只帮助乌干达的可怜儿童？怎么输入？怎么关掉？相比而言，一个刚上手 emacs 的用户心中的疑问就比较少：好了，我试着敲了一些字母了，现在，怎么关掉？
 
-![emacs-bad-shortcut.png](http://wulfric.qiniudn.com/emacs-bad-shortcut.png "看到这样的快捷键，我的内心是拒绝的")
+![看到这样的快捷键，我的内心是拒绝的](http://wulfric.qiniudn.com/emacs-bad-shortcut.png "看到这样的快捷键，我的内心是拒绝的")
 
 ### vim 和 emacs 的区别
 
@@ -67,24 +67,24 @@ pick 5c3747b f
 
 而 emacs 没有输入上的 mode 差别，所以需要依赖复杂的快捷键来实现强大的编辑功能，正如上图所示。emacs 插件想象力更加丰富，有「伪装成编辑器的操作系统」之称。插件的 major mode 和 minor mode 的设计很出彩，对一个文件，只有一个 major mode，但是可以有多个 minor mode，这样一个文件一个主插件，多个附加插件，可以实现很多有趣的效果。在 vim 中，是通过`set filetype=python`或者在`filetype.vim`文件中自定义来决定 vim 使用哪种语法渲染，其他比如自动补全这样的插件通过判断`filetype`来实现相关功能，并没有 mode 一说，针对同一种文件类型的插件可以非常分散。而在 emacs 中，如果我们选中`pythonA-mode`作为`.py`文件的 major mode，那么`pythonB-mode`就不会起作用，除非它上 minor mode。这有利于大而优秀的特定 major mode 脱颖而出，同时使用多个 minor mode 提供通用编辑功能。
 
-![emacs-major-mode.png](http://wulfric.qiniudn.com/emacs-major-mode.png "emacs major mode")
+![emacs major mode](http://wulfric.qiniudn.com/emacs-major-mode.png "emacs major mode")
 
 
 ## 打造 IDE 的尝试
 
-有很多人试图将 vim/emacs 打造成 IDE，也有一些比较著名的配置。比如，对于 vim，比较优秀的 IDE 配置有 [spf13](http://vim.spf13.com/)，[kvim](https://github.com/wklken/k-vim)，[fisa] (https://github.com/fisadev/fisa-vim-config) （这个并不著名但我很喜欢，我的配置也是从这个开始的）等。emacs 有 [prelude](https://github.com/bbatsov/prelude)，[purcell](https://github.com/purcell/emacs.d) 和我现在在用的 [spacemacs](https://github.com/syl20bnr/spacemacs)。如果有兴趣，可以去这些项目主页看一看，然后选择一个尝试一下。
+有很多人试图将 vim/emacs 打造成 IDE，也有一些比较著名的配置。比如，对于 vim，比较优秀的 IDE 配置有 [spf13](http://vim.spf13.com/)，[kvim](https://github.com/wklken/k-vim)，[fisa](https://github.com/fisadev/fisa-vim-config) （这个并不著名但我很喜欢，我的配置也是从这个开始的）等。emacs 有 [prelude](https://github.com/bbatsov/prelude)，[purcell](https://github.com/purcell/emacs.d) 和我现在在用的 [spacemacs](https://github.com/syl20bnr/spacemacs)。如果有兴趣，可以去这些项目主页看一看，然后选择一个尝试一下。
 
-为了实现类似 IDE 的功能，这些配置通常包括了项目结构列表，文件结构列表，自动跳转，自动提示和补全，插件管理，语法检查，版本控制等插件。如果上面每个配置项目你都过了一遍，会发现大家要做的事情其实是差不多的。对于 vim 的话，可以看下这个 [vimawesone](http://vimawesome.com/)，其实最受欢迎的插件也是这些，对着 vimawesone 你也能拼起来一个很优秀的配置。
+为了实现类似 IDE 的功能，这些配置通常包括了项目结构列表，文件结构列表，自动跳转，自动提示和补全，插件管理，语法检查，版本控制等插件。如果上面每个配置项目你都过了一遍，会发现大家要做的事情其实是差不多的。对于 vim 的话，可以看下这个 [vimawesone](http://vimawesome.com/)，其实最受欢迎的插件也大概是这些，对着 vimawesone 你也能拼起来一个很优秀的配置。
 
 ### 项目结构浏览插件
 
-对于编辑器而言，这个插件的功能通常都比较简陋，一般只能浏览和导航文件，加上简单的文件操作（增删改复制）。不像 IDE，提供的功能非常多，多到右键弹出功能列表的时候都会卡顿（没错，我并没有说 JetBrains 家的 IDE）。vim 中比较优秀的是 [nerdtree](http://github.com/scrooloose/nerdtree)，emacs 下是[neotree](https://github.com/jaypei/emacs-neotree)，其实就是仿的 nerdtree。对于 vim/emacs 用户而言，不会通过在文件树中点击来跳转，使用此类插件其实仅仅是为了浏览项目结构，所以往往不会做的功能特别强大。
+对于编辑器而言，这个插件的功能通常都比较简陋，一般只能浏览和导航文件，加上简单的文件操作（增删改复制）。不像 IDE，提供的功能非常多，多到右键弹出功能列表的时候都会卡顿（没错，我并没有说 JetBrains 家的 IDE）。vim 中比较优秀的是 [nerdtree](http://github.com/scrooloose/nerdtree)，emacs 下是 [neotree](https://github.com/jaypei/emacs-neotree)，其实就是仿的 nerdtree。对于 vim/emacs 用户而言，不会通过在文件树中点击来跳转，使用此类插件其实仅仅是为了浏览项目结构，所以往往不会做的功能特别强大。
 
 ### 快速定位
 
 得益于 sublime text 的 go to anywhere 思想，ctrlp 几乎成为了现代编辑器的标配功能。所谓 go to anywhere，就是通过一个快捷键（一般是 ctrl+p）能够通过模糊查找快速到达项目中的任意文件、类、方法。毫无疑问，在编辑器中，这个功能 sublime 做的最好。在 sublime 中，ctrlp 会弹出一个输入框，直接输入，会查找文件，先输入`@`，则会查找方法，先输入`:`，则会跳到这一行。而且还支持组合查找。
 
-![sublime-text-ctrlp.png](http://wulfric.qiniudn.com/sublime-text-ctrlp.png "sublime-text-ctrlp")
+![sublime-text-ctrlp](http://wulfric.qiniudn.com/sublime-text-ctrlp.png "sublime-text-ctrlp")
 
 其实 JetBrains 系 IDE 的 go to anywhere 功能更加强大，可以同时搜索文件、类、方法、IDE 动作。代价就是性能太差---每次`⇧⇧`都会卡顿，所以只好使用`⌘+O`查找文件，查找到文件之后再查找方法，或跳转到具体行。这意味着，在这一方面，更强大的 IDE，反而比编辑器更不方便。这倒不是因为它是 IDE，而是软件设计的一个问题---哪些功能应该合在一起，哪些功能应该分开。
 
@@ -98,7 +98,7 @@ emacs 下的 go to anywhere 插件有好几个，spacemacs 默认使用的是 [p
 
 自动补全和跳转，这两个功能就是 IDE 的强项了。IDE 解析语法树，可以实现相当精准的补全和跳转，然而编辑器基于字符串匹配，效果就要大打折扣了。当然了，我说的是静态语言🙄。对于动态语言，即使是 IDE，也总有力所不及的地方，编辑器开一个进程实时解析也能实现不错的效果。二者的差别没那么明显。对于静态语言，编辑器竟也有和 IDE 相抗的野心：[eclim](http://eclim.org/)，也就是 eclipse+vim（当然也有 emacs 插件），在后台开一个 eclipse 进程，然后在 vim 中利用 eclipse 来做补全和跳转。
 
-![woxuanzesiwang.jpeg](http://wulfric.qiniudn.com/woxuanzesiwang.jpeg "说得好，我选择死亡")
+![说得好，我选择死亡](http://wulfric.qiniudn.com/woxuanzesiwang.jpeg "说得好，我选择死亡")
 
 众生皆苦，何必苦上加苦？
 
@@ -113,7 +113,7 @@ emacs 下的 go to anywhere 插件有好几个，spacemacs 默认使用的是 [p
 
 然而比起这些来，我更喜欢的是针对编辑的一些插件，比如 [vim-surround](https://github.com/tpope/vim-surround)，能够快速的将字符串的包裹修改或者删除。
 
-```
+``` bash
 "Hello world!"  
 # cs"'
 'Hello world!'
