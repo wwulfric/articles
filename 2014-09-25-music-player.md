@@ -23,3 +23,5 @@ OK，完工啦。
 PS: 强烈推荐一个优秀的音乐发现网站：[落网](http://www.luoo.net/)
 
 UPDATE: 现在网易云音乐已经出了 MAC 版，不必再从手机端下载同步到 MAC 了。但这时候我需要同步 itunes 的音乐到手机了…… BTSync 反过来用就好了。
+
+UPDATE2: 现在深度已经提供网易云音乐的 [Linux 版本](http://blog.deepin.org/2016/05/netease-cloud-music-for-linux-is-released/)了。

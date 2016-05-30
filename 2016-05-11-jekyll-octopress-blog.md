@@ -25,18 +25,18 @@ tags: [jekyll, octopress, hexo]
 上图是 jekyll 的 master 分支的结构（隐去了其他必要的文件，只留下 md），github 服务器上运行的 `jekyll server` 命令会监控这里的变化，并自动把 md 文件转成 html host 出去。
 
 ```
-+-----+                     +----+
-      |                          |
-      +-+source folder           +-+index.html
-      |                          |
-      |                          |
-      +-+public folder           +-+2016 folder （里面是各种 html）
-      |                          |
-      |                          |
-      +-+css folder              +-+2015 folder （里面是各种 html）
-      |                          |
-      |                          |
-      +-+others                  +-+others
++-----+                 +----+
+      |                      |
+      +-+source folder       +-+index.html
+      |                      |
+      |                      |
+      +-+public folder       +-+2016 folder-各种 html
+      |                      |
+      |                      |
+      +-+css folder          +-+2015 folder-各种 html
+      |                      |
+      |                      |
+      +-+others              +-+others
 ```
       
 上图是 octopress 的目录结构，左边是 source 分支，右边是 master 分支。octopress 的逻辑就是，在 source 分支的 source 文件夹里写 md 文件，然后执行一个转换命令，将生成的 html 文件放在 public 文件夹里。而 public 文件夹的内容就是该 repo 的 master 分支，即右边树就是 public文件夹的内容。
@@ -44,6 +44,7 @@ tags: [jekyll, octopress, hexo]
 PS: jekyll 的目录中同样有类似 octopress 的 source folder 和 public folder，这个暂时按下不表。
 
 这样，我们就可以总结出二者的优缺点：
+
 - jekyll 极为便利，比如你在移动中突然有了灵感，你可以直接在手机上登录 github，修改 md 文件，马上你的博客就更新好了。但是如果使用 octopress，你虽然也能改 md 文件，但是你不能在手机上直接把 md 转成 html，所以无法实时更新博客。
 - octopress 定制性更好。因为 jekyll server 是运行在 github 的服务器上，考虑到安全因素，github 禁止了几乎所有的 jekyll plugins，所以这种 host on fly 的部署方式受到很大的限制，而 octopress 是在本地转换成 html 再发布，任何插件都可以使用，而且从目录结构上来说，octopress 模板和插件制作也更方便一点。
 - 虽然 jekyll 比 octopress 粗糙，但是 jekyll 官网可比 octopress 逼格高多了，旧 jekyll 主页是一片苍茫白色背景中央，一个超简洁的黑白配色的英文名，大概是这种[感觉](https://olivermak.es/2015/10/jekyll-mix-blend-mode/)。也许，这就叫，less is more?
