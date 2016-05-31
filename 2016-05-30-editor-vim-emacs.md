@@ -72,7 +72,7 @@ pick 5c3747b f
 
 ## 打造 IDE 的尝试
 
-有很多人试图将 vim/emacs 打造成 IDE，也有一些比较著名的配置。比如，对于 vim，比较优秀的 IDE 配置有 [spf13](http://vim.spf13.com/)，[kvim](https://github.com/wklken/k-vim)，[fisa](https://github.com/fisadev/fisa-vim-config) （这个并不著名但我很喜欢，我的配置也是从这个开始的）等。emacs 有 [prelude](https://github.com/bbatsov/prelude)，[purcell](https://github.com/purcell/emacs.d) 和我现在在用的 [spacemacs](https://github.com/syl20bnr/spacemacs)。如果有兴趣，可以去这些项目主页看一看，然后选择一个尝试一下。
+有很多人试图将 vim/emacs 打造成 IDE，也有一些比较著名的配置。比如，对于 vim，比较优秀的 IDE 配置有 [spf13](http://vim.spf13.com/)，[kvim](https://github.com/wklken/k-vim)，[fisa](https://github.com/fisadev/fisa-vim-config)（这个并不著名但我很喜欢，我的配置也是从这个开始的）等。emacs 有 [prelude](https://github.com/bbatsov/prelude)，[purcell](https://github.com/purcell/emacs.d) 和我现在在用的 [spacemacs](https://github.com/syl20bnr/spacemacs)。如果有兴趣，可以去这些项目主页看一看，然后选择一个尝试一下。
 
 为了实现类似 IDE 的功能，这些配置通常包括了项目结构列表，文件结构列表，自动跳转，自动提示和补全，插件管理，语法检查，版本控制等插件。如果上面每个配置项目你都过了一遍，会发现大家要做的事情其实是差不多的。对于 vim 的话，可以看下这个 [vimawesone](http://vimawesome.com/)，其实最受欢迎的插件也大概是这些，对着 vimawesone 你也能拼起来一个很优秀的配置。
 
@@ -134,6 +134,6 @@ Hello world!
 
 对于这种将 vim/emacs 打造成 IDE 的尝试，有的人很热衷，有的人则很反对。热衷的抱着一股热忱，相信经过自己的打造，vim/emacs 的使用体验可以不输 IDE，甚至在很多细节要优秀得多。反对的人认为无论如何编辑器的自动补全和跳转都无法达到 IDE 的精度，何必徒劳。嘛，其实都有道理，看你是什么样的性格咯。
 
-但是学习这两个编辑器还是非常有好处的。就像一开始说的，很多编辑器、IDE 都提供 vim 插件，学会了 vim 可以一套快捷键吃遍天。另外，bash 默认是 emacs 模式，所以熟悉 emacs 还可以提高 bash 下的效率。比如 emacs 的[移动命令](https://www.gnu.org/software/emacs/manual/html_node/emacs/Moving-Point.html) 和[删除命令](https://www.gnu.org/software/emacs/manual/html_node/emacs/Erasing.html) 就可以部分用在 bash 上。最常用的是这几个[快捷键](https://www.gnu.org/software/emacs/manual/html_node/emacs/Words.html)。
+但是学习这两个编辑器还是非常有好处的。就像一开始说的，很多编辑器、IDE 都提供 vim 插件，学会了 vim 可以一套快捷键吃遍天。另外，bash 默认是 emacs 模式，所以熟悉 emacs 还可以提高 bash 下的效率。比如 emacs 的[移动命令](https://www.gnu.org/software/emacs/manual/html_node/emacs/Moving-Point.html)和[删除命令](https://www.gnu.org/software/emacs/manual/html_node/emacs/Erasing.html)就可以部分用在 bash 上。最常用的是这几个[快捷键](https://www.gnu.org/software/emacs/manual/html_node/emacs/Words.html)。而且，不得不说，在纯粹的编辑上，vim/emacs 效率更高。
 
 在具体的项目上，当然还是 JetBrains 家的 IDE 更好用，尤其是静态语言。而动态语言，选自己比较喜欢的就好了。（然而 JetBrains 家的调试工具太好用已经离不开了☹️）
