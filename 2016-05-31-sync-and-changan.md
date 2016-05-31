@@ -2,7 +2,7 @@
 title: 网盘诞生记
 date: 2016-05-31 21:31
 categories: [小说]
-copyright: true
+private: true
 tags: [长安]
 ---
 
