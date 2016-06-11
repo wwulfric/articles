@@ -2,7 +2,7 @@
 title: Linux PC 网易云音乐下载方案
 date:  2014-09-25 23:53
 tags: [虾米, 网易, 落网, foobar, iTunes, btsync]
-categories: [技术, 音乐]
+categories: [技术]
 ---
 
 这篇文章主要是关于我常用的音乐资源和播放器，以及怎样在网易云音乐没有提供客户端的终端获取资源的方法。

@@ -2,7 +2,7 @@
 title: 学术型 github 畅想
 date: 2013-09-10 12:49 
 tags: [git, github, SNS, 学术, 写作, 版本控制]
-categories: [扯淡, 产品]
+categories: [产品]
 
 ---
 
