@@ -7,7 +7,7 @@ tags: [vim, emacs, ide, spf13, kvim, fisa, prelude, purcell, spacemacs]
 
 这篇文章想要介绍一下 vim 和 emacs 两个编辑器。包括怎样组装插件打造成近似 IDE 的功能，使用场合，优点和缺点等。本文并不致力于手把手教你将 vim/emacs 打造成 IDE 或者详细的介绍某些具体的功能和插件。
 
-![vim and emacs](http://wulfric.qiniudn.com/vim-and-emacs.png-watermark "vim and emacs")
+![vim and emacs](http://wulfric.qiniudn.com/vim-and-emacs.png "vim and emacs")
 
 ## vim 和 emacs 的优缺点
 
