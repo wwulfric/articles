@@ -25,7 +25,7 @@ vim 和 emacs 都可以运行在终端，也有图形化的软件，非常适合
 
 虽然默认的功能很强大，但不得不说，默认的配色真是难看，相比于 sublime text 和 atom 这样开箱即用又非常美观的编辑器（sublime text 的默认配色在其他编辑器里也很流行，可见一斑），这等于直接拒绝了一批颜控。
 
-为了实现强大的功能，vim 选择了多模式编辑（Normal, Insert, Visual 模式），emacs 则选择了复杂的[快捷键](https://www.gnu.org/software/emacs/refcards/pdf/refcard.pdf)。这些因素导致了这两个编辑器学习曲线陡峭，使用体验不够友好。对于一个刚上手的 vim 用户，他的内心一共有三个疑问：为什么 vim 只帮助乌干达的可怜儿童？怎么输入？怎么关掉？相比而言，一个刚上手 emacs 的用户心中的疑问就比较少：好了，我试着敲了一些字母了，现在，怎么关掉？
+为了实现强大的功能，vim 选择了多模式编辑（Normal, Insert, Visual 模式），emacs 则选择了复杂的[快捷键](https://www.gnu.org/software/emacs/refcards/pdf/refcard.pdf)。这些因素导致了这两个编辑器学习曲线陡峭，使用体验不够友好。对于一个刚上手的 vim 用户，他的内心一共有三个疑问：为什么 vim 只帮助乌干达的可怜儿童？怎么输入？怎么关掉？相比而言，一个刚上手 emacs 的用户心中的疑问就比较少：好了，我试着敲了一些字母了，现在，该怎么关掉？
 
 ![看到这样的快捷键，我的内心是拒绝的](http://wulfric.qiniudn.com/emacs-bad-shortcut.png "看到这样的快捷键，我的内心是拒绝的")
 
@@ -65,7 +65,7 @@ pick 5c3747b f
 
 除此之外，vim 的矩形编辑也非常犀利。比如上面的示例，也可以在矩形编辑下，选中第二到第十行的 pick，删除，然后 I 插入 squash，继而退出 insert mode 即可。
 
-而 emacs 没有输入上的 mode 差别，所以需要依赖复杂的快捷键来实现强大的编辑功能，正如上图所示。emacs 插件想象力更加丰富，有「伪装成编辑器的操作系统」之称。插件的 major mode 和 minor mode 的设计很出彩，对一个文件，只有一个 major mode，但是可以有多个 minor mode，这样一个文件一个主插件，多个附加插件，可以实现很多有趣的效果。在 vim 中，是通过`set filetype=python`或者在`filetype.vim`文件中自定义来决定 vim 使用哪种语法渲染，其他比如自动补全这样的插件通过判断`filetype`来实现相关功能，并没有 mode 一说，针对同一种文件类型的插件可以非常分散。而在 emacs 中，如果我们选中`pythonA-mode`作为`.py`文件的 major mode，那么`pythonB-mode`就不会起作用，除非它上 minor mode。这有利于大而优秀的特定 major mode 脱颖而出，同时使用多个 minor mode 提供通用编辑功能。
+而 emacs 没有输入上的 mode 差别，所以需要依赖复杂的快捷键来实现强大的编辑功能，正如上图所示。emacs 插件想象力更加丰富，有「伪装成编辑器的操作系统」之称。插件的 major mode 和 minor mode 的设计很出彩，对一个文件，只有一个 major mode，但是可以有多个 minor mode，这样一个文件一个主插件，多个附加插件，可以实现很多有趣的效果。在 vim 中，是通过`set filetype=python`或者在`filetype.vim`文件中自定义来决定 vim 使用哪种语法渲染，其他比如自动补全这样的插件通过判断`filetype`来实现相关功能，并没有 mode 一说，针对同一种文件类型的插件可以非常分散。而在 emacs 中，如果我们选中`pythonA-mode`作为`.py`文件的 major mode，那么`pythonB-mode`就不会起作用，除非它是 minor mode。这有利于大而优秀的特定 major mode 脱颖而出，同时使用多个 minor mode 提供通用编辑功能。
 
 ![emacs major mode](http://wulfric.qiniudn.com/emacs-major-mode.png "emacs major mode")
 
