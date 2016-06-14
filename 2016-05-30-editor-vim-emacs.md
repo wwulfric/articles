@@ -7,11 +7,13 @@ tags: [vim, emacs, ide, spf13, kvim, fisa, prelude, purcell, spacemacs]
 
 这篇文章想要介绍一下 vim 和 emacs 两个编辑器。包括怎样组装插件打造成近似 IDE 的功能，使用场合，优点和缺点等。本文并不致力于手把手教你将 vim/emacs 打造成 IDE 或者详细的介绍某些具体的功能和插件。
 
-![editor-learning-curve](http://wulfric.qiniudn.com/editor-learning-curve.jpg "编辑器学习曲线")
+![vim and emacs](http://wulfric.qiniudn.com/vim-and-emacs.png-watermark "vim and emacs")
 
 ## vim 和 emacs 的优缺点
 
-vim 和 emacs 分别被称为「 编辑器之神」与「 神之编辑器」，自有其独到之处。但是陡峭的学习曲线（如上图示）却吓跑了好多潜在用户。那么我们是否还有必要学习这两个编辑器呢？
+vim 和 emacs 分别被称为「 编辑器之神」与「 神之编辑器」，自有其独到之处。但是陡峭的学习曲线却吓跑了好多潜在用户。那么我们是否还有必要学习这两个编辑器呢？
+
+![editor-learning-curve](http://wulfric.qiniudn.com/editor-learning-curve.jpg "编辑器学习曲线")
 
 ### 快捷键的无差别延续
 
