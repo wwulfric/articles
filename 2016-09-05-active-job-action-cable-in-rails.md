@@ -1,5 +1,3 @@
-
-
 ---
 title: Rails 应用生产环境利用  Active Job 和 Action Cable 实现消息推送
 date: 2016-09-05 23:53
