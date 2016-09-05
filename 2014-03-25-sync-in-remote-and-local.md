@@ -1,7 +1,7 @@
 ---
 title: 服务器和本地的文件同步
 date: 2014-03-25 12:19
-tags: [samba, 远程, 本地] 
+tags: [samba, 远程, remote, server, rsync] 
 categories: [技术]
 ---
 

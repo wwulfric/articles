@@ -1,7 +1,7 @@
 ---
 title: python 数学绘图工具 matplotlib 的优化配置
 date: 2015-10-19 23:37
-tags: [ipython, matplotlib, matlab, retina, 中文]
+tags: [ipython, matplotlib, matlab, retina, 中文, ggplot]
 categories: [技术]
 ---
 

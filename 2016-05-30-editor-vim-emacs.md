@@ -139,3 +139,5 @@ Hello world!
 但是学习这两个编辑器还是非常有好处的。就像一开始说的，很多编辑器、IDE 都提供 vim 插件，学会了 vim 可以一套快捷键吃遍天。另外，bash 默认是 emacs 模式，所以熟悉 emacs 还可以提高 bash 下的效率。比如 emacs 的[移动命令](https://www.gnu.org/software/emacs/manual/html_node/emacs/Moving-Point.html)和[删除命令](https://www.gnu.org/software/emacs/manual/html_node/emacs/Erasing.html)就可以部分用在 bash 上。最常用的是这几个[快捷键](https://www.gnu.org/software/emacs/manual/html_node/emacs/Words.html)。而且，不得不说，在纯粹的编辑上，vim/emacs 效率更高。
 
 在具体的项目上，当然还是 JetBrains 家的 IDE 更好用，尤其是静态语言。而动态语言，选自己比较喜欢的就好了。（然而 JetBrains 家的调试工具太好用已经离不开了☹️）
+
+PS: vim 快捷键一览 [vimgifs.com](http://vimgifs.com/)

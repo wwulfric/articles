@@ -1,5 +1,5 @@
 ---
-title: Ruby on Rails 开发环境搭建
+title: Ruby on Rails 开发和生产环境搭建
 date: 2016-03-21 16:37
 categories: [技术]
 tags: [ubuntu, ruby, rbenv, nginx, passenger, mina, rails, postgresql]
@@ -18,7 +18,7 @@ tags: [ubuntu, ruby, rbenv, nginx, passenger, mina, rails, postgresql]
 
 ### ssh 配置
 
-先在本地开发环境下`ssh-keygen`，生成登录服务器的公钥私钥。然后在服务器端
+先在本地开发环境下`ssh-keygen`，生成登录服务器的公钥私钥[^4]。然后在服务器端
 
 ``` bash
 mkdir .ssh
@@ -26,7 +26,12 @@ vi ~/.ssh/authorized_keys
 # 把刚才生成的公钥内容复制进去
 ```
 
-尝试在本地登录，如果跳过了密码验证，说明配置正确。
+尝试在本地登录，如果跳过了密码验证，说明配置正确。如果没有跳过，检查一下服务器上`.ssh`和`.ssh/authorized_keys`的权限：
+
+``` bash
+chmod 700 .ssh
+chmod 600 .ssh/authorized_keys
+```
 
 为了让服务器更加安全，我们可以更改ssh登录端口，并拒绝密码登录。在服务器端`vi /etc/ssh/sshd_config`做如下修改
 
@@ -155,6 +160,11 @@ server {
     # Turn on Passenger
     passenger_enabled on;
     passenger_ruby /home/wwwroot/.rbenv/versions/2.3.0/bin/ruby;
+    location ~ ^(/assets) {
+    access_log        off;
+# 设置 assets 下面的浏览器缓存时间为最大值（由于 Rails Assets Pipline 的文件名是根据文件修改产生的 MD5 digest 文件名，所以此处可以放心开启）
+		    expires           max;
+	    }
 }
 ```
 
@@ -163,7 +173,7 @@ server {
 
 ### 安装 postgresql
 
-ubuntu 14.04 的默认版本是 9.3，我要安装的版本是 9.4，参考 [How install postgresql 9.4](http://askubuntu.com/questions/633919/how-install-postgresql-9-4)。
+ubuntu 14.04 的默认版本是 9.3，我要安装的版本是 9.4[^5]，参考 [How install postgresql 9.4](http://askubuntu.com/questions/633919/how-install-postgresql-9-4)。
 
 ``` bash
 sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
@@ -217,9 +227,17 @@ production:
   secret_key_base: xxxx...
 ```
 
-接下来就可以执行`mina deploy`把代码部署到服务器了。（deploy 在远程服务器安装 gem 的时候可能会报错，多半是服务器没有 js 运行时或者相关依赖库导致，按照提示安装就好了）
+接下来就可以执行`mina deploy`把代码部署到服务器了。deploy 在远程服务器安装 gem 的时候可能会报错，多半是服务器没有 js 运行时或者相关依赖库导致，按照提示安装就好了。如果是 pg 安装问题，可以配置 bundler：
 
+``` bash
+bundle config build.pg --with-pg-config=/usr/pgsql-9.4/bin/pg_config
+```
+
+PS: 更新了[Rails 应用生产环境利用  Active Job 和 Action Cable
+实现消息推送](/2016/09/active-job-action-cable-in-rails)
 
 [^1]: 参考[在 Aliyun 上快速部署 Ruby on Rails](https://ruby-china.org/topics/17553)
 [^2]: 参考[PostgreSQL 服务器设置](https://help.ubuntu.com/community/PostgreSQL#Basic_Server_Setup)
 [^3]: 参考[Deploying rails app to DO ubuntu droplet with Nginx/Passenger/Mina](http://railsr.github.io/posts/nginx-passenger-mina-deploy)
+[^4]: 参考 [github](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)、[archlinux](https://wiki.archlinux.org/index.php/SSH_keys_(简体中文)) 的文档
+[^5]: centos 下安装 passenger 和 postgresql 的方法稍有不同，参见[CentOS6下最新版PostgreSQL的安装及设置 | Racksam](http://www.racksam.com/2016/04/02/install-postgresql9-with-yum-on-centos6/)、[Installing PostgreSQL 9.4 And phpPgAdmin In CentOS 7/6.5/6.4 | Unixmen](https://www.unixmen.com/postgresql-9-4-released-install-centos-7/)、[Installing Passenger + Nginx on Red Hat 6 / CentOS 6 (with RPM) - Passenger Library](https://www.phusionpassenger.com/library/install/nginx/install/oss/el6/)
