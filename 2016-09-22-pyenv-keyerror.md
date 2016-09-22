@@ -1,5 +1,5 @@
 ---
-title: Mac 下 pyenv 安装的 Python3 报 KeyError: 'PYTHONPATH' 错
+title: Mac 下 pyenv 安装的 Python3 报 KeyError PYTHONPATH 错
 date: 2016-09-22 22:37
 categories: [技术]
 tags: [miniconda, python, brew, path]
