@@ -1,10 +1,12 @@
 ---
-title: 刺穿生命和智能的本质 —「复杂」导读
+title: 生命和智能的本质 —「复杂」导读
 date: 2016-06-11 11:24
 categories: [阅读]
 tags: [复杂, 元胞自动机, 网络, 小世界, 无尺度, 大统一理论]
 math: true
 ---
+
+More is different.
 
 ### 作者简介 
 
