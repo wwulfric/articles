@@ -63,12 +63,12 @@ sudo chmod -R 777 guest_share
 ```shell
 # /etc/samba/smb.conf
 
-#======================= Global Settings =====================================
+#======================= Global Settings ======================
 [global]
  workgroup = WORKGROUP
  security = share
  map to guest = bad user
-#============================ Share Definitions ==============================
+#======================= Share Definitions ====================
 [MyShare]
  path = /home/username/guest_share
  browsable =yes
@@ -121,12 +121,12 @@ sudo chmod -R 770 secure_share
 ```shell
 # /etc/samba/smb.conf
 
-#======================= Global Settings =====================================
+#======================= Global Settings ======================
 [global]
  workgroup = WORKGROUP
  security = user
  map to guest = bad user
-#============================ Share Definitions ==============================
+#======================= Share Definitions ====================
 [MyShare]
  path = /home/username/guest_share
  browsable =yes

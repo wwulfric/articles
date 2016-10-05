@@ -39,7 +39,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 既然可能是 brew 安装的问题，执行`brew doctor`。
 
-```shell
+```bash
 Warning: Your default Python does not recognize the Homebrew site-packages
 directory as a special site-packages directory, which means that .pth
 files will not be followed. This means you will not be able to import
