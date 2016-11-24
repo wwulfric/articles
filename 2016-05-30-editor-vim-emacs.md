@@ -76,11 +76,11 @@ pick 5c3747b f
 
 有很多人试图将 vim/emacs 打造成 IDE，也有一些比较著名的配置。比如，对于 vim，比较优秀的 IDE 配置有 [spf13](http://vim.spf13.com/)，[kvim](https://github.com/wklken/k-vim)，[fisa](https://github.com/fisadev/fisa-vim-config)（这个并不著名但我很喜欢，我的配置也是从这个开始的）等。emacs 有 [prelude](https://github.com/bbatsov/prelude)，[purcell](https://github.com/purcell/emacs.d) 和我现在在用的 [spacemacs](https://github.com/syl20bnr/spacemacs)。如果有兴趣，可以去这些项目主页看一看，然后选择一个尝试一下。
 
-为了实现类似 IDE 的功能，这些配置通常包括了项目结构列表，文件结构列表，自动跳转，自动提示和补全，插件管理，语法检查，版本控制等插件。如果上面每个配置项目你都过了一遍，会发现大家要做的事情其实是差不多的。对于 vim 的话，可以看下这个 [vimawesone](http://vimawesome.com/)，其实最受欢迎的插件也大概是这些，对着 vimawesone 你也能拼起来一个很优秀的配置。
+为了实现类似 IDE 的功能，这些配置通常包括了项目结构列表，文件结构列表，自动跳转，自动提示和补全，插件管理，语法检查，版本控制等插件。如果上面每个配置项目你都过了一遍，会发现大家要做的事情其实是差不多的。对于 vim，可以看下这个 [vimawesone](http://vimawesome.com/)，其实最受欢迎的插件也大概是这些，对着 vimawesone 你也能拼起来一个很优秀的配置。
 
 ### 项目结构浏览插件
 
-对于编辑器而言，这个插件的功能通常都比较简陋，一般只能浏览和导航文件，加上简单的文件操作（增删改复制）。不像 IDE，提供的功能非常多，多到右键弹出功能列表的时候都会卡顿（没错，我并没有说 JetBrains 家的 IDE）。vim 中比较优秀的是 [nerdtree](http://github.com/scrooloose/nerdtree)，emacs 下是 [neotree](https://github.com/jaypei/emacs-neotree)，其实就是仿的 nerdtree。对于 vim/emacs 用户而言，不会通过在文件树中点击来跳转，使用此类插件其实仅仅是为了浏览项目结构，所以往往不会做的功能特别强大。
+于编辑器而言，这个插件的功能通常都比较简陋，一般只能浏览和导航文件，加上简单的文件操作（增删改复制）。不像 IDE，提供的功能非常多，多到右键弹出功能列表的时候都会卡顿（没错，我并没有说 JetBrains 家的 IDE）。vim 中比较优秀的是 [nerdtree](http://github.com/scrooloose/nerdtree)，emacs 下是 [neotree](https://github.com/jaypei/emacs-neotree)，其实就是仿的 nerdtree。对于 vim/emacs 用户而言，不会通过在文件树中点击来跳转，使用此类插件其实仅仅是为了浏览项目结构，所以往往不会做的功能特别强大。
 
 ### 快速定位
 
@@ -90,7 +90,7 @@ pick 5c3747b f
 
 其实 JetBrains 系 IDE 的 go to anywhere 功能更加强大，可以同时搜索文件、类、方法、IDE 动作。代价就是性能太差---每次`⇧⇧`都会卡顿，所以只好使用`⌘+O`查找文件，查找到文件之后再查找方法，或跳转到具体行。这意味着，在这一方面，更强大的 IDE，反而比编辑器更不方便。这倒不是因为它是 IDE，而是软件设计的一个问题---哪些功能应该合在一起，哪些功能应该分开。
 
-vim 下的 go to anywhere 插件名字就叫 [ctrlp](http://ctrlpvim.github.io/ctrlp.vim/)，仅仅实现了查找文件功能，需要通过[插件](https://github.com/ctrlpvim/ctrlp.vim/tree/extensions)来扩展功能，比如查找 vim 命令的 [ctrlp-funky](https://github.com/tacahiroy/ctrlp-funky)。而且，不知是不是技术限制，其搜索精确度还是无法和 sublime 相比。不仅如此，搜索速度也不够好，借助插件 [ctrlp-py-matcher](https://github.com/FelikZ/ctrlp-py-matcher) ，速度还是可以接受的。这一切搭配好之后，ctrlp 还是可以用得很好的。（PS：[vim-ctrlspace](https://github.com/vim-ctrlspace/vim-ctrlspace) 提供了一种新型的文件编辑管理方式，使用 go 写了模糊查询，并没有使用过，感兴趣的可以尝试下）
+vim 下的 go to anywhere 插件名字就叫 [ctrlp](http://ctrlpvim.github.io/ctrlp.vim/)，仅仅实现了查找文件功能，需要通过[插件](https://github.com/ctrlpvim/ctrlp.vim/tree/extensions)来扩展功能，比如查找 vim 命令的 [ctrlp-funky](https://github.com/tacahiroy/ctrlp-funky)。而且，不知是不是技术限制，其搜索精确度还是无法和 sublime 相比。不仅如此，搜索速度也不够好，需要借助插件 [ctrlp-py-matcher](https://github.com/FelikZ/ctrlp-py-matcher) 。这一切搭配好之后，ctrlp 还是可以用得很好的。（PS：[vim-ctrlspace](https://github.com/vim-ctrlspace/vim-ctrlspace) 提供了一种新型的文件编辑管理方式，使用 go 写了模糊查询，并没有使用过，感兴趣的可以尝试下）
 
 emacs 下的 go to anywhere 插件有好几个，spacemacs 默认使用的是 [projectile](https://github.com/bbatsov/projectile)。使用感觉和 vim 的 ctrlp 很像，中规中矩。通过 [helm-projectile](https://github.com/bbatsov/helm-projectile) 扩展实现对 emacs 内置命令的模糊查询。
 
@@ -98,7 +98,7 @@ emacs 下的 go to anywhere 插件有好几个，spacemacs 默认使用的是 [p
 
 ### 补全和跳转
 
-自动补全和跳转，这两个功能就是 IDE 的强项了。IDE 解析语法树，可以实现相当精准的补全和跳转，然而编辑器基于字符串匹配，效果就要大打折扣了。当然了，我说的是静态语言🙄。对于动态语言，即使是 IDE，也总有力所不及的地方，编辑器开一个进程实时解析也能实现不错的效果。二者的差别没那么明显。对于静态语言，编辑器竟也有和 IDE 相抗的野心：[eclim](http://eclim.org/)，也就是 eclipse+vim（当然也有 emacs 插件），在后台开一个 eclipse 进程，然后在 vim 中利用 eclipse 来做补全和跳转。
+自动补全和跳转，这两个功能就是 IDE 的强项了。IDE 解析语法树，可以实现相当精准的补全和跳转，而编辑器基于字符串匹配，效果就要大打折扣了。当然了，我说的是静态语言🙄。对于动态语言，即使是 IDE，也总有力所不及的地方， 而编辑器开一个语言解释器进程实时解析也能实现不错的效果。二者的差别没那么明显。对于静态语言，编辑器竟也有和 IDE 相抗的野心：[eclim](http://eclim.org/)，也就是 eclipse+vim（当然也有 emacs 插件），在后台开一个 eclipse 进程，然后在 vim 中利用 eclipse 来做补全和跳转……
 
 ![说得好，我选择死亡](http://wulfric.qiniudn.com/woxuanzesiwang.jpeg "说得好，我选择死亡")
 
@@ -129,7 +129,7 @@ Hello world!
 
 [vim-repeat](https://github.com/tpope/vim-repeat) 重复上一个动作。[Gundo](https://github.com/vim-scripts/Gundo) 树形撤销历史。[vim-exchange](https://github.com/tommcdo/vim-exchange) 交换行，或者交换选中区域。
 
-更多有趣的 vim 编辑插件可以看[这里](http://spacemacs.org/doc/DOCUMENTATION#orgheadline61)。
+更多有趣的 vim 编辑插件可以看[这里](http://spacemacs.org/doc/DOCUMENTATION#evil-plugins)。
 
 
 ## 使用哲学
