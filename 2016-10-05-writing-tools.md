@@ -58,7 +58,7 @@ tags: [scrivener, workflowy, notes, typora, qiniu, alfred, jekyll]
 
 我用的是 Jekyll 博客程序，要求每篇文章都要有头信息，包括 title, date, categories, tags 等。每次都写会很麻烦，便在如下位置添加了一个 snippet：
 
-![jekyll title](http://wulfric.qiniudn.com/alfred/jekyll-title.png-watermark "jekyll title")
+![jekyll title](http://wulfric.qiniudn.com/alfred/jekyll-title.png "jekyll title")
 
 其内容如下：
 
@@ -74,7 +74,7 @@ tags: []
 
 PS：这里的 date 和 time 是操作系统所支持的，可以在系统设置->时间和日期设置->语言和时区->高级设置中查看。其中 {date:xxx} 后面的内容和 dates 中的一一对应。
 
-![macos date and time](http://wulfric.qiniudn.com/macos/macos-date-time.png-watermark "macos date and time")
+![macos date and time](http://wulfric.qiniudn.com/macos/macos-date-time.png "macos date and time")
 
 ### Jekyll 部署
 
@@ -91,5 +91,4 @@ git commit -m "${now}"
 git push origin master
 ```
 
-
-
+这样每次写好文章之后，执行`sh _deploy.sh`即可。
