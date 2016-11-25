@@ -11,11 +11,10 @@ tags: [scrivener, workflowy, notes, typora, qiniu, alfred, jekyll]
 
 我们写作的时候并非总是线性的工作方式。经常情况是，对某个主题突然有了一个灵感，然后把它记下来，这样一些灵感堆积在一起，就可以组织成一篇文章了。即使已经有了一些灵感，在写作的时候，也并非从开头写到结尾，通常我们会从顺手的先写起。
 
-此外，王小波曾经在提到，
+此外，王小波曾经在「用一生来学习艺术」中提到，
 
 > 我对这件事很有把握，是因为我也这样写过：把小说的文件调入电脑，反复调动每一个段落，假如原来的小说足够好的话，逐渐就能找到这种线索；花上比写原稿多三到五倍的时间就能得到一篇新小说，比旧的好得没法比。事实上，「情人」也确实是这样改过，一直改到改不动，才交给出版社。
 >
-> --- 王小波「用一生来学习艺术」
 
 在写完之后，再局部调动段落的顺序，有时可能有意想不到的奇妙之处。
 
@@ -27,11 +26,13 @@ tags: [scrivener, workflowy, notes, typora, qiniu, alfred, jekyll]
 
 当素材积累完成时，便可以打开 [typora](https://www.typora.io/) 开始写了。
 
+![typora](http://wulfric.qiniudn.com/editor/typora.png "typora")
+
 ## 图片同步
 
-使用 markdown 写作的一个劣势是图片处理很麻烦。在 office 中，可以直接复制粘贴，但是纯文本文件不行，必须指定实体图片的具体位置才可以。对于截图来说，将不得不增加一个实体化存储的过程。有些程序员开发了一些小工具来简化这一过程，比如 mweb 等。
+使用 markdown 写作的一个劣势是图片处理很麻烦。在 office 中，可以直接复制粘贴，但是纯文本文件不行，必须指定实体图片的具体位置才可以。对于截图来说，将不得不增加一个实体化存储的过程。有些程序员开发了一些小工具来简化这一过程，比如 mweb，ipic 等。
 
-我是用的七牛云自带的图片同步工具 [qrsync](http://o9gnz92z5.bkt.clouddn.com/code/v6/tool/qrsync.html)。这个工具已经废弃了，那么大家就换 qshell 好了。我用 qrsync 还挺好的，就不打算换了。这个工具在执行的时候会比较指定的文件夹和七牛云上的 bucket 的内容，然后将新的文件上传。我就是用这个工具来同步图片的，每当制作了一个新图就放到这个文件夹内，然后执行同步。
+我是用的七牛云自带的图片同步工具 [qrsync](http://o9gnz92z5.bkt.clouddn.com/code/v6/tool/qrsync.html)。这个工具已经废弃了，那么大家就换 [qshell](http://o9gnz92z5.bkt.clouddn.com/code/v6/tool/qshell.html) 好了。我用 qrsync 还挺好的，就不打算换了。这个工具在执行的时候会比较指定的文件夹和七牛云上的 bucket 的内容，然后将新的文件上传。我就是用这个工具来同步图片的，每当制作了一个新图就放到这个文件夹内，然后执行同步。
 
 在 shell 下执行同步的输出如下：
 
@@ -45,7 +46,7 @@ tags: [scrivener, workflowy, notes, typora, qiniu, alfred, jekyll]
 2016/09/23 00:13:05.455394 INFO sync.go:59: Sync done!
 ```
 
-图片上传完毕后，我们还需要插入地址，我写了一个 alfred 的脚本来获取 url。在 alfred 的 Features 标签页中，选择 Clipboard，添加如下的 snippet：
+图片上传完毕后，我们还需要插入地址，我写了一个 alfred 的 snippet 来获取 url。在 alfred 的 Features 标签页中，选择 Clipboard，添加如下的 snippet：
 
 ```shell
 ![{clipboard}](http://your_qiniu_bucket.qiniudn.com/{clipboard} "{clipboard}")
