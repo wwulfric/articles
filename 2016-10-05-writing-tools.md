@@ -22,7 +22,7 @@ tags: [scrivener, workflowy, notes, typora, qiniu, alfred, jekyll]
 
 其中一种有效的非线性写作方式就是[纳博科夫的卡片](http://www.yangzhiping.com/psy/nabokov.html)。在这篇文章中提到了一个极为优秀的写作软件[scrivener](https://www.literatureandlatte.com/scrivener.php)。该软件可以说是大型写作软件中最好的一个了，它的卡片模式非常舒服。但是价格偏高，Windows，MacOS 和 iOS 三个版本分别收费。而且，对于写博客文章来说，也有些大材小用了。
 
-我目前的方法是使用苹果自带的 Notes。主要是……免费，而且轻量，便携。设备自带，打开速度也快，非常适合在草稿阶段随时记录。缺点就是不好实现卡片式写作，草稿的收集过程更像是在一个文件中不停的 append，而不是管理卡片。近期在尝试的一个工具是[workflowy](https://workflowy.com/)，它在管理上比较符合卡片的理念，但缺点是，这个软件在设计上应该是一个 TODO 类或者说知识管理的软件，缺乏卡片视图。
+我目前的方法是使用苹果自带的 Notes。主要是……免费，而且轻量，便携。设备自带，打开速度也快，非常适合在草稿阶段随时记录。缺点就是不好实现卡片式写作，草稿的收集过程更像是在一个文件中不停的 append，而不是管理卡片。近期在尝试的一个工具是 [workflowy](https://workflowy.com/)，它在管理上比较符合卡片的理念，但缺点是，这个软件在设计上应该是一个 TODO 类或者说知识管理的软件，缺乏卡片视图。
 
 当素材积累完成时，便可以打开 [typora](https://www.typora.io/) 开始写了。
 
