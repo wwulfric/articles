@@ -39,7 +39,7 @@ dubbo 采用全 spring 配置方式，透明化接入应用，对应用没有侵
 
 在 tomcat 官网下载国内镜像 [tomcat](https://tomcat.apache.org/download-80.cgi)，解压到本地。我下载的是 8.5.11 版本。
 
-clone 下当当的 [dubbox 项目](https://github.com/dangdangdotcom/dubbox)，执行
+clone 下当当的 [dubbox 项目](https://github.com/dangdangdotcom/dubbox)，执行：
 
 ```shell
 mvn install -Dmaven.test.skip=true #dubbox 的测试 url 无法访问
@@ -53,7 +53,7 @@ mvn install -Dmaven.test.skip=true #dubbox 的测试 url 无法访问
 
 ### zookeeper 注册中心
 
-进入解压后的 zookeeper 目录，创建 conf/zoo.cfg（可参考同目录下的 sample 文件），其内容如下
+进入解压后的 zookeeper 目录，创建 conf/zoo.cfg（可参考同目录下的 sample 文件），其内容如下：
 
 ```shell
 tickTime=2000
@@ -98,7 +98,7 @@ SUCCESS: got user User (id=1, name='username1')
 
 ### tomcat 运行 dubbo admin
 
-在 dubbo-admin 的 target 目录下找到 war 包（没有的话就 mvn package 一下），放到 tomcat 目录下的webapps 目录下
+在 dubbo-admin 的 target 目录下找到 war 包（没有的话就 mvn package 一下），放到 tomcat 目录下的webapps 下。
 
 ```shell
 ~/tmp/zookeeper/apache-tomcat-8.5.11
@@ -116,7 +116,7 @@ ROOT                  docs                  dubbo-admin-2.8.4 
 > vim webapps/dubbo-admin-2.8.4/WEB-INF/dubbo.properties
 ```
 
-编辑 dubbo-admin 的 zookeeper 配置
+编辑 dubbo-admin 的 zookeeper 配置。
 
 ```shell
 dubbo.registry.address=zookeeper://127.0.0.1:2181
@@ -128,6 +128,8 @@ dubbo.admin.guest.password=guest
 重启 tomcat，打开 http://localhost:8080/dubbo-admin-2.8.4，输入帐号密码即可看到 dubbo-admin 的管理页面。上面运行的 provider 和 consumer demo 在服务治理下。
 
 ![dubbo admin](http://wulfric.qiniudn.com/dubbo/dubbo-admin.png "dubbo admin")
+
+注意：有些链接可能 404，因为 dubbo-admin 默认使用了`/`路径，而挂在 tomcat 下的时候路径中包含了`/dubbo-admin-2.8.4`。
 
 ### 启动 dubbo monitor
 
@@ -168,7 +170,7 @@ STDOUT: logs/stdout.log
 
 如果看不到 charts 和 statitics，检查下配置中的`dubbo.charts.directory`和`dubbo.statistics.directory`是否提前创建成功，dubbo-monitor 可能不会自动创建该目录的。
 
-自带 monitor 比较简单，可以参见 monitor 的其他实现：[韩都衣舍](http://git.oschina.net/handu) / [dubbo-monitor](http://git.oschina.net/handu/dubbo-monitor)](http://git.oschina.net/handu/dubbo-monitor)，[dubboclub/dubbokeeper](https://github.com/dubboclub/dubbokeeper)。
+自带 monitor 比较简单，可以参见 monitor 的其他实现：[韩都衣舍/dubbo-monitor](http://git.oschina.net/handu/dubbo-monitor)，[dubboclub/dubbokeeper](https://github.com/dubboclub/dubbokeeper)。
 
 
 
