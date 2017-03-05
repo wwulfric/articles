@@ -13,12 +13,14 @@ dubbo 的架构图如下[^dubbo-architecture]：
 
 如上图所示，简单来说 dubbo 架构包括如下几部分：服务注册和服务发现中心，对外暴露服务的服务提供方和运行该服务的容器，调用远程服务的服务消费方，统计服务调用时间和次数的监控中心（非必需）。其调用关系为：
 
+```
 0. 服务方的容器启动服务
 1. 服务提供方向注册中心注册自己的地址
 2. 访问消费方向注册中心订阅所需的服务
 3. 注册中心通知服务消费方所订阅服务的变更
 4. 根据获取到的提供方地址列表，服务消费方直接调用服务提供方
 5. 监控中心会监控消费方和提供方的调用时间和次数等信息
+```
 
 ## 安装与准备
 
@@ -172,6 +174,6 @@ STDOUT: logs/stdout.log
 
 自带 monitor 比较简单，可以参见 monitor 的其他实现：[韩都衣舍/dubbo-monitor](http://git.oschina.net/handu/dubbo-monitor)，[dubboclub/dubbokeeper](https://github.com/dubboclub/dubbokeeper)。
 
-
+PS: 从零开始搭一个 dubbo 的 demo 示例可以参见[下一篇文章](/2017/03/dubbo-demo-test/)。
 
 [^dubbo-architecture]: 见官方[原图](http://dubbo.io/dubbo-architecture.jpg-version=1&modificationDate=1330892870000.jpg)
