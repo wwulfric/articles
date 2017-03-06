@@ -18,7 +18,7 @@ dubbo-demo-api      dubbo-demo-provider pom.xml
 dubbo-demo-consumer dubbo-demo.iml
 ```
 
-其中api 部分定义了 provider 和 consumer 都需要用到的接口，这样 provider 实现这些接口，consumer 就可以像本地调用一样来调用这些接口了。
+其中 api 部分定义了 provider 和 consumer 都需要用到的接口，这样 provider 实现这些接口，consumer 就可以像本地调用一样来调用这些接口了。
 
 ## 接口定义与步骤
 
@@ -57,11 +57,12 @@ dubbo 的服务方和提供方通信支持多种协议，默认的是 dubbo 协�
 我们将循序渐进的实现一个获取权限数组的服务。
 
 1. [x] 通过 dubbo 协议实现获取权限数组的服务
-2. [ ] 通过 rest 规范实现获取权限数组的服务
-3. [ ] 通过 rest 规范实现获取权限 POJO 序列化结果的服务
-4. [ ] 将提供方以服务的形式部署到服务器
+2. [x] 通过 rest 规范实现获取权限数组的服务
+3. [ ] 将提供方以服务的形式部署到服务器
 
 ## dubbo 协议简例
+
+代码参见[protocol/dubbo 分支](https://github.com/wwulfric/dubbodemo/tree/protocol/dubbo)。
 
 创建 maven 项目 dubbo-test，编辑 pom 文件，并仿照官方示例，在 maven 项目下分别创建 3 个 module：api, provider 和 consumer。
 
@@ -345,23 +346,405 @@ log4j 配置相同。
 
 可见，在 consumer 中调用 provider 的实现，代码上看起来和本地调用一样，即 provider 相对于 consumer 来说是透明的。
 
-<!--## dubbo rest 接口
+consumer 文件结构如下：
 
-rest 协议
+```
+.
+├── pom.xml
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── consumer
+│   │   │       └── DemoConsumer.java
+│   │   └── resources
+│   │       ├── META-INF
+│   │       │   └── spring
+│   │       │       └── dubbotest-consumer.xml
+│   │       └── log4j.xml
+│   └── test...
+└── target...
+```
 
-注释不错，前面介绍不错：http://blog.csdn.net/u012049463/article/details/12161923
+## dubbo rest 接口
 
-主要参考，代码和较为清晰的目录结构：http://www.cnblogs.com/yjmyzz/p/dubbox-demo.html
+代码参见[protocol/dubbo 分支](https://github.com/wwulfric/dubbodemo/tree/protocol/rest)。
 
-还有些依赖关系需要
+需要在 api 中定义 rest 接口，并在 provider 中实现这个接口。
 
-dubbo 协议和 rest 协议的区别，rest 协议需要@Path
+### api module
 
+添加 api.PermissionRestService 类：
 
+```java
+package api;
+import javax.validation.constraints.Min;
+import java.util.List;
+public interface PermissionRestService {
+    List<String> getPermissions(@Min(value = 1L, message = "User ID must be greater than 1") Long id);
+}
+```
 
-api, provider, consumer 关系
+pom 文件添加依赖：
 
--->
+```xml
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.0.Alpha1</version>
+        </dependency>
+```
+
+### provider module
+
+在 pom 文件中添加依赖：
+
+```xml
+        <!--rest 规范，比如 Get, Path, MediaType 等-->
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+        <!--使用 netty 启动 rest 服务-->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-netty</artifactId>
+            <version>3.0.7.Final</version>
+        </dependency>
+        <!--rest json 输出-->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jackson-provider</artifactId>
+            <version>3.0.7.Final</version>
+        </dependency>
+        <!--rest 需要的依赖-->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+            <version>3.0.7.Final</version>
+        </dependency>
+        <!--验证-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>4.2.0.Final</version>
+        </dependency>
+        <!--slf4j 和其依赖-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+```
+
+其中 slf4j 的问题参见[stackoverflow](http://stackoverflow.com/questions/7421612/slf4j-failed-to-load-class-org-slf4j-impl-staticloggerbinder)。
+
+创建 provider.PermissionRestServiceImpl 实现 上面的接口：
+
+```java
+package provider;
+import api.PermissionRestService;
+import api.PermissionService;
+import com.alibaba.dubbo.rpc.RpcContext;
+import com.alibaba.dubbo.rpc.protocol.rest.support.ContentType;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.util.List;
+@Path("permissions")
+@Consumes({MediaType.APPLICATION_JSON})
+@Produces({ContentType.APPLICATION_JSON_UTF_8})
+public class PermissionRestServiceImpl implements PermissionRestService {
+    private PermissionService permissionService;
+
+    public void setPermissionService(PermissionService permissionService) {
+        this.permissionService = permissionService;
+    }
+    @GET
+    @Path("{id : \\d+}")
+    public List<String> getPermissions(@PathParam("id") Long id) {
+        if (RpcContext.getContext().getRequest(HttpServletRequest.class) != null) {
+            System.out.println("Client IP address from RpcContext: " + RpcContext.getContext().getRequest(HttpServletRequest.class).getRemoteAddr());
+        }
+        if (RpcContext.getContext().getResponse(HttpServletResponse.class) != null) {
+            System.out.println("Response object from RpcContext: " + RpcContext.getContext().getResponse(HttpServletResponse.class));
+        }
+        // 上面是输出相应的测试信息的，真实的实现只有下面这句
+        return permissionService.getPermissions(id);
+    }
+}
+```
+
+编辑 spring 配置：
+
+```xml
+    <bean id="permissionService" class="provider.PermissionServiceImpl"/>
+    <!--使用 netty 服务，将 rest 服务暴露在 4567 端口-->
+    <dubbo:protocol name="rest" port="4567" threads="500" contextpath="services" server="netty" accepts="500"
+                    extension="com.alibaba.dubbo.rpc.protocol.rest.support.LoggingFilter"/>
+    <!--使用 rest 规范实现定义好的 api.PermissionRestService 接口-->
+    <dubbo:service interface="api.PermissionRestService" ref="permissionRestService" protocol="rest"  validation="true"/>
+    <!--具体实现该接口的 bean-->
+    <bean id="permissionRestService" class="provider.PermissionRestServiceImpl">
+        <property name="permissionService" ref="permissionService"/>
+    </bean>
+```
+
+启动 DemoProvider 的 main 函数，此时输入 http://localhost:4567/services/permissions/3.json 即可访问提供者的 rest 接口了。
+
+### consumer module
+
+编辑 DemoConsumer 类，添加 rest 调用：
+
+```java
+public class DemoConsumer {
+    public static void main(String[] args) {
+        // 测试常规服务
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath*:META-INF/spring/*.xml");
+        context.start();
+        // dubbo 协议
+        PermissionService permissionService = context.getBean(PermissionService.class);
+        System.out.println(permissionService.getPermissions(1L));
+        // rest 规范
+        PermissionRestService permissionRestService = context.getBean(PermissionRestService.class);
+        System.out.println(permissionRestService.getPermissions(2L));
+    }
+}
+```
+
+在当当的 dubbox [文档](https://dangdangdotcom.github.io/dubbox/rest.html)中，rest 调用分 3 种场景：
+
+1. 非dubbo的消费端调用dubbo的REST服务（non-dubbo --> dubbo）
+2. dubbo消费端调用dubbo的REST服务 （dubbo --> dubbo）
+3. dubbo的消费端调用非dubbo的REST服务 （dubbo --> non-dubbo）
+
+我们直接通过 rest 的 uri 调用就是第 1 种，上面实现的是第 2 种。注意到第 1 种调用实际上是直接访问的地址，所以就不具备 dubbo 提供的服务发现功能了。
+
+编辑 spring 配置，添加 permissionRestService：
+
+```xml
+    <!--使用 dubbo 协议调用定义好的 api.PermissionRestService 接口-->
+    <dubbo:reference id="permissionRestService" interface="api.PermissionRestService"/>
+```
+
+执行 DemoConsumer 的 main 函数，报错：
+
+```
+java.lang.IllegalStateException: Unsupported protocol rest in notified url: ...
+```
+
+[文档](https://dangdangdotcom.github.io/dubbox/rest.html)中指名，这种调用方式必须把JAX-RS的annotation添加到服务接口上，这样在dubbo在消费端才能共享相应的REST配置信息，并据之做远程调用，编辑 api.PermissionRestService 类：
+
+```java
+// 注意这里编辑的是 api module 下的文件
+package api;
+import com.alibaba.dubbo.rpc.protocol.rest.support.ContentType;
+import javax.validation.constraints.Min;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.util.List;
+@Path("permissions")
+@Consumes({MediaType.APPLICATION_JSON})
+@Produces({ContentType.APPLICATION_JSON_UTF_8})
+public interface PermissionRestService {
+    @GET
+    @Path("{id : \\d+}")
+    List<String> getPermissions(@PathParam("id") @Min(value = 1L, message = "User ID must be greater than 1") Long id);
+}
+```
+
+同时需要在 api module 的 pom 文件下添加对应的依赖：
+
+```xml
+    <dependencies>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>dubbo</artifactId>
+            <version>2.8.4</version>
+        </dependency>
+    </dependencies>
+```
+
+再次`mvn clean package`，遇到错误 ：
+
+```
+1. org.springframework.beans.factory.BeanCreationException...
+2. ERROR integration.RegistryDirectory: Unsupported protocol rest in notified url...
+3. ...
+```
+
+从该 [issue](https://github.com/dangdangdotcom/dubbox/issues/73) 来看是 consumer 缺少相关依赖，添加上：
+
+```xml
+        <!--使用 netty 启动 rest 服务-->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-netty</artifactId>
+            <version>3.0.7.Final</version>
+        </dependency>
+        <!--rest json 输出-->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jackson-provider</artifactId>
+            <version>3.0.7.Final</version>
+        </dependency>
+        <!--rest 需要的依赖-->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+            <version>3.0.7.Final</version>
+        </dependency>
+        <!--验证-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>4.2.0.Final</version>
+        </dependency>
+        <!--slf4j 和其依赖-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+```
+
+再次执行，发现一切正常了，输出的结果也是对的：
+
+```
+[Permission_0, Permission_1, Permission_2]
+[Permission_1, Permission_2, Permission_3]
+```
+
+## 打包
+
+代码参见[package 分支](https://github.com/wwulfric/dubbodemo/tree/package)。
+
+按照 dubbo 推荐的方式打包成一个 .tar.gz 文件。在 provider 的 pom 文件中添加打包的依赖插件（或直接看最终结果）：
+
+```xml
+	<!-- 前面是 dependencies -->
+	<build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.alibaba</groupId>
+                                    <artifactId>dubbo</artifactId>
+                                    <version>2.8.4</version>
+                                    <outputDirectory>${project.build.directory}/dubbo</outputDirectory>
+                                    <includes>META-INF/assembly/**</includes>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptor>src/main/assembly/assembly.xml</descriptor>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+```
+
+在 src/main 下创建文件夹 assembly，并创建相应文件，如下所示：
+
+```
+.
+├── pom.xml
+├── src
+│   ├── main
+│   │   ├── assembly
+│   │   │   ├── assembly.xml
+│   │   │   └── conf
+│   │   │       └── dubbo.properties
+│   │   ├── java...
+│   │   └── resources...
+│   └── test...
+└── target...
+```
+
+其中 dubbo.properties 留空即可，dubbo 的配置已经写在了 spring 的配置中。assembly.xml内容为：
+
+```xml
+<assembly>
+    <id>assembly</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+    <includeBaseDirectory>true</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>${project.build.directory}/dubbo/META-INF/assembly/bin</directory>
+            <outputDirectory>bin</outputDirectory>
+            <fileMode>0755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/assembly/conf</directory>
+            <outputDirectory>conf</outputDirectory>
+            <fileMode>0644</fileMode>
+        </fileSet>
+    </fileSets>
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>lib</outputDirectory>
+        </dependencySet>
+    </dependencySets>
+</assembly>
+```
+
+完成之后，执行 maven 的清理和打包。
+
+ 打包结果为 provider-1.0-SNAPSHOT-assembly.tar.gz，解压，其文件结构为：
+
+```
+~/IdeaProjects/dubbotest/provider/target/provider-1.0-SNAPSHOT
+> ls
+bin  conf lib  logs
+```
+
+执行 bin/start.sh，查看 logs/stdout.log，并访问 http://localhost:4567/services/permissions/3.json，确认启动成功。
 
 
 
