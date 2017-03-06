@@ -56,9 +56,9 @@ dubbo 的服务方和提供方通信支持多种协议，默认的是 dubbo 协�
 
 我们将循序渐进的实现一个获取权限数组的服务。
 
-1. [x] 通过 dubbo 协议实现获取权限数组的服务
-2. [x] 通过 rest 规范实现获取权限数组的服务
-3. [ ] 将提供方以服务的形式部署到服务器
+1. 通过 dubbo 协议实现获取权限数组的服务
+2. 通过 rest 规范实现获取权限数组的服务
+3. 将提供方以服务的形式部署到服务器
 
 ## dubbo 协议简例
 
@@ -367,7 +367,7 @@ consumer 文件结构如下：
 
 ## dubbo rest 接口
 
-代码参见[protocol/dubbo 分支](https://github.com/wwulfric/dubbodemo/tree/protocol/rest)。
+代码参见[protocol/rest 分支](https://github.com/wwulfric/dubbodemo/tree/protocol/rest)。
 
 需要在 api 中定义 rest 接口，并在 provider 中实现这个接口。
 
@@ -442,7 +442,7 @@ pom 文件添加依赖：
         </dependency>
 ```
 
-其中 slf4j 的问题参见[stackoverflow](http://stackoverflow.com/questions/7421612/slf4j-failed-to-load-class-org-slf4j-impl-staticloggerbinder)。
+其中 slf4j 的问题参见 [stackoverflow](http://stackoverflow.com/questions/7421612/slf4j-failed-to-load-class-org-slf4j-impl-staticloggerbinder)。
 
 创建 provider.PermissionRestServiceImpl 实现 上面的接口：
 
@@ -484,10 +484,9 @@ public class PermissionRestServiceImpl implements PermissionRestService {
 编辑 spring 配置：
 
 ```xml
-    <bean id="permissionService" class="provider.PermissionServiceImpl"/>
+    ...
     <!--使用 netty 服务，将 rest 服务暴露在 4567 端口-->
-    <dubbo:protocol name="rest" port="4567" threads="500" contextpath="services" server="netty" accepts="500"
-                    extension="com.alibaba.dubbo.rpc.protocol.rest.support.LoggingFilter"/>
+    <dubbo:protocol name="rest" port="4567" threads="500" contextpath="services" server="netty" accepts="500" extension="com.alibaba.dubbo.rpc.protocol.rest.support.LoggingFilter"/>
     <!--使用 rest 规范实现定义好的 api.PermissionRestService 接口-->
     <dubbo:service interface="api.PermissionRestService" ref="permissionRestService" protocol="rest"  validation="true"/>
     <!--具体实现该接口的 bean-->
@@ -539,7 +538,7 @@ public class DemoConsumer {
 java.lang.IllegalStateException: Unsupported protocol rest in notified url: ...
 ```
 
-[文档](https://dangdangdotcom.github.io/dubbox/rest.html)中指名，这种调用方式必须把JAX-RS的annotation添加到服务接口上，这样在dubbo在消费端才能共享相应的REST配置信息，并据之做远程调用，编辑 api.PermissionRestService 类：
+[文档](https://dangdangdotcom.github.io/dubbox/rest.html)中指明，这种调用方式必须把 JAX-RS 的 annotation 添加到服务接口上，这样在 dubbo 在消费端才能共享相应的 REST 配置信息，并据之做远程调用，编辑 api.PermissionRestService 类：
 
 ```java
 // 注意这里编辑的是 api module 下的文件
@@ -640,7 +639,7 @@ public interface PermissionRestService {
 
 代码参见[package 分支](https://github.com/wwulfric/dubbodemo/tree/package)。
 
-按照 dubbo 推荐的方式打包成一个 .tar.gz 文件。在 provider 的 pom 文件中添加打包的依赖插件（或直接看最终结果）：
+按照 dubbo 推荐的方式打包成一个 .tar.gz 文件。在 provider 的 pom 文件中添加打包的依赖插件（或直接看最终结果 [pom.xml](https://github.com/wwulfric/dubbodemo/blob/package/provider/pom.xml)）：
 
 ```xml
 	<!-- 前面是 dependencies -->
@@ -746,6 +745,6 @@ bin  conf lib  logs
 
 执行 bin/start.sh，查看 logs/stdout.log，并访问 http://localhost:4567/services/permissions/3.json，确认启动成功。
 
-
+如此一来，一个简单的 dubbo 服务搭建成功。
 
 [^1]: 该段示例来自 dubbox 的源码
