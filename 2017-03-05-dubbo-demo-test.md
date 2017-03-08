@@ -54,7 +54,7 @@ dubbo 的服务方和提供方通信支持多种协议，默认的是 dubbo 协�
 
 ### 步骤
 
-我们将循序渐进的实现一个获取权限数组的服务。
+我们将循序渐进的实现一个获取权限数组的服务。代码最终结果在 [wwulfric/dubbodemo](https://github.com/wwulfric/dubbodemo/)。
 
 1. 通过 dubbo 协议实现获取权限数组的服务
 2. 通过 rest 规范实现获取权限数组的服务
@@ -62,7 +62,7 @@ dubbo 的服务方和提供方通信支持多种协议，默认的是 dubbo 协�
 
 ## dubbo 协议简例
 
-代码参见[protocol/dubbo 分支](https://github.com/wwulfric/dubbodemo/tree/protocol/dubbo)。
+代码参见 [protocol/dubbo 分支](https://github.com/wwulfric/dubbodemo/tree/protocol/dubbo)。
 
 创建 maven 项目 dubbo-test，编辑 pom 文件，并仿照官方示例，在 maven 项目下分别创建 3 个 module：api, provider 和 consumer。
 
@@ -143,7 +143,7 @@ public interface PermissionService {
 ...
 ```
 
-阿里的Dubbo框架已经集成了 Zookeeper、Spring 等框架的依赖，但是有一个例外就是zkclient，如果没有引用将会抛出如下异常信息：
+阿里的 Dubbo 框架已经集成了 Zookeeper、Spring 等框架的依赖，但是有一个例外就是 zkclient，如果没有引用将会抛出如下异常信息：
 
 ```
 Exception in thread "main" java.lang.NoClassDefFoundError: org/I0Itec/zkclient/exception/ZkNoNodeException
@@ -367,7 +367,7 @@ consumer 文件结构如下：
 
 ## dubbo rest 接口
 
-代码参见[protocol/rest 分支](https://github.com/wwulfric/dubbodemo/tree/protocol/rest)。
+代码参见 [protocol/rest 分支](https://github.com/wwulfric/dubbodemo/tree/protocol/rest)。
 
 需要在 api 中定义 rest 接口，并在 provider 中实现这个接口。
 
@@ -519,9 +519,9 @@ public class DemoConsumer {
 
 在当当的 dubbox [文档](https://dangdangdotcom.github.io/dubbox/rest.html)中，rest 调用分 3 种场景：
 
-1. 非dubbo的消费端调用dubbo的REST服务（non-dubbo --> dubbo）
-2. dubbo消费端调用dubbo的REST服务 （dubbo --> dubbo）
-3. dubbo的消费端调用非dubbo的REST服务 （dubbo --> non-dubbo）
+1. 非 dubbo 的消费端调用 dubbo 的 REST 服务（non-dubbo --> dubbo）
+2. dubbo 消费端调用 dubbo 的 REST 服务 （dubbo --> dubbo）
+3. dubbo的消费端调用非 dubbo 的 REST 服务 （dubbo --> non-dubbo）
 
 我们直接通过 rest 的 uri 调用就是第 1 种，上面实现的是第 2 种。注意到第 1 种调用实际上是直接访问的地址，所以就不具备 dubbo 提供的服务发现功能了。
 
@@ -637,7 +637,7 @@ public interface PermissionRestService {
 
 ## 打包
 
-代码参见[package 分支](https://github.com/wwulfric/dubbodemo/tree/package)。
+代码参见 [package 分支](https://github.com/wwulfric/dubbodemo/tree/package)。
 
 按照 dubbo 推荐的方式打包成一个 .tar.gz 文件。在 provider 的 pom 文件中添加打包的依赖插件（或直接看最终结果 [pom.xml](https://github.com/wwulfric/dubbodemo/blob/package/provider/pom.xml)）：
 
@@ -704,7 +704,7 @@ public interface PermissionRestService {
 └── target...
 ```
 
-其中 dubbo.properties 留空即可，dubbo 的配置已经写在了 spring 的配置中。assembly.xml内容为：
+其中 dubbo.properties 留空即可，dubbo 的配置已经写在了 spring 的配置中。assembly.xml 内容为：
 
 ```xml
 <assembly>
@@ -746,5 +746,15 @@ bin  conf lib  logs
 执行 bin/start.sh，查看 logs/stdout.log，并访问 http://localhost:4567/services/permissions/3.json，确认启动成功。
 
 如此一来，一个简单的 dubbo 服务搭建成功。
+
+P.S.：从 dubbo 包引入的脚本内存需求是 2G，服务器可能不够用，应调小对应数值；
+
+P.S.：java8 打包的结果不能在 java7 上运行。如果遇到错误：
+
+```
+could not be instantiated: java.util.concurrent.ConcurrentHashMap.keySet()Ljava/util/concurrent/ConcurrentHashMap$KeySetView;
+```
+
+请考虑将依赖的包全部以 jdk7 的 maven 重新安装一遍，尤其是 dubbo 的。mac 下 java 环境的管理可以参考这篇[文章](/2017/03/macos-jenv/)。
 
 [^1]: 该段示例来自 dubbox 的源码
