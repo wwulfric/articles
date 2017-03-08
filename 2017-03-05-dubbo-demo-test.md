@@ -747,6 +747,29 @@ bin  conf lib  logs
 
 如此一来，一个简单的 dubbo 服务搭建成功。
 
+## 远程调试
+
+微服务化后，远程调试必然是一个刚需。java 的远程调试比较简单，这里就以 intellij 为例说明。
+
+### 服务端配置
+
+将打包好的服务 .tar.gz 传到阿里云服务器上，并解压，进入文件夹，编辑 bin/start.sh 文件：
+
+```shell
+# 调整调试的端口号
+if [ "$1" = "debug" ]; then
+    JAVA_DEBUG_OPTS=" -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n "
+fi
+```
+
+然后按照 start.sh 的提示，执行`bin/start.sh debug`，启动服务。
+
+### intellij 配置
+
+![intellij remote debug](http://wulfric.qiniudn.com/dubbo/R-dubbo-remote-debug.png "intellij remote debug")
+
+接下来就可以在 intellij 里打断点调试了。
+
 P.S.：从 dubbo 包引入的脚本内存需求是 2G，服务器可能不够用，应调小对应数值；
 
 P.S.：java8 打包的结果不能在 java7 上运行。如果遇到错误：

@@ -64,7 +64,7 @@ $ jenv enable-plugin maven
 jenv: no such command `enable-plugin'
 ```
 
-我们发现虽然 jenv 的 version对了，但是 java -version 的结果还是不对，而且尝试开启 maven 插件也出错。执行`jenv doctor`查看原因：
+我们发现虽然 jenv 的 version 对了，但是 java -version 的结果还是不对，而且尝试开启 maven 插件也出错。执行`jenv doctor`查看原因：
 
 ```shell
 $ jenv doctor
