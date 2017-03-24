@@ -117,7 +117,7 @@ BUNDLE_MIRROR__HTTPS://RUBYGEMS__ORG/: https://ruby.taobao.org
 :update_sources: true
 :verbose: true
 gem: "--no-document"
-``` 
+```
 
 ### 安装 passenger with nginx
 
@@ -185,7 +185,7 @@ sudo apt-get install postgresql-9.4 libpq-dev
 ```
 
 安装完毕开始配置[^2]。
- 
+
 ``` bash
 # 当服务器登录用户名和 postgresql 用户名相同时，postgresql 默认可以无需密码登录，所以我们先创建一个 wwwroot 用户
 sudo -u postgres createuser --superuser $USER
@@ -240,4 +240,5 @@ PS: 更新了[Rails 应用生产环境利用  Active Job 和 Action Cable
 [^2]: 参考[PostgreSQL 服务器设置](https://help.ubuntu.com/community/PostgreSQL#Basic_Server_Setup)
 [^3]: 参考[Deploying rails app to DO ubuntu droplet with Nginx/Passenger/Mina](http://railsr.github.io/posts/nginx-passenger-mina-deploy)
 [^4]: 参考 [github](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)、[archlinux](https://wiki.archlinux.org/index.php/SSH_keys_(简体中文)) 的文档
-[^5]: centos 下安装 passenger 和 postgresql 的方法稍有不同，参见[CentOS6下最新版PostgreSQL的安装及设置 | Racksam](http://www.racksam.com/2016/04/02/install-postgresql9-with-yum-on-centos6/)、[Installing PostgreSQL 9.4 And phpPgAdmin In CentOS 7/6.5/6.4 | Unixmen](https://www.unixmen.com/postgresql-9-4-released-install-centos-7/)、[Installing Passenger + Nginx on Red Hat 6 / CentOS 6 (with RPM) - Passenger Library](https://www.phusionpassenger.com/library/install/nginx/install/oss/el6/)
+[^5]: centos 下安装 passenger 和 postgresql 的方法稍有不同，参见 [CentOS6下最新版PostgreSQL的安装及设置-Racksam](http://www.racksam.com/2016/04/02/install-postgresql9-with-yum-on-centos6)、[Installing PostgreSQL 9.4 And phpPgAdmin In CentOS 7/6.5/6.4-Unixmen](https://www.unixmen.com/postgresql-9-4-released-install-centos-7)、[Installing Passenger-Nginx on CentOS 6 with RPM](https://www.phusionpassenger.com/library/install/nginx/install/oss/el6)。
+

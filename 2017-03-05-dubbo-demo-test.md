@@ -2,7 +2,7 @@
 title: 一个简单的 dubbo 服务
 date: 2017-03-05 20:34
 categories: [技术]
-tags: [dubbo, maven]
+tags: [dubbo, maven, provider, consumer, rest]
 ---
 
 这篇文章将简单的介绍如何写一个 dubbo 服务。dubbo 的准备工作请参照[前文](/2017/03/intro-dubbo/)。
@@ -770,14 +770,16 @@ fi
 
 接下来就可以在 intellij 里打断点调试了。
 
-P.S.：从 dubbo 包引入的脚本内存需求是 2G，服务器可能不够用，应调小对应数值；
+P.S.: 从 dubbo 包引入的脚本内存需求是 2G，服务器可能不够用，应调小对应数值；
 
-P.S.：java8 打包的结果不能在 java7 上运行。如果遇到错误：
+P.S.: java8 打包的结果不能在 java7 上运行。如果遇到错误：
 
 ```
 could not be instantiated: java.util.concurrent.ConcurrentHashMap.keySet()Ljava/util/concurrent/ConcurrentHashMap$KeySetView;
 ```
 
-请考虑将依赖的包全部以 jdk7 的 maven 重新安装一遍，尤其是 dubbo 的。mac 下 java 环境的管理可以参考这篇[文章](/2017/03/macos-jenv/)。
+请考虑将依赖的包全部以 jdk7 的 maven 重新安装一遍，尤其是 dubbo 的。mac 下 java 环境的管理可以参考这篇[文章](/2017/03/macos-jenv/)；
+
+P.S.: 如果你是从阿里云的服务器访问另一台阿里云的服务器，可能会遇到 'no route to host' 错误，这种情况一般都是 ip 和 host 问题，注意阿里云互相访问需要使用它们的内网 ip。可以参考这个[回答](http://superuser.com/questions/720851/connection-refused-vs-no-route-to-host)，'no route to host' 不是来自目标主机的回复，是网络问题。
 
 [^1]: 该段示例来自 dubbox 的源码
