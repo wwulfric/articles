@@ -2,7 +2,7 @@
 title: 一个简单的 dubbo 服务
 date: 2017-03-05 20:34
 categories: [技术]
-tags: [dubbo, maven, provider, consumer, rest]
+tags: [分布式, 微服务, dubbo, maven, provider, consumer, rest]
 ---
 
 这篇文章将简单的介绍如何写一个 dubbo 服务。dubbo 的准备工作请参照[前文](/2017/03/intro-dubbo/)。
@@ -191,11 +191,10 @@ import java.util.List;
 public class PermissionServiceImpl implements PermissionService {
     public List<String> getPermissions(final Long id) {
       	// 该函数应该实现 getPermissions 的业务逻辑，这里简单返回一个 list
-        List<String> permissions = new ArrayList<String>() {{
-            add(String.format("Permission_%d", id - 1));
-            add(String.format("Permission_%d", id));
-            add(String.format("Permission_%d", id + 1));
-        }};
+        List<String> permissions = new ArrayList<String>();
+      	permissions.add(String.format("Permission_%d", id - 1));
+      	permissions.add(String.format("Permission_%d", id));
+      	permissions.add(String.format("Permission_%d", id + 1));
         return permissions;
     }
 }

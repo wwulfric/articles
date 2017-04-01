@@ -2,7 +2,7 @@
 title: dubbo 简介与 dubbo demo 运行
 date: 2017-03-01 18:40
 categories: [技术]
-tags: [ dubbo, zookeeper, dubbo-admin, dubbo-monitor, dubbo-demo]
+tags: [ 分布式, 微服务, dubbo, zookeeper, dubbo-admin, dubbo-monitor, dubbo-demo]
 ---
 
 dubbo是阿里巴巴推出的分布式服务治理框架，是国内实现微服务较为常见的框架。关于微服务的介绍可以参见[原文](http://martinfowler.com/articles/microservices.html)，[infoq 文章](http://www.infoq.com/cn/articles/basis-frameworkto-implement-micro-service)，[dubbo 架构设计详解](http://shiyanjun.cn/archives/325.html)。
