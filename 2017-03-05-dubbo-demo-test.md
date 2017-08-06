@@ -634,6 +634,44 @@ public interface PermissionRestService {
 [Permission_1, Permission_2, Permission_3]
 ```
 
+## Bean Validation
+
+dubbo 的 rest 支持输入参数的校验，具体可以查看[输入参数的校验](https://dangdangdotcom.github.io/dubbox/rest.html)。
+
+有几点需要注意的：
+
+1. 校验注解要放在服务的接口上，一个例子如下：
+
+```java
+// 接口文件
+public interface PermissionRestService {
+    ItemPermissionResponse GetPermissions(@Valid UserItemPermissionRequest userItemPermissionRequest);
+}
+
+// request 文件
+public class UserItemPermissionRequest extends BaseRequest {
+    @NotNull @Valid
+    private UserDto userDto;
+    @NotNull @Valid
+    private List<ItemDto> itemDtoList;
+}
+```
+
+2. 按照 dubbo 的标准方式在 XML 配置中打开验证，我们在前面的配置中已经设置好了。
+
+```xml
+<dubbo:service interface="api.PermissionRestService" ref="permissionRestService" protocol="rest"  validation="true"/>
+```
+
+3. 注意 NotNull 要使用包裹类型而不是基本类型(primitive type)。
+
+```java
+public class GroupDto implements Serializable {
+    @NotNull
+    private Long id;
+}
+```
+
 ## 打包
 
 代码参见 [package 分支](https://github.com/wwulfric/dubbodemo/tree/package)。
