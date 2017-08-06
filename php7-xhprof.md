@@ -16,7 +16,7 @@ cd xhprof/extension/
 
 
 
-## 按照常规方式安装，注意之前用PHP5的命令，都要改成PHP7
+## 按照常规方式安装，注意之前用 PHP5的命令，都要改成PHP7
 
 ### 查找 php7 下的 phpize
 
@@ -41,8 +41,6 @@ sudo make install
 sudo service php71-php-fpm restart
 php71 -m | grep xhprof
 ```
-
-
 
 此时，安装成功。我们配置一下 xhprof 插件：
 
@@ -78,10 +76,6 @@ server {
     }
 }
 ```
-
-
-
-
 
 在 /var/www/html/xhprof/xhprof_html 下创建 index.php
 
@@ -126,13 +120,9 @@ php_value[auto_prepend_file] = /var/www/html/xhprof/header.php
 php_value[auto_append_file] = /var/www/html/xhprof/footer.php
 ```
 
-```
 加到 php-fpm.d/www.conf 中，不过依然不方便。
-```
 
-```
 
-```
 
 ## 问题
 
