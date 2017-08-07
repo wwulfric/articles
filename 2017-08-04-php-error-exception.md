@@ -5,7 +5,7 @@ categories: [技术]
 tags: [php, error, exception, throwable]
 ---
 
-原先的 php 只有错误没有异常。看一些老的文档你能看到不少错误输出是直接 echo html 标签的。而现代一点的框架早已经包裹好了一切，直接抛出异常就可以有比较漂亮的错误显示页面，比如 rails 的 [better errors](https://github.com/charliesome/better_errors)。当然，PHP 的现代框架也已经做的不错了，比如 laravel。然而我司目前还是用 codeigniter 2，它的错误和异常处理还比较简陋。借着升级到 PHP7 的契机梳理了一下 PHP 的错误和异常处理的机制。
+原先的 PHP 只有错误没有异常。看一些老的文档你能看到不少错误输出是直接 echo html 标签的。而现代一点的框架早已经包裹好了一切，直接抛出异常就可以有比较漂亮的错误显示页面，比如 rails 的 [better errors](https://github.com/charliesome/better_errors)。当然，PHP 的现代框架也已经做的不错了，比如 laravel。然而我司目前还是用 codeigniter 2，它的错误和异常处理还比较简陋。借着升级到 PHP7 的契机梳理了一下 PHP 的错误和异常处理的机制。
 
 ## PHP 的错误和异常
 
@@ -16,30 +16,48 @@ PHP5 已经实现了异常的处理，这和其他语言差别不大，无非就
 除了异常 PHP5 常见的就是抛出错误。你可以在官方[文档](http://php.net/manual/zh/errorfunc.constants.php)找到所有的错误的定义，这些错误可以大致分为 WARNING, ERROR(fatal error), NOTICE 等[^1]。[PHP的错误机制总结](http://www.cnblogs.com/yjf512/p/5314345.html)一文中给出了每种错误出现的场景。
 
 > E_DEPRECATED(8192)  运行时通知,启用后将会对在未来版本中可能无法正常工作的代码给出警告。
+>
 > E_USER_DEPRECATED(16384)  是由用户自己在代码中使用PHP函数 trigger_error() 来产生的
 >
+>
 > E_NOTICE(8)  运行时通知。表示脚本遇到可能会表现为错误的情况  
+>
 > E_USER_NOTICE(1024)  是用户自己在代码中使用PHP的trigger_error() 函数来产生的通知信息
 >
+>
 > E_WARNING(2)  运行时警告 (非致命错误)
+>
 > E_USER_WARNING(512)  用户自己在代码中使用PHP的 trigger_error() 函数来产生的
+>
 > E_CORE_WARNING(32)  PHP初始化启动过程中由PHP引擎核心产生的警告 
+>
 > E_COMPILE_WARNING(128)  Zend脚本引擎产生编译时警告
 >
+>
 > E_ERROR(1)  致命的运行时错误
+>
 > E_USER_ERROR(256)  用户自己在代码中使用PHP的 trigger_error()函数来产生的
+>
 > E_CORE_ERROR(16)  在PHP初始化启动过程中由PHP引擎核心产生的致命错误
+>
 > E_COMPILE_ERROR(64)  Zend脚本引擎产生的致命编译时错误
+>
 >
 > E_PARSE(4)  编译时语法解析错误。解析错误仅仅由分析器产生
 >
+>
 > E_STRICT(2048)  启用 PHP 对代码的修改建议，以确保代码具有最佳的互操作性和向前兼容性
+>
+>
 > E_RECOVERABLE_ERROR(4096)  可被捕捉的致命错误。 它表示发生了一个可能非常危险的错误，但是还没有导致PHP引擎处于不稳定的状态。 如果该错误没有被用户自定义句柄捕获 (参见 set_error_handler() )，将成为一个 E_ERROR 　从而脚本会终止运行。
+>
+>
 > E_ALL(30719) 所有错误和警告信息(手册上说不包含E_STRICT, 经过测试其实是包含E_STRICT的)。
 
 常见的有：
 
 ```php
+<?php
 // E_ERROR
 nonexist(); // PHP Fatal error:  Call to undefined function nonexist()
 throw new Exception(''); // 未捕获异常也是 fatal error
@@ -55,6 +73,7 @@ require 'nonexist.php' // warning and fatal error
 由于历史原因，这个老旧的 ci2 框架有不少不合理的地方，比如会读取不存在的 log 文件；我们对 PHP 也有一些不规范的使用，比如：
 
 ```php
+<?php
 $req = [];
 $user_id = $req['user_id']; // PHP error:  Undefined offset
 if (null === $user_id) { /* do something */}
@@ -99,6 +118,7 @@ if (null === $user_id) { /* do something */}
 前面提到，error_handler 需要在必要的时候手动中断脚本， PHP 文档中给出的一种实践是，在 error_handler 中 throw [ErrorException](http://php.net/manual/en/class.errorexception.php)，代码示例如下：
 
 ```php
+<?php
 function exception_error_handler($severity, $message, $file, $line) {
     if (!(error_reporting() & $severity)) {
         // This error code is not included in error_reporting
@@ -119,6 +139,7 @@ strpos();
 鸟哥通过一个[例子](http://www.laruence.com/2010/08/03/1697.html)讲解了 PHP 的异常的处理机制，在这里转述一下。
 
 ```php
+<?php
 function onError($errCode, $errMesg, $errFile, $errLine) {
     echo "Error Occurred\n";
     throw new Exception($errMesg);
@@ -182,6 +203,7 @@ interface Throwable
 PHP7 中的 fatal error 会抛出 Error，且可以被正常 catch 到：
 
 ```php
+<?php
 $a = 1;
 try {
   $a->nonexist();
@@ -193,6 +215,7 @@ try {
 也有些错误场景下会抛出更加详细的错误，比如：
 
 ```php
+<?php
 // TypeError
 function test(int $i) {
   echo $i;
@@ -240,6 +263,7 @@ try {
 1. 对于业务中不应该出现异常的地方，抛出 InternalException，而不是 Error
 
 ```php
+<?php
 class InternalException extends Exception { /*...*/ }
 
 function find(Array $ids) {
@@ -253,6 +277,7 @@ function find(Array $ids) {
 2. 只在需要清理现场的时候 catch Error
 
 ```php
+<?php
 try { /*...*/ }
 catch (Throwable $t) {
   // log, transaction rollback, cleanup...
@@ -265,6 +290,7 @@ catch (Throwable $t) {
 FriendlyErrorType：
 
 ```php
+<?php
 function FriendlyErrorType($type) 
 { 
     switch($type) 
@@ -307,6 +333,7 @@ function FriendlyErrorType($type)
 error_handler:
 
 ```php
+<?php
 function exception_error_handler($severity, $message, $file, $line) {
     if (!(error_reporting() & $severity)) {
         // This error code is not included in error_reporting
