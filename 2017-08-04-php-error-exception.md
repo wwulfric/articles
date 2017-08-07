@@ -22,7 +22,7 @@ PHP5 已经实现了异常的处理，这和其他语言差别不大，无非就
 > E_NOTICE(8)  运行时通知。表示脚本遇到可能会表现为错误的情况  
 >
 > E_USER_NOTICE(1024)  是用户自己在代码中使用PHP的trigger_error() 函数来产生的通知信息
- 
+
 > E_WARNING(2)  运行时警告 (非致命错误)
 >
 > E_USER_WARNING(512)  用户自己在代码中使用PHP的 trigger_error() 函数来产生的
@@ -30,7 +30,7 @@ PHP5 已经实现了异常的处理，这和其他语言差别不大，无非就
 > E_CORE_WARNING(32)  PHP初始化启动过程中由PHP引擎核心产生的警告 
 >
 > E_COMPILE_WARNING(128)  Zend脚本引擎产生编译时警告
- 
+
 > E_ERROR(1)  致命的运行时错误
 >
 > E_USER_ERROR(256)  用户自己在代码中使用PHP的 trigger_error()函数来产生的
@@ -38,13 +38,13 @@ PHP5 已经实现了异常的处理，这和其他语言差别不大，无非就
 > E_CORE_ERROR(16)  在PHP初始化启动过程中由PHP引擎核心产生的致命错误
 >
 > E_COMPILE_ERROR(64)  Zend脚本引擎产生的致命编译时错误
- 
+
 > E_PARSE(4)  编译时语法解析错误。解析错误仅仅由分析器产生
- 
+
 > E_STRICT(2048)  启用 PHP 对代码的修改建议，以确保代码具有最佳的互操作性和向前兼容性
- 
+
 > E_RECOVERABLE_ERROR(4096)  可被捕捉的致命错误。 它表示发生了一个可能非常危险的错误，但是还没有导致PHP引擎处于不稳定的状态。 如果该错误没有被用户自定义句柄捕获 (参见 set_error_handler() )，将成为一个 E_ERROR 　从而脚本会终止运行。
- 
+
 > E_ALL(30719) 所有错误和警告信息(手册上说不包含E_STRICT, 经过测试其实是包含E_STRICT的)。
 
 常见的有：
@@ -253,7 +253,7 @@ try {
 
 根据以上所述，我们提炼了一个对错误和异常处理较好的实践。
 
-1. 对于业务中不应该出现错误的地方，抛出 InternalException，而不是 Error
+对于业务中不应该出现错误的地方，抛出 InternalException，而不是 Error。
 
 ```php
 <?php
@@ -267,7 +267,7 @@ function find(Array $ids) {
 }
 ```
 
-2. 只在需要清理现场的时候 catch Error
+只在需要清理现场的时候 catch Error。
 
 ```php
 <?php
@@ -277,8 +277,9 @@ catch (Throwable $t) {
 }
 ```
 
-3. 未捕获的 Error 和 Exception 通过 set_exception_handler 做后续清理和 log
-4. 其他错误仍然通过 set_error_handler 来处理，在处理的时候使用更加明确的 FriendlyErrorType，并抛出 ErrorException 记录调用栈
+未捕获的 Error 和 Exception 通过 set_exception_handler 做后续清理和 log。
+
+其他错误仍然通过 set_error_handler 来处理，在处理的时候使用更加明确的 FriendlyErrorType，并抛出 ErrorException 记录调用栈。
 
 FriendlyErrorType：
 
