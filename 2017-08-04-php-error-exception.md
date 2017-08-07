@@ -18,15 +18,11 @@ PHP5 已经实现了异常的处理，这和其他语言差别不大，无非就
 > E_DEPRECATED(8192)  运行时通知,启用后将会对在未来版本中可能无法正常工作的代码给出警告。
 >
 > E_USER_DEPRECATED(16384)  是由用户自己在代码中使用PHP函数 trigger_error() 来产生的
->
-> 
-> 
+
 > E_NOTICE(8)  运行时通知。表示脚本遇到可能会表现为错误的情况  
 >
 > E_USER_NOTICE(1024)  是用户自己在代码中使用PHP的trigger_error() 函数来产生的通知信息
->
-> 
-> 
+ 
 > E_WARNING(2)  运行时警告 (非致命错误)
 >
 > E_USER_WARNING(512)  用户自己在代码中使用PHP的 trigger_error() 函数来产生的
@@ -34,9 +30,7 @@ PHP5 已经实现了异常的处理，这和其他语言差别不大，无非就
 > E_CORE_WARNING(32)  PHP初始化启动过程中由PHP引擎核心产生的警告 
 >
 > E_COMPILE_WARNING(128)  Zend脚本引擎产生编译时警告
->
-> 
-> 
+ 
 > E_ERROR(1)  致命的运行时错误
 >
 > E_USER_ERROR(256)  用户自己在代码中使用PHP的 trigger_error()函数来产生的
@@ -44,21 +38,13 @@ PHP5 已经实现了异常的处理，这和其他语言差别不大，无非就
 > E_CORE_ERROR(16)  在PHP初始化启动过程中由PHP引擎核心产生的致命错误
 >
 > E_COMPILE_ERROR(64)  Zend脚本引擎产生的致命编译时错误
->
-> 
-> 
+ 
 > E_PARSE(4)  编译时语法解析错误。解析错误仅仅由分析器产生
->
-> 
-> 
+ 
 > E_STRICT(2048)  启用 PHP 对代码的修改建议，以确保代码具有最佳的互操作性和向前兼容性
->
-> 
-> 
+ 
 > E_RECOVERABLE_ERROR(4096)  可被捕捉的致命错误。 它表示发生了一个可能非常危险的错误，但是还没有导致PHP引擎处于不稳定的状态。 如果该错误没有被用户自定义句柄捕获 (参见 set_error_handler() )，将成为一个 E_ERROR 　从而脚本会终止运行。
->
-> 
-> 
+ 
 > E_ALL(30719) 所有错误和警告信息(手册上说不包含E_STRICT, 经过测试其实是包含E_STRICT的)。
 
 常见的有：
@@ -106,7 +92,7 @@ if (null === $user_id) { /* do something */}
 
 在前述的系统自带的 16 种错误中，有一部分相当重要的错误并不能被 error_handler 捕获[^3]：
 
-> 以下级别的错误不能由用户定义的函数来处理： **E_ERROR**、 **E_PARSE**、 **E_CORE_ERROR**、 **E_CORE_WARNING**、 **E_COMPILE_ERROR**、**E_COMPILE_WARNING**，和在调用 **set_error_handler()** 函数所在文件中产生的大多数 **E_STRICT**。
+> 以下级别的错误不能由用户定义的函数来处理： E_ERROR、 E_PARSE、 E_CORE_ERROR、 E_CORE_WARNING、 E_COMPILE_ERROR、E_COMPILE_WARNING，和在调用 set_error_handler() 函数所在文件中产生的大多数 E_STRICT。
 
 这些错误将无法记录下来，同时也不方便统一处理[^4]。在 PHP7 之前的 PHP 版本一个很大的痛点就是：发生了 E_ERROR 错误，无法捕获，导致数据库的事务无法回滚造成数据不一致[^5]。
 
@@ -185,7 +171,7 @@ PHP 中的异常处理机制如下：
 
 综上所述，在 PHP 中，错误和异常可以分为以下 3 个类别：异常，可截获错误，不可截获错误。异常和可截获错误虽然机理不同，但可以当做是同一种处理方式，而不可截获错误是另一种，是一种较为棘手的错误类型。马上将会讲到，PHP7  中的 fatal error 是一种继承自 Throwable 的 Error，是可以被 try catch 住的。通过这一方式 PHP7 解决了这一难题。
 
-## PHP7 的 fatal error
+## PHP7 的错误和异常
 
 PHP 7 改变了大多数错误的报告方式。不同于传统（PHP 5）的错误报告机制，现在大多数错误被作为 **Error** 异常抛出（在 PHP7 中，只有 fatal error 和 recoverable error 抛出异常，其他 error 比如 warning 和 notice 的表现不变[^7]）。PHP7 中的 Error 和 Exception 的关系如图[^7]：
 
@@ -201,9 +187,9 @@ interface Throwable
         |- AssertionError extends Error
 ```
 
-值得注意的是，Error 类表现上和 Exception 基本一致，可以像 [Exception](http://php.net/manual/zh/class.exception.php) 异常一样被第一个匹配的 *try* / *catch* 块所捕获，如果没有匹配的 [*catch*](http://php.net/manual/zh/language.exceptions.php#language.exceptions.catch) 块，则调用异常处理函数（事先通过 set_exception_handler() 注册[^6]）进行处理。 如果尚未注册异常处理函数，则按照传统方式处理，被报告为一个致命错误（Fatal Error）。但并非继承自 [Exception](http://php.net/manual/zh/class.exception.php) 类（要考虑到和 PHP5 的兼容性），所以不能用 `catch (Exception $e) { ... }` 来捕获，而需要使用 `catch (Error $e) { ... }`，当然，也可以使用 set_exception_handler 来捕获。
+值得注意的是，Error 类表现上和 Exception 基本一致，可以像 [Exception](http://php.net/manual/zh/class.exception.php) 异常一样被第一个匹配的 try / catch 块所捕获，如果没有匹配的 [catch](http://php.net/manual/zh/language.exceptions.php#language.exceptions.catch) 块，则调用异常处理函数（事先通过 set_exception_handler() 注册[^6]）进行处理。 如果尚未注册异常处理函数，则按照传统方式处理，被报告为一个致命错误（Fatal Error）。但并非继承自 [Exception](http://php.net/manual/zh/class.exception.php) 类（要考虑到和 PHP5 的兼容性），所以不能用 `catch (Exception $e) { ... }` 来捕获，而需要使用 `catch (Error $e) { ... }`，当然，也可以使用 set_exception_handler 来捕获。
 
-但是，用户不能自己定义类 实现 Throwable，这是为了保证只有 Exception 和 Error 才可以抛出。
+但是，用户不能自己定义类实现 Throwable，这是为了保证只有 Exception 和 Error 才可以抛出。
 
 ### PHP7 的 ERROR 处理
 
@@ -267,7 +253,7 @@ try {
 
 根据以上所述，我们提炼了一个对错误和异常处理较好的实践。
 
-1. 对于业务中不应该出现异常的地方，抛出 InternalException，而不是 Error
+1. 对于业务中不应该出现错误的地方，抛出 InternalException，而不是 Error
 
 ```php
 <?php
@@ -358,12 +344,6 @@ set_error_handler("exception_error_handler");
 [^2]: [PHP 最佳实践之异常和错误](https://laravel-china.org/articles/5435/exceptions-and-errors-in-php-best-practices)
 [^3]: E_ERROR 无法捕获，E_RECOVERABLE_ERROR 可以，后者默认输出 Catachable fatal error
 [^4]: fatal error 会记录到 web 服务器的 error.log，这一点需要注意，因为这个 log 的位置往往不是 PHP 应用定义的，而是 web 服务器定义的。
-[^5]: PHP 中还有一个 [register_shutdown_function](http://php.net/manual/zh/function.register-shutdown-function.php) 注册一个会在 PHP 中止时执行的函数，这个函数可以捕获 fatal error，毕竟是只要是脚本中断就可以捕获的。ci2 并没有使用这个方法，所以相关问题一直没有得到很好的解决，当时也没有意识到这个函数的存在，升级 PHP7 之后可以通过 catch Error 来解决，便不再需要这样处理了。
+[^5]: PHP 中还有一个 [register_shutdown_function](http://php.net/manual/zh/function.register-shutdown-function.php) 函数，它允许注册一个会在 PHP 中止时执行的函数，这个函数可以捕获 fatal error，毕竟是只要是脚本中断就可以捕获的。ci2 并没有使用这个方法，所以相关问题一直没有得到很好的解决，当时也没有意识到这个函数的存在，升级 PHP7 之后可以通过 catch Error 来解决，便不再需要这样处理了。
 [^6]: 在 PHP7 中，传入 exception_handler 的参数从 [Exception](http://php.net/manual/zh/class.exception.php) 改为 Throwable，这意味着 exception_handler 可以截获 Error。
 [^7]: [Throwable Exceptions and Errors in PHP 7](https://trowski.com/2015/06/24/throwable-exceptions-and-errors-in-php7/)
-
-
-
-
-
-
