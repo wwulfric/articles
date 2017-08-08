@@ -3,6 +3,7 @@ title: PHP 的数据结构扩展
 date: 2017-08-07 17:02
 categories: [技术]
 tags: [php, 数据结构, ds]
+math: true
 ---
 
 在 PHP 中表示集合的数据类型就一种：Array。相信每个初学 PHP 的都会对它感到疑惑。这个东西看起来应该和其他语言中的 Array 或者 List 一样，但在 PHP 中，它是一切，即是 List，也是 Map：
@@ -82,7 +83,7 @@ PHP7 新增的 [Data Structures](http://php.net/manual/zh/book.ds.php) 插件（
 
 ### 接口
 
-Collection 是基础接口，定义了一个集合（这里的集合指的是 Collection，不是 Set） 的基本操作，比如 foreach, json_encode, var_dump 等。
+Collection 是基础接口，定义了一个数据集合（这里的集合指的是 Collection，不是 Set） 的基本操作，比如 foreach, json_encode, var_dump 等。
 
 ```php
 <?php
