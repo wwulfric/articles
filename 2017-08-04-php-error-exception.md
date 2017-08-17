@@ -339,12 +339,15 @@ function exception_error_handler($severity, $message, $file, $line) {
 set_error_handler("exception_error_handler");
 ```
 
+PHP 会把所有的错误都交给错误处理程序，甚至包括错误报告设置中排除的错误。因此，我们要检查每个错误代码`$severity`，然后做适当的处理[^8]。
+
 
 
 [^1]: [PHP中的错误级别与具体报错信息分类](http://www.jianshu.com/p/1b6004a94eb8)
-[^2]: [PHP 最佳实践之异常和错误](https://laravel-china.org/articles/5435/exceptions-and-errors-in-php-best-practices)
+[^2]: [modern php](https://book.douban.com/subject/26635862/) 第五章，P115
 [^3]: E_ERROR 无法捕获，E_RECOVERABLE_ERROR 可以，后者默认输出 Catachable fatal error
 [^4]: fatal error 会记录到 web 服务器的 error.log，这一点需要注意，因为这个 log 的位置往往不是 PHP 应用定义的，而是 web 服务器定义的。
 [^5]: PHP 中还有一个 [register_shutdown_function](http://php.net/manual/zh/function.register-shutdown-function.php) 函数，它允许注册一个会在 PHP 中止时执行的函数，这个函数可以捕获 fatal error，毕竟是只要是脚本中断就可以捕获的。ci2 并没有使用这个方法，所以相关问题一直没有得到很好的解决，当时也没有意识到这个函数的存在，升级 PHP7 之后可以通过 catch Error 来解决，便不再需要这样处理了。
 [^6]: 在 PHP7 中，传入 exception_handler 的参数从 [Exception](http://php.net/manual/zh/class.exception.php) 改为 Throwable，这意味着 exception_handler 可以截获 Error。
 [^7]: [Throwable Exceptions and Errors in PHP 7](https://trowski.com/2015/06/24/throwable-exceptions-and-errors-in-php7/)
+[^8]: modern php 第五章，P116

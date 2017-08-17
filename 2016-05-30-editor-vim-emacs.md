@@ -37,16 +37,16 @@ vim 和 emacs 都可以运行在终端，也有图形化的软件，非常适合
 
 vim 的基础快捷键非常简洁，比如移动的`hjklweb`，删除的`dx`，复制粘贴相关的`yp`，配合 vim 独有的 text object 属性（i 表示 in，a 表示 around），可以组合出非常强大的快捷操作。比如：
 
-|    组合键    |               快捷操作               |
-| :-------: | :------------------------------: |
-|    5j     |             向下移动 5 行             |
-|    5w     |            向后移动 5 个单词            |
-|    5dd    |              删除 5 行              |
-|    di"    |   删除"包裹中的字符串， "word" 会删除 word    |
-|    da"    | 删除"包裹和包裹中的字符串， "word" 会删除 "word" |
-|    vi"    |        选中，"word" 会选中 word        |
-|    va"    |       选中，"word" 会选中 "word"       |
-| yi" 和 ya" |               你猜？                |
+| 组合键       | 快捷操作                             |
+| --------- | -------------------------------- |
+| 5j        | 向下移动 5 行                         |
+| 5w        | 向后移动 5 个单词                       |
+| 5dd       | 删除 5 行                           |
+| di"       | 删除"包裹中的字符串， "word" 会删除 word      |
+| da"       | 删除"包裹和包裹中的字符串， "word" 会删除 "word" |
+| vi"       | 选中，"word" 会选中 word               |
+| va"       | 选中，"word" 会选中 "word"             |
+| yi" 和 ya" | 你猜？                              |
 
 大家在做`git rebase` 的时候经常遇到下面这种情况吧，在 vim 下，把第二到第十行的 pick 改成 squash 就非常简单：`:2,10s/pick/squash`。
 
@@ -106,12 +106,12 @@ emacs 下的 go to anywhere 插件有好几个，spacemacs 默认使用的是 [p
 
 ### 其他
 
-|    功能    |             vim             | emacs                 |
-| :------: | :-------------------------: | --------------------- |
-|   版本管理   |     fugitive/git gutter     | maggit                |
-|   语法检查   |          Syntastic          | Flycheck              |
-| Snippets |  vim-snippets/vim-snipmate  | yasnippets            |
-|    补全    | NeoComplCache/youcompleteme | company/auto-complete |
+| 功能       | vim                         | emacs                 |
+| -------- | --------------------------- | --------------------- |
+| 版本管理     | fugitive/git gutter         | maggit                |
+| 语法检查     | Syntastic                   | Flycheck              |
+| Snippets | vim-snippets/vim-snipmate   | yasnippets            |
+| 补全       | NeoComplCache/youcompleteme | company/auto-complete |
 
 然而比起这些来，我更喜欢的是针对编辑的一些插件，比如 [vim-surround](https://github.com/tpope/vim-surround)，能够快速的将字符串的包裹修改或者删除。
 

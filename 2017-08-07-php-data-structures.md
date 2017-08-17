@@ -29,7 +29,7 @@ foreach ($users as $user) {
 }
 ```
 
-PHP 的 Array 访问不存在的 key 可以得到 null，不会产生 fatal error，但会有一个 E_NOTICE。这个 E_NOTICE 会被 set_error_handler 注册的函数截获。显然，这种代码上的不干净和性能上的无谓开销完全是可以避免的。
+PHP 的 Array 访问不存在的 key 可以得到 null，不会产生 fatal error，但会有一个 E_NOTICE。这个 E_NOTICE 会被 set_error_handler 注册的函数截获[^4]。显然，这种代码上的不干净和性能上的无谓开销完全是可以避免的。
 
 ```php
 <?php
@@ -67,7 +67,7 @@ echo $a[5];
 // 5
 ```
 
-看起来似乎没什么，但需要注意的是，Array 本质上是一个 Map，unshift 一个元素进来，将会改变每个元素的 key，这是一个 $O(n)$ 操作。另外，PHP 的 Array 将其 value(包扩 key 和 它的 hash) 保存在一个 bucket 中，所以我们需要查看每一个 bucket 并更新 hash。PHP 内部其实是通过创建新的 array 来做 array_unshift 操作的，其性能问题可想可知[^2]。
+看起来似乎没什么，但需要注意的是，Array 本质上是一个 Map，unshift 一个元素进来，将会改变每个元素的 key，这是一个 $O(n)$ 操作。另外，PHP 的 Array 将其 value(包括 key 和 它的 hash) 保存在一个 bucket 中，所以我们需要查看每一个 bucket 并更新 hash。PHP 内部其实是通过创建新的 array 来做 array_unshift 操作的，其性能问题可想可知[^2]。
 
 其他缺点不一而足。
 
@@ -77,7 +77,7 @@ Array 饱受诟病，就会出现替代方案。PHP5 有[spl](http://php.net/man
 
 PHP7 新增的 [Data Structures](http://php.net/manual/zh/book.ds.php) 插件（简称 ds）是 PHP 下一个优秀的补充，它充分考虑了便利、安全和整洁的需求。其结构如下图所示：
 
-![php/phpds.png](http://wulfric.qiniudn.com/php/phpds.png "php/phpds.png")
+![php data structure 插件结构](http://wulfric.qiniudn.com/php/phpds.png)
 
 它提供了 3 个接口类：Collection, Sequence, Hashable 和 7 个实现类（final class）：Vector, Deque, Map, Set, Stack, Queue, PriorityQueue。
 
@@ -172,3 +172,4 @@ $set->add($p2);
 [^1]: [php ds 插件性能测试](https://medium.com/@rtheunissen/efficient-data-structures-for-php-7-9dda7af674cd)
 [^2]: 当然，这一点可能稍嫌牵强，毕竟即使是数据量很大的情况下，array_unshift 的耗时也没有那么大
 [^3]: github 上还在讨论可以增加一个不可变类型 Tuple，以及取消 Vector 直接使用 Deque，讨论[地址](https://github.com/php-ds/extension/issues/52)和 [2.0API](https://github.com/php-ds/extension/issues/90) 计划
+[^4]: 关于 PHP 的错误处理可以参考笔者的另一篇博文 [PHP 的错误和异常处理机制](/2017/08/php-error-exception/)
