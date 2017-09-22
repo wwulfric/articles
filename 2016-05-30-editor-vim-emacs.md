@@ -67,7 +67,7 @@ pick 5c3747b f
 
 除此之外，vim 的矩形编辑也非常犀利。比如上面的示例，也可以在矩形编辑下，选中第二到第十行的 pick，删除，然后 I 插入 squash，继而退出 insert mode 即可。
 
-而 emacs 没有输入上的 mode 差别，所以需要依赖复杂的快捷键来实现强大的编辑功能，正如上图所示。emacs 插件想象力更加丰富，有「伪装成编辑器的操作系统」之称。插件的 major mode 和 minor mode 的设计很出彩，对一个文件，只有一个 major mode，但是可以有多个 minor mode，这样一个文件一个主插件，多个附加插件，可以实现很多有趣的效果。在 vim 中，是通过`set filetype=python`或者在`filetype.vim`文件中自定义来决定 vim 使用哪种语法渲染，其他比如自动补全这样的插件通过判断`filetype`来实现相关功能，并没有 mode 一说，针对同一种文件类型的插件可以非常分散。而在 emacs 中，如果我们选中`pythonA-mode`作为`.py`文件的 major mode，那么`pythonB-mode`就不会起作用，除非它是 minor mode。这有利于大而优秀的特定 major mode 脱颖而出，同时使用多个 minor mode 提供通用编辑功能。
+而 emacs 没有输入上的 mode 差别，所以需要依赖复杂的快捷键来实现强大的编辑功能，正如上图所示。emacs 插件想象力更加丰富，有「伪装成编辑器的操作系统」之称。插件的 major mode 和 minor mode 的设计很出彩，对一个文件，只有一个 major mode，但是可以有多个 minor mode，这样一个文件一个主插件，多个附加插件，可以实现很多有趣的效果。在 vim 中，是通过`set filetype=python`或者在`filetype.vim`文件中自定义来决定 vim 使用哪种语法渲染，其他比如自动补全这样的插件通过判断`filetype`来实现相关功能，并没有 mode 一说，针对同一种文件类型的插件可以非常分散。而在 emacs 中，如果我们选中`pythonA-mode`作为`.py`文件的 major mode，那么`pythonB-mode`就不会起作用，除非它是 minor mode。这有利于大而优秀的特定 major mode 脱颖而出，同时使用多个 minor mode 提供通用编辑功能[^1]。
 
 ![emacs major mode](http://wulfric.qiniudn.com/emacs-major-mode.png "emacs major mode")
 
@@ -141,3 +141,7 @@ Hello world!
 在具体的项目上，当然还是 JetBrains 家的 IDE 更好用，尤其是静态语言。而动态语言，选自己比较喜欢的就好了。（然而 JetBrains 家的调试工具太好用已经离不开了☹️）
 
 PS: vim 快捷键一览 [vimgifs.com](http://vimgifs.com/)
+
+
+
+[^1]: vim 社区出了个 [vim-plug](https://github.com/junegunn/vim-plug#on-demand-loading-of-plugins) 插件管理工具，这个工具可以按需加载插件，起到和 Emacs 下 major mode 相近的功能。

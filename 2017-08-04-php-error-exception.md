@@ -165,7 +165,7 @@ PHP 中的异常处理机制如下：
 
 ![](http://laruence-wordpress.stor.sinaapp.com/uploads/PHP-exception-cycle.png)
 
-而PHP在遇到 Fatal Error 的时候，会直接 zend_bailout，而 zend_bailout 会导致程序流程直接跳过上面代码段，也可以理解为直接 exit 了(longjmp)，这就导致了 user_exception_handler 没有机会发生作用。
+PHP在遇到 Fatal Error 的时候，会直接 zend_bailout，而 zend_bailout 会导致程序流程直接跳过上面代码段，也可以理解为直接 exit 了(longjmp)，这就导致了 user_exception_handler 没有机会发生作用。
 
 ### PHP 错误分类
 
