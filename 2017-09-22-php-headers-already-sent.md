@@ -1,5 +1,5 @@
 ---
-title: headers already sent 原因分析
+title: PHP headers already sent 原因分析
 date: 2017-09-22 18:48
 categories: [技术]
 tags: [ php, echo, print, ob_start, HTTP]
@@ -175,7 +175,7 @@ public function test()
 - output_buffering 关闭或者设置一个较小的数值[^2]
 - 如非必要，不使用 echo 和 print 系函数
 - 使用 echo 时，尽量用 ob_start 和 ob_end 包裹
-- 使用 ob_start 和 ob_end 包裹时，对自己包过的内容有清晰的认识，尽量不要跨函数 ob_start 和 ob_end
+- 使用 ob_start 和 ob_end 包裹时，对自己包裹的内容有清晰的认识，尽量不要跨函数使用 ob_start 和 ob_end
 
 [^1]: 参见 [stackoverflow 回答](https://stackoverflow.com/questions/8028957/how-to-fix-headers-already-sent-error-in-php)，除此之外，还有 UTF-8 BOM 等其他原因
 [^2]: 参见[PHP程序访问报错Warning: Cannot modify header information - headers already sent by](https://help.aliyun.com/knowledge_detail/36512.html) 和 [PHP: 运行时配置 - Manual](http://php.net/manual/zh/outcontrol.configuration.php)，开启 output_buffering 可能影响 PHP 执行效率
