@@ -140,7 +140,7 @@ f(c=1,a=3)
 
 Builder 模式代码易编写，易阅读，同时同时可以实现不可变对象，因此是线程安全的。除此之外：
 
-- 参数可检查，可以在 Builder 的 builder 中检查参数是否符合约束条件。约束条件的检查应该在 object 的 fields 上而不是 Builder 的 fields 上， 否则还是约束条件还是有可能被破坏。详见 Item 39（TODO）；
+- 参数可检查，可以在 Builder 的 build 中检查参数是否符合约束条件。约束条件的检查应该在 object 的 fields 上而不是 Builder 的 fields 上， 否则还是约束条件还是有可能被破坏。详见 Item 39（TODO）；
 - 可以有多个 varargs（每个 setter 都可以），非常灵活；
 - 创建对象时可以自动填入某些字段，例如每次创建对象时自动增加序列号；
 - 静态抽象工厂（TODO）。
