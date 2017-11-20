@@ -65,7 +65,7 @@ public class NutritionFacts {
 
 这样的构造函数想必在没有充分优化的代码中很常见。客户端想要的实例可能有各种情况的默认值，类就要为各种情况都提供构造器，代码显得非常臃肿；当获取实例的时候，冗长的参数列表也很容易导致参数填写出错。静态工厂方法也是如此。
 
-JavaBean 可以避免这种问题。JavaBean 在现代 java 代码中应该说使用的非常频繁了（序列化，对象持久化等）。客户端先 new 一个空对象，然后调用 setter 方法设置属性。JavaBean 代码没那么臃肿了，同时也不容易填错参数，但是一样有缺点：
+JavaBean 可以避免这种问题。JavaBean 在现代 Java 代码中应该说使用的非常频繁了（序列化，对象持久化等）。客户端先 new 一个空对象，然后调用 setter 方法设置属性。JavaBean 代码没那么臃肿了，同时也不容易填错参数，但是一样有缺点：
 
 - 代码长，每个参数都需要提供 setter 方法；setter 方法通常返回值是 void，这意味着客户端代码只能一行一行 set，不能链式调用；
 - JavaBean 便无法实现不可变对象，因为随时可以执行 setter 方法，对象的状态不可控。JavaBean 极有可能出现不一致的情况，对客户端来说，它并不知道这个 JavaBean 是否已经完成构建（你并不知道某个 setter 是尚未执行还是不需要执行），这导致该对象是线程不安全的。
@@ -123,7 +123,7 @@ public class NutritionFacts {
 }
 ```
 
-可见，NutritionFacts 是不可变的；Builder 的 setter 方法返回 this，这样可以链式调用 setter，如下所示。
+可见，NutritionFacts 是不可变的；Builder 的 setter 方法返回 this，这样可以链式调用 setter，如下所示：
 
 ```java
 NutritionFacts cocaCola = new NutritionFacts.Builder(240, 8).calories(100).sodium(35).carbohydrate(27).build()
@@ -138,9 +138,9 @@ def f(a=1, b=2, c=3):
 f(c=1,a=3)
 ```
 
-Builder 模式代码易编写，易阅读，同时同时可以实现不可变对象，因此是线程安全的。除此之外：
+Builder 模式代码易编写，易阅读，同时可以实现不可变对象，因此是线程安全的。除此之外：
 
-- 参数可检查，可以在 Builder 的 build 中检查参数是否符合约束条件。约束条件的检查应该在 object 的 fields 上而不是 Builder 的 fields 上， 否则还是约束条件还是有可能被破坏。详见 Item 39（TODO）；
+- 参数可检查，可以在 Builder 的 build 中检查参数是否符合约束条件。约束条件的检查应该在 object 的 fields 上而不是 Builder 的 fields 上， 否则约束条件还是有可能被破坏。详见 Item 39（TODO）；
 - 可以有多个 varargs（每个 setter 都可以），非常灵活；
 - 创建对象时可以自动填入某些字段，例如每次创建对象时自动增加序列号；
 - 静态抽象工厂（TODO）。
@@ -158,7 +158,7 @@ Builder 模式代码易编写，易阅读，同时同时可以实现不可变对
 
 常用的两个实现单例方法：
 
-1. 实例成员是一个 final 的变量
+- 实例成员是一个 final 的变量
 
 ```java
 // Singleton with public final field
@@ -170,7 +170,7 @@ public void leaveTheBuilding() { ... }
 }
 ```
 
-2. 通过一个静态工厂方法返回
+- 通过一个静态工厂方法返回
 
 ```java
 // Singleton with static factory
