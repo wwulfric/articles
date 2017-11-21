@@ -39,7 +39,7 @@ function _error_handler($severity, $message, $filepath, $line)
 
 ### E_WARNING 产生的原因
 
-```php+HTML
+```php
 <p>Severity: Warning</p>
 <p>Message:  Cannot modify header information - headers already sent by (output started at .../application/controllers/my_script.php:xxx)</p>
 <p>Filename: libraries/Session.php</p>
