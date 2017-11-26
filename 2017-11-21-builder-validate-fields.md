@@ -7,7 +7,7 @@ tags: [java, effective java, builder]
 
 Effective Java 的 [item 2](/2017/11/effetive-java-2#Item2) 的 Builder 模式可以在 Builder 的 build 中检查参数是否符合约束条件，原文和中文版译文是这样的：
 
-> It is critical that they be checked after copying the parameters from the builder to the object, and that they be checked on the object fields rather than the builder fields. If any invariants are violated, the `build` method should throw an `IllegalStateException`.
+> It is critical that they be checked after copying the parameters from the builder to the object, and that they be checked on the object fields rather than the builder fields. If any invariants are violated, the build method should throw an *IllegalStateException*.
 >
 > 将参数从 builder 拷贝到对象中之后，并在对象域而不是 builder 域中对它们进行检验，这一点很重要。如果违反了任何约束条件，`build`方法就应该抛出`IllegalStateException`。
 

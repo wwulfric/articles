@@ -140,7 +140,7 @@ f(c=1,a=3)
 
 Builder 模式代码易编写，易阅读，同时可以实现不可变对象，因此是线程安全的。除此之外：
 
-- 参数可检查，可以在 Builder 的 build 中检查参数是否符合 invariant约束条件（见 [invariant 释义](/2017/11/what-is-invariant)）。约束条件的检查应该在 object 的 fields 上而不是 Builder 的 fields 上， 否则约束条件还是有可能被破坏（[为什么要在对象的 fields 上验证](/2017/11/builder-validate-fields)）；
+- 参数可检查，可以在 Builder 的 build 中检查参数是否符合 invariant 约束条件（见 [invariant 释义](/2017/11/what-is-invariant)）。约束条件的检查应该在 object 的 fields 上而不是 Builder 的 fields 上， 否则约束条件还是有可能被破坏（[为什么要在对象的 fields 上验证](/2017/11/builder-validate-fields)）；
 - 可以有多个 varargs（每个 setter 都可以），非常灵活；
 - 创建对象时可以自动填入某些字段，例如每次创建对象时自动增加序列号；
 - 如果 builder 是外部类，那么设置了参数的 builder 是一个很好的静态抽象工厂

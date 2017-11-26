@@ -99,7 +99,6 @@ $sequence = new \Ds\Vector([1, 2, 3]);
 
 print_r($sequence->map(function($value) { return $value * 2; }));
 print_r($sequence);
-?>
 ```
 
 Hashable 在图中看起来比较孤立，但对于 Map 和 Set 很重要。一个 Object 如果实现了 Hashable，就可以作为 Map 的 key，可以作为 Set 的元素。这样 Map 和  Set 就能像 Java 一样方便的使用了。
