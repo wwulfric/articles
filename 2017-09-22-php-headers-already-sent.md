@@ -91,7 +91,7 @@ public function test()
 }
 ```
 
-此时输出的 HTTP body 内容是相同的，但是 curl -I 看到的 header 中多了 b: c，说明 echo 之前的`header()`正确的输出了内容。
+此时输出的 HTTP body 内容是相同的，但是 curl -I 看到的 header 中多了 b: c，说明 echo 之前的`header()`正确地输出了内容。
 
 setcookie 方法也会发送 header：`set-cookie: xxx`，所以一样会引起这个问题。
 
@@ -107,7 +107,7 @@ echo 很方便，古董 PHP 开发还会使用 echo 调试大法，而且我们�
 
 我们应该避免在业务中使用，而不是禁止使用。当使用 echo 的时候，因为上述原因出现 headers already sent 错误，要看 output_buffering 设置的大小和 echo 内容的长度，这给 debug 带来了很大的不确定性，测试环境很可能会漏掉这个 case。
 
-在业务中，可能用到 echo 的原因有：1. 调试代码，查看变量；2. 命令行脚本的输出。对于 1，建议通过调试工具调试，或者使用插件 [clockwork](https://github.com/itsgoingd/clockwork)；对于 2，可以在脚本中通过标准输出来输出重要内容，并不需要使用 echo。
+在业务中，可能用到 echo 的原因有：1. 调试代码，查看变量；2. 命令行脚本的输出。对于 1，建议通过调试工具调试，或者使用插件 [clockwork](https://github.com/itsgoingd/clockwork)；对于 2，可以在脚本中通过标准输出来输出重要内容，不需要使用 echo。
 
 ```php
 <?php
@@ -151,7 +151,7 @@ public function test()
   header('a: b');
   ob_end_flush(); // 关闭缓冲区，将缓冲区的内容输出到 HTTP body
 }
-// 这段代码也会报错
+// 这段代码也会报错，因为文件开头不应该有空格或空行
 ```
 
 使用 ob_start 需要及时的将数据输出出去，否则可能会因为字符串拼接和二进制内容冲突：

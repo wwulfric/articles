@@ -161,10 +161,10 @@ server {
     passenger_enabled on;
     passenger_ruby /home/wwwroot/.rbenv/versions/2.3.0/bin/ruby;
     location ~ ^(/assets) {
-    access_log        off;
+      access_log off;
 # 设置 assets 下面的浏览器缓存时间为最大值（由于 Rails Assets Pipline 的文件名是根据文件修改产生的 MD5 digest 文件名，所以此处可以放心开启）
-		    expires           max;
-	    }
+	  expires max;
+	}
 }
 ```
 

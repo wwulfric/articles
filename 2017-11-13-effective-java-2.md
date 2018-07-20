@@ -163,10 +163,9 @@ Builder 模式代码易编写，易阅读，同时可以实现不可变对象，
 ```java
 // Singleton with public final field
 public class Elvis {
-    public static final
-Elvis INSTANCE = new Elvis();
+    public static final Elvis INSTANCE = new Elvis();
     private Elvis() { ... }
-public void leaveTheBuilding() { ... }
+	public void leaveTheBuilding() { ... }
 }
 ```
 
@@ -175,11 +174,10 @@ public void leaveTheBuilding() { ... }
 ```java
 // Singleton with static factory
 public class Elvis {
-    private static final
-Elvis INSTANCE = new Elvis();
+    private static final Elvis INSTANCE = new Elvis();
     private Elvis() { ... }
     public static Elvis getInstance() { return INSTANCE }
-public void leaveTheBuilding() { ... }
+	public void leaveTheBuilding() { ... }
 }
 ```
 
@@ -192,11 +190,9 @@ public void leaveTheBuilding() { ... }
 ```java
 // readResolve method to preserve sigleton property
 private Object readResolve() {
-    // Return the one true Elvis and let the garbage
-collector
+    // Return the one true Elvis and let the garbage collector
     // take care of the Elvis impersonator.
-    return
-INSTANCE;
+    return INSTANCE;
 }
 ```
 
@@ -243,8 +239,7 @@ public class UtilityClass {
 // Hideously slow program! Can you spot the object creation?
 public static void main(String[] args) {
     Long sum = 0;
-    for (long i = 0; i <
-            Integer.MAX_VALUE; i++) {
+    for (long i = 0; i < Integer.MAX_VALUE; i++) {
         sum += i;
     }
     System.out.println(sum);
