@@ -11,11 +11,10 @@ tags: [nginx, php-fpm, php]
 
 在 http status 的 [定义](https://www.wikiwand.com/en/List_of_HTTP_status_codes) 中：
 
-502 Bad Gateway: The server was acting as a [gateway](https://www.wikiwand.com/en/Gateway_(telecommunications)) or proxy and received an invalid response from the upstream server. 
+- 502 Bad Gateway: The server was acting as a [gateway](https://www.wikiwand.com/en/Gateway_(telecommunications)) or proxy and received an invalid response from the upstream server. 
+- 504: he server was acting as a gateway or proxy and did not receive a timely response from the upstream server. 
 
-504: he server was acting as a gateway or proxy and did not receive a timely response from the upstream server. 
-
-502 的错误原因是 Bad Gateway，一般是由于上游服务器的故障引起的；而 504 则是 nginx 访问上游服务超时，二者完全是两个意思。但在某些情况下，上游服务的超时（触发 tcp reset）也可能引发 502，我们会在之后详述。
+502 的错误原因是 Bad Gateway，一般是由于上游服务的故障引起的；而 504 则是 nginx 访问上游服务超时，二者完全是两个意思。但在某些情况下，上游服务的超时（触发 tcp reset）也可能引发 502，我们会在之后详述。
 
 ## 演示环境
 
@@ -255,7 +254,7 @@ connect() failed (113: Host is unreachable) while connecting to upstream
 
 除此之外，PHP 脚本还有一个超时时间的设置：max_execution_time。它是限制 PHP 脚本的执行时间，但这个时间不会计算系统调用（比如 sleep，io，等）。因为该原因导致 PHP 杀掉进程时，会抛出 fatal error，而 php-fpm 不会有 fatal error。
 
-这里实验使用的是 PHP 的 fastcgi 工作方式，如果是 nginx 连接上游服务器的话，fastcgi_connect_timeout，fastcgi_read_timeout，fastcgi_send_timeout 都需要替换成对应的 proxy_connect_timeout，proxy_read_timeout，proxy_send_timeout。
+这里实验使用的是 PHP 的 fastcgi 工作方式，如果是 nginx 通过代理的方式连接上游服务的话，fastcgi_connect_timeout，fastcgi_read_timeout，fastcgi_send_timeout 都需要替换成对应的 proxy_connect_timeout，proxy_read_timeout，proxy_send_timeout。
 
 ## 结论
 
