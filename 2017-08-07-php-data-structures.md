@@ -77,7 +77,7 @@ Array 饱受诟病，就会出现替代方案。PHP5 有[spl](http://php.net/man
 
 PHP7 新增的 [Data Structures](http://php.net/manual/zh/book.ds.php) 插件（简称 ds）是 PHP 下一个优秀的补充，它充分考虑了便利、安全和整洁的需求。其结构如下图所示：
 
-![php data structure 插件结构](http://wulfric.qiniudn.com/php/phpds.png)
+![php data structure 插件结构](http://qiniu-wulfric.lufeihaidao.top/php/phpds.png)
 
 它提供了 3 个接口类：Collection, Sequence, Hashable 和 7 个实现类（final class）：Vector, Deque, Map, Set, Stack, Queue, PriorityQueue。
 

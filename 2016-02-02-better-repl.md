@@ -34,13 +34,13 @@ python 自带的也很难用，但是 python 的替代工具要比 php 多，而
 
 bpython 是一个相当优秀的替代，不仅提供了很好的高亮，也可以 tab 键智能补全和提示。建议当只是想做一些简单的试验的时候，用 bpython 代替 python。
 
-![bpython](http://wulfric.qiniudn.com/R-bpython.png "bpython.png")
+![bpython](http://qiniu-wulfric.lufeihaidao.top/R-bpython.png "bpython.png")
 
 ipython 的 terminal 看起来似乎没有 bpython 好，不仅没有语法高亮，代码提示也很一般[^2]。但是 ipython 是完全不同的一个工具，详情看[官网](http://ipython.org/)，这是一个套件，支持交互式的数据可视化，ipython notebook 是一个强大的 python IDE，功能很类似 matlab（不妨参考之前的[文章](/2015/10/better-config-for-matplotlib/)）。毕竟，一个可以招博士后的项目，绝非池中之物[^1]。
 
 ipython notebook 基于 [jupyter](http://jupyter.org/)，功能丰富。jupyter 目前已支持 bash, haskell, julia, python, r, ruby, scala。[Try](https://try.jupyter.org/)
 
-![jupyter](http://wulfric.qiniudn.com/R-jupyter.png "jupyter.png")
+![jupyter](http://qiniu-wulfric.lufeihaidao.top/R-jupyter.png "jupyter.png")
 
 最近的 4.1 [更新](http://blog.jupyter.org/2016/01/08/notebook-4-1-release/)中，更是提供了一些现代编辑器如 sublime text 和 atom 的功能，比如 Command palette，以及更强大的查找和替换。详情请查看上面博文。
 
@@ -48,7 +48,7 @@ ipython notebook 基于 [jupyter](http://jupyter.org/)，功能丰富。jupyter 
 
 ruby 自带的 irb 默认功能是挺简单的，但是配置好 irbrc 后，也是可以实现常见的高亮和提示功能的。然而在 ruby 世界用 pry 的更多，pry  默认配置已经足够好，还可以配置 pryrc，完全定制 pry 的样式和功能。pry 提供了一些实用[插件](https://github.com/pry/pry/wiki/Available-plugins)，甚至有 [pry-theme](https://github.com/kyrylo/pry-theme) 这样的项目。ruby 世界对颜值的追求一向不落人后。
 
-![pry-rails-console](http://wulfric.qiniudn.com/R-pry-rails-console.png "pry-rails-console.png")
+![pry-rails-console](http://qiniu-wulfric.lufeihaidao.top/R-pry-rails-console.png "pry-rails-console.png")
 
 ### nodejs
 

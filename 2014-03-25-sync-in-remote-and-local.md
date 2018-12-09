@@ -15,7 +15,7 @@ categories: [技术]
 
 ## Samba
 
-![Samba](http://wulfric.qiniudn.com/samba.png "Samba")
+![Samba](http://qiniu-wulfric.lufeihaidao.top/samba.png "Samba")
 
 在网速比较好的情况下，samba 是一个比较优秀的解决方案。它将远程的文件夹加载到本地，可以保持本地和远程文件内容的一致性。
 
@@ -151,7 +151,7 @@ sudo chmod -R 770 secure_share
 
 本地和服务器都需要安装 Rsync。这种工作方式对网络的实时性需求不是很高，而且相对于 sftp，rsync 是增量更新，对带宽的需求更小。
 
-![rsync](http://wulfric.qiniudn.com/rsync.jpg)
+![rsync](http://qiniu-wulfric.lufeihaidao.top/rsync.jpg)
 
 一般编辑器都有 rsync 的插件，对于 sublime text 就是 [RSync](https://sublime.wbond.net/packages/RSync)。
 

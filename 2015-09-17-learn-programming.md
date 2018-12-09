@@ -10,7 +10,7 @@ tags: [python, 认知学徒制]
 
 近来有位朋友问我，自己看完了「笨方法学习 Python」之后，还是觉得自己没有学会 Python，问我应该怎样学会 Python。什么叫学会呢？你询问一个python工程师是否学会了python，如果他是个性格谨慎的人，他可能会心里一紧，然后给你发了一个表情:
 
-![](http://wulfric.qiniudn.com/nibiezheyang.jpg)
+![](http://qiniu-wulfric.lufeihaidao.top/nibiezheyang.jpg)
 
 他觉得你可能是问他是否精通 python，而你可能觉得，如果我像他一样，我肯定学会了python。
 
@@ -44,7 +44,7 @@ tags: [python, 认知学徒制]
 
 ## 进入编程世界
 
-![](http://wulfric.qiniudn.com/R-cannot-find-object.png)
+![](http://qiniu-wulfric.lufeihaidao.top/R-cannot-find-object.png)
 
 黑话，术语，梗，是获得身份认同的高效方式，不妨现在就注册 github，stackoverflow 和相关论坛吧，和别人分享你的疑问和成长。对于融入 github，我的经验是，参加开源项目，当初我也是通过参与一个开源项目才熟悉了 git 和 github 的相关操作。
 

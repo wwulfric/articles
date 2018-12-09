@@ -7,7 +7,7 @@ categories: [技术]
 
 [Python Challenge](http://www.pythonchallenge.com/) 是一个非常有趣的闯关游戏，通过猜谜和编程得到关键词，并使用关键词更改网页的 URL 进入到下一关。现在共有 33 关。这篇文章（或者更多）将会专注于使用 python 和 ruby 解决这些问题。继续 python challenge 游戏。这篇文章将努力更新到 23 题。
 
-![python challenge](http://wulfric.qiniudn.com/python-challenge.png "python challenge")
+![python challenge](http://qiniu-wulfric.lufeihaidao.top/python-challenge.png "python challenge")
 
 ## 第 13-17 题
 
