@@ -28,6 +28,8 @@ TCP/IP 协议实现了标准模型 OSI，并简化为应用层、传输层、网
 
 ![OSI, TCP/IP[^2]](http://qiniu-wulfric.lufeihaidao.top/net/OSI-TCP_IP.png)
 
+操作系统在内核层完成 TCP 的 3 次握手和各种流量控制，所提供的套接字的操作都是应用层细节。
+
 基础的连接配图：1. clientfd -> listenfd -> connfd; 2. 带上 ip:port
 
 `*:80,*:*` 表示监听 socket (listenfd)，listenfd 并没有实际的连接
