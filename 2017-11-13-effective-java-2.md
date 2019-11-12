@@ -165,7 +165,7 @@ Builder 模式代码易编写，易阅读，同时可以实现不可变对象，
 public class Elvis {
     public static final Elvis INSTANCE = new Elvis();
     private Elvis() { ... }
-	public void leaveTheBuilding() { ... }
+    public void leaveTheBuilding() { ... }
 }
 ```
 
@@ -177,7 +177,7 @@ public class Elvis {
     private static final Elvis INSTANCE = new Elvis();
     private Elvis() { ... }
     public static Elvis getInstance() { return INSTANCE }
-	public void leaveTheBuilding() { ... }
+    public void leaveTheBuilding() { ... }
 }
 ```
 
