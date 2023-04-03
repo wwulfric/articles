@@ -9,7 +9,7 @@ tags: [ubuntu, ruby, rbenv, nginx, passenger, mina, rails, postgresql]
 
 准备搭生产环境做一些玩具（ubuntu ruby rails nginx passenger mina postgresql），参考了阿里云，linode 和 digital ocean。DO 两三百的延迟实在不能忍受，ping 了下阿里只有 2ms，那就选这个吧！
 
-![使用优惠码可以打九折 dj7mxg](http://qiniu-wulfric.lufeihaidao.top/aliyun-youhuima.jpg "aliyun-youhuima")
+![使用优惠码可以打九折 dj7mxg](http://static.wulfric.me/aliyun-youhuima.jpg "aliyun-youhuima")
 
 因为是自己的个人机器，所以就按照自己熟悉的 ubuntu 来配了。用 rbenv 来管理安装 ruby，用 passenger with nginx 作服务器，postgresql 作数据库，mina 来部署应用。
 

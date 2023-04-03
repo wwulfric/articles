@@ -75,7 +75,7 @@ Jekyll 的代码高亮默认是使用 highlight tag。我则只使用 [fanced co
 
 对于网页的配色（color scheme），我在[这个方案](https://kuler.adobe.com/main-cxcedar-color-theme-4237607/)的基础上做了些修改，得到了[我的 color scheme](https://kuler.adobe.com/Copy-of-the-main-cxcedar-color-theme-4361434/)。这五种颜色分别用作链接色、重要标题背景色、mark 背景色、强调色和主文字颜色。
 
-![color scheme](http://qiniu-wulfric.lufeihaidao.top/R-colorscheme.png "color scheme")
+![color scheme](http://static.wulfric.me/R-colorscheme.png "color scheme")
 
 对于字体的选择，我使用的是和 [slash 主题](https://github.com/tommy351/Octopress-Theme-Slash/)相同的 font-family，尚未对 Windows 字体做兼容性处理。关于字体的选择，可参考[这篇文章](https://ruby-china.org/topics/14005)。
 
@@ -83,7 +83,7 @@ Jekyll 的代码高亮默认是使用 highlight tag。我则只使用 [fanced co
 
 最终的样式如图所示：
 
-![Preview](http://qiniu-wulfric.lufeihaidao.top/R-preview.png "Preview")
+![Preview](http://static.wulfric.me/R-preview.png "Preview")
 
 如果对不同平台下的样式有疑问，欢迎通过评论告诉我~
 

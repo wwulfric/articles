@@ -4,11 +4,11 @@ socket 是如何连接的
 
 要让两台遥远的计算机连接，无论如何，我们都要抽象出一根管子，使得两台计算机可以通信，这就是网络连接。
 
-![网络连接[^2]](http://qiniu-wulfric.lufeihaidao.top/net/client-and-server.png)
+![网络连接[^2]](http://static.wulfric.me/net/client-and-server.png)
 
 TCP/IP 协议族就是这一抽象思想的一个实现，它们将计算机的物理连接（网线，无线网络，电缆等）抽象成两个 IP 地址的连接，再通过 TCP 协议控制传输。如下图所示。
 
-![TCP/IP 连接[^1]](http://qiniu-wulfric.lufeihaidao.top/net/client-socket-server.png)
+![TCP/IP 连接[^1]](http://static.wulfric.me/net/client-socket-server.png)
 
 一个套接字是连接的一个端点。每个套接字都有相应的套接字地址，是由一个因特网地址和一个16位的整数端口组成的，用「地址：端口」来表示。我们用套接字对表示一个连接。所谓连接，就是 ip:port <=> ip:port。
 
@@ -16,17 +16,17 @@ TCP/IP 协议族就是这一抽象思想的一个实现，它们将计算机的�
 
 套接字的名称来源于套接管[^3]，如图所示，是将两个同构但没有接口的管道套接在一起的抽象。
 
-![套接管](http://qiniu-wulfric.lufeihaidao.top/net/socket-analog.jpg)
+![套接管](http://static.wulfric.me/net/socket-analog.jpg)
 
 因此，客户端连接服务端，相当于客户端的 ip:port 透过网线伸出来长长的管道一直延伸到服务器，然后服务器拿一个套接字啪：把客户端的 ip:port 接到了服务器监听的 ip:port 上。
 
-![连接](http://qiniu-wulfric.lufeihaidao.top/net/xmoji-client-connect-server.png)
+![连接](http://static.wulfric.me/net/xmoji-client-connect-server.png)
 
 ## 套接字的连接
 
 TCP/IP 协议实现了标准模型 OSI，并简化为应用层、传输层、网络层、数据链路层和物理层。套接字编程接口是从应用层进入传输层的接口。传输层及以下通常作为操作系统内核的一部分，我们主要关心的是处在用户进程中的应用层，关于 TCP/IP 的通信细节可参考相关书籍（如 图解TCP/IP 等）。
 
-![OSI, TCP/IP[^2]](http://qiniu-wulfric.lufeihaidao.top/net/OSI-TCP_IP.png)
+![OSI, TCP/IP[^2]](http://static.wulfric.me/net/OSI-TCP_IP.png)
 
 操作系统在内核层完成 TCP 的 3 次握手和各种流量控制，所提供的套接字的操作都是应用层细节。
 

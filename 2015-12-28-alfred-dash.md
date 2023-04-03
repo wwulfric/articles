@@ -9,7 +9,7 @@ tags: [MAC, alfred, dash]
 
 够了！你冲出纷至沓来的字符串洪流，艰难地走向书柜，掏出一本「哆啦A梦」--- 是时候穿越时空了！
 
-![空间翘曲](http://qiniu-wulfric.lufeihaidao.top/space-wrap.png "空间翘曲")
+![空间翘曲](http://static.wulfric.me/space-wrap.png "空间翘曲")
 
 alfred 就是 Mac 世界里穿越时空的飞船。
 
@@ -21,7 +21,7 @@ alfred 就是 Mac 世界里穿越时空的飞船。
 
 打开`Alfred Preference`，在`Features`选项卡中的内容就是免费版提供的各项基础功能，如图。
 
-![Alfred Preference](http://qiniu-wulfric.lufeihaidao.top/alfred-preference.png)
+![Alfred Preference](http://static.wulfric.me/alfred-preference.png)
 
 把上述内容过一遍，就能对 Alfred 有一个比较全面的印象了。
 
@@ -33,18 +33,18 @@ alfred 就是 Mac 世界里穿越时空的飞船。
 
 剪贴板：Alfred 也可以操作剪贴板。获得剪贴板历史，合并剪贴板等。除此之外还可以自定义 snippet。snippet 可以操作的变量只有三个：time, date, clipboard。我做了一个 snippet，快捷键是`sj`，内容是`{date:medium} {time}`。输入`Option+Cmd+c`调出 Alfred 的剪贴板工具，输入`sj`，即可输出符合 Jekyll 格式的当前时间。PS: date 的 short, medium 和 long 的配置见系统设置-时间和日期-语言和地区中。
 
-![时间设置](http://qiniu-wulfric.lufeihaidao.top/systempreference-datetime-languageregion.png)
+![时间设置](http://static.wulfric.me/systempreference-datetime-languageregion.png)
 
 ### workflow
 
 workflow 作为 Alfred 的付费功能，提供了相当强大的自定义功能。workflow 支持调用脚本（shell/ruby/python/php），这为 Alfred 提供了无限可能。比如这个 workflow，就是调用 Python 脚本实现的一个有趣的功能。
 
-![alfred workflow 真相](http://qiniu-wulfric.lufeihaidao.top/R-alfred-zhenxiang.png)
+![alfred workflow 真相](http://static.wulfric.me/R-alfred-zhenxiang.png)
 
-![alfred workflow 示例](http://qiniu-wulfric.lufeihaidao.top/alfred-workflow-example.png)
+![alfred workflow 示例](http://static.wulfric.me/alfred-workflow-example.png)
 
 豆瓣 workflow：输入 movie/music/book，查找豆瓣信息。
-![alfred workflow douban](http://qiniu-wulfric.lufeihaidao.top/alfred-douban.png "alfred workflow douban")
+![alfred workflow douban](http://static.wulfric.me/alfred-douban.png "alfred workflow douban")
 
 
 ## Dash
@@ -57,12 +57,12 @@ workflow 作为 Alfred 的付费功能，提供了相当强大的自定义功能
 
 配合 Alfred 下的 dash workflow，可以轻松的查找文档，如图所示。
 
-![dash alfred](http://qiniu-wulfric.lufeihaidao.top/dash-alfred.png)
+![dash alfred](http://static.wulfric.me/dash-alfred.png)
 
 ## 结语
 
 直方图一样丛生的石头森林，命运之线下苦苦挣扎的傀儡，远方朝露晨雾中若隐若现的灯塔，这是个纷纷扰扰的世界。想要成为一个穿越时空的 ~~少女~~ 少年。[^1]
 
-![穿越时空的少女](http://qiniu-wulfric.lufeihaidao.top/chuanyueshikongdeshaonv.png "穿越时空的少女")
+![穿越时空的少女](http://static.wulfric.me/chuanyueshikongdeshaonv.png "穿越时空的少女")
 
 [^1]: 图片来源于剧照，和 google 图片搜得。用 google 按图找图也没有找到原版权所有者，找到的全是素材站你懂的。侵权请通知我删除。

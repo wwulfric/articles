@@ -27,7 +27,7 @@ categories: [技术]
 
 开始合并工作---使用 rebase 而不是 merge：使用 rebase 将自己的更改提交合并成一个功能性的提交，这样在 master 分支的历史就会清晰明了，而 merge 会将每一个 commit 插入到历史里，增加了 review 的复杂度。如图所示，merge 提交之后，commit b 插入到 master 的历史纪录里；而 rebase 不会破坏 master 的提交记录。
 
-![git merge and rebase](http://qiniu-wulfric.lufeihaidao.top/R-git-merge-and-rebase.png)
+![git merge and rebase](http://static.wulfric.me/R-git-merge-and-rebase.png)
 
 ``` bash
 git rebase -i origin/master

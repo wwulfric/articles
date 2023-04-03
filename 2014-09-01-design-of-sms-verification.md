@@ -10,7 +10,7 @@ math: true
 
 从验证方式上看，二次验证可以通过短信验证或 APP 验证（Google Authenticator）。对于短信验证，优点是操作方便，不需安装额外的 APP；缺点是实时性较差，依赖短信，有被窃听的风险。APP 方式正好相反。
 
-![google authenticator](http://qiniu-wulfric.lufeihaidao.top/google_authenticator.png "google authenticator")
+![google authenticator](http://static.wulfric.me/google_authenticator.png "google authenticator")
 
 以此来看，在业务初期，宜使用短信验证方式，减少用户输入的复杂度。待用户量和用户黏度上去之后可以考虑换用 APP 验证。毕竟，在已经安装 APP 的情况下，这种方式更加便捷和安全。
 
@@ -18,7 +18,7 @@ OTP（one time password），即一次性验证密码，也称动态口令。一
 
 Google Authenticator 的二次验证也是使用的 OTP。其核心原理是：服务器和客户端（一般是`Google Authenticator`app）保存同一份密钥，客户端根据该密钥和当前时间戳计算得到 6 位数字，发到服务器，服务器根据同样的算法得到 6 位数字。做比较之后判断客户端传来的数字是否合法。详述如下[^2]：
 
-![Google Authenticator View](http://qiniu-wulfric.lufeihaidao.top/google_authenticator_view.png "Google Authenticator View")
+![Google Authenticator View](http://static.wulfric.me/google_authenticator_view.png "Google Authenticator View")
 
 对于 HOTP，客户端和服务器事先协商好一个密钥 K，用于一次性密码的生成过程，此密钥不被任何第三方所知道。此外，客户端和服务器各有一个计数器 C，并且事先将计数值同步。
 
@@ -34,7 +34,7 @@ TOTP 将 HOTP 中的计数器 C 用当前时间来替代，于是就得到了随
 
 TOTP 还有个边界问题，如下图所示。当在 OA 时刻发起短信验证请求，在理想情况下，我们只有在 OA 时间段发起验证，验证才能成功。也就是说，用户的有效输入时间在 T（当发起时刻靠近 O 时）到 0 之间（当发起时刻靠近 A），这意味着，用户有一定的概率验证几乎必然失败（发起时刻靠近 A，考虑到 OTP 获取延迟和用户输入延迟），这显然是不合理的。
 
-![otp verification](http://qiniu-wulfric.lufeihaidao.top/R-otp.png "otp verification")
+![otp verification](http://static.wulfric.me/R-otp.png "otp verification")
 
 可以通过在验证时刻验证当前时刻以及前 N 个时间片来解决这个问题。如图所示，我们验证当前时刻和前一时刻，当在 OA 时间片发起验证时，验证区间是 OB 段，这样用户的有效输入时间就是 T~2T，如果我们取 T 为 1 分钟，这会是一个比较合理的结果。
 
