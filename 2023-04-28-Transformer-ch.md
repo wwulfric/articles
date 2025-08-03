@@ -66,7 +66,7 @@ $$Attention(Q,K,V) = softmax(\frac{QK^T}{\sqrt{d_k}})V$$
 
 两种最常用的注意力函数是加性注意力[2]和点积（乘法）注意力。点积注意力与我们的算法相同，除了缩放因子 $\frac{1}{d_k}$。加性注意力使用具有单个隐藏层的前馈网络计算兼容性函数。虽然两者在理论复杂度上相似，但在实践中，点积注意力速度更快，空间效率更高，因为它可以使用高度优化的矩阵乘法代码实现。
 
-虽然在dk的值较小的情况下，这两种机制的表现相似，但对于较大的dk值，加性注意力优于没有缩放的点积注意力[3]。我们怀疑对于较大的dk值，点积变得很大，将softmax函数推入具有极小梯度的区域[^4]。为了抵消这种效应，我们通过 $\frac{1}{d_k}$ 对点积进行缩放。
+虽然在$d_k$的值较小的情况下，这两种机制的表现相似，但对于较大的$d_k$值，加性注意力优于没有缩放的点积注意力[3]。我们怀疑对于较大的$d_k$值，点积变得很大，将softmax函数推入具有极小梯度的区域[^4]。为了抵消这种效应，我们通过 $\frac{1}{d_k}$ 对点积进行缩放。
 
 #### 3.2.2 多头注意力
 
@@ -77,7 +77,9 @@ $$Attention(Q,K,V) = softmax(\frac{QK^T}{\sqrt{d_k}})V$$
 $$MultiHead(Q,K,V)=Concat(head_1,...,head_h)W^O \\
 where \ head_i=Attention(QW_i^Q,KW_i^K,VW_i^V)$$
 
-这里的线性映射就是参数矩阵 $W_i^Q \in \R^{d_{model}\times d_k},W_i^K\in \R^{d_{model}\times d_k},W_i^V\in \R^{d_{model}\times d_v}, W^O\in \R^{hd_v \times d_{model}}$。
+这里的线性映射就是参数矩阵 
+
+$$W_i^Q \in \R^{d_{model}\times d_k},W_i^K\in \R^{d_{model}\times d_k},W_i^V\in \R^{d_{model}\times d_v}, W^O\in \R^{hd_v \times d_{model}}$$
 
 在本文中，我们使用了h = 8个平行的注意力层或头。对于每个头，我们使用dk = dv = dmodel/h = 64。由于每个头的维度降低，总的计算成本类似于全维度的单头注意力。
 
