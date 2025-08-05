@@ -21,7 +21,7 @@ git push # 推送代码
 
 这次遇到的就是一个较为棘手的合并问题。如下图所示，当开发一个feature 分支的时候，突然有需求要将该 feature 分支的 B commit 放到 master 分支上。而此时，由于疏忽，feature 分支已经远远落后于 master 分支了，且该分支也提交了大量的 commit，可想而知合并将产生大量的冲突。（当然，feature 分支应该尽量频繁的 rebase master）
 
-![两个分道扬镳的分支之间的 cherry pick 手动 git 修复](http://static.wulfric.me/git/R-far-away-branch.png "两个分道扬镳的分支之间的 cherry pick 手动 git 修复")
+![两个分道扬镳的分支之间的 cherry pick 手动 git 修复](images/git/R-far-away-branch.png "两个分道扬镳的分支之间的 cherry pick 手动 git 修复")
 
 
 

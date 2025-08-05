@@ -31,7 +31,7 @@ JAVA 11 是 JAVA 8 之后的第一个 LTS 版本，为了了解下一代 JAVA �
 
 从 jdk 10 开始，源码不再分散在不同的仓库中，所以只需要 clone 单独的 repository 即可[^1]。我选择是 [jdk11u](http://hg.openjdk.java.net/jdk-updates/jdk11u)，而且不是通过 hg clone 的方式(比较慢，经常出错需要重试)，而是直接下载整个源码包，如下图示。
 
-![jdk11 download](http://static.wulfric.me/java/jdk11-download.png "jdk11 download")
+![jdk11 download](images/java/jdk11-download.png "jdk11 download")
 
 ### 编译
 
@@ -119,17 +119,17 @@ $BUILD/images/jdk         $BUILD/jdk
 
 增加 SDK，配置 classpath 和 sourcepath。配置好 sourcepath 便可以正常查看代码了。
 
-![jdk11 classpath](http://static.wulfric.me/java/jdk11-classpath.png "jdk11 classpath")
+![jdk11 classpath](images/java/jdk11-classpath.png "jdk11 classpath")
 
 如果使用的是 \$BUILD/images/jdk，直接将该目录加入到 classpath 即可，IDE 会自动识别 src.zip 并放在 sourcepath 中；
 
 如果使用的是 \$BUILD/jdk，由于这是 exploded image jdk，不包含源码，所以需要分别加入 classpath 和 sourcepath，sourcepath 即下载的 openjdk 下的 src 目录。
 
-![jdk11 sourcepath](http://static.wulfric.me/java/jdk11-sourcepath.png "jdk11 sourcepath")
+![jdk11 sourcepath](images/java/jdk11-sourcepath.png "jdk11 sourcepath")
 
 其他需要修改的配置不在赘述，如下图示。
 
-![jdk11 ide conf](http://static.wulfric.me/java/jdk11-ide-conf.png "jdk11 ide conf")
+![jdk11 ide conf](images/java/jdk11-ide-conf.png "jdk11 ide conf")
 
 ## 配置调试
 
@@ -139,17 +139,17 @@ $BUILD/images/jdk         $BUILD/jdk
 
 首先导入源码。使用 New Cmake Project from Sources，这样可以自动创建 CMakeLists.txt 文件。然后按照引导即可导入源码。你可以导入 src/hotspot，也可以整个导入 src。
 
-![clion debug jvm](http://static.wulfric.me/java/clion-debug-jvm.png "clion debug jvm")
+![clion debug jvm](images/java/clion-debug-jvm.png "clion debug jvm")
 
 导入之后，具体的 cpp 文件会报错，但是不影响调试，可以暂时忽略。
 
 导入成功，reload CMakeLists.txt 之后，会自动生成一个 debug configuration。下面配置 debug configuration。如图所示，将 executable 改为你的 java 二进制文件，然后在 program arguments 里设置程序参数。我们先设置为 -version。
 
-![jdk11 debug1](http://static.wulfric.me/java/jdk11-debug1.png "jdk11 debug1")
+![jdk11 debug1](images/java/jdk11-debug1.png "jdk11 debug1")
 
 此时我们在`share/prims/jni.cpp`文件上打一个断点，然后执行 debug，就可以看到效果了。
 
-![jdk11 debug2](http://static.wulfric.me/java/jdk11-debug2.png "jdk11 debug2")
+![jdk11 debug2](images/java/jdk11-debug2.png "jdk11 debug2")
 
 [^1]: 每个下载的 jdk 中都有一个 build 文档，一般在 doc 目录下。这是编译安装该 jdk 的最权威的参考文档。jdk11 的在线 build 文档是：[Building the JDK 11](https://hg.openjdk.java.net/jdk/jdk11/raw-file/tip/doc/building.html)
 [^2]: \$BUILD 表示你构建出来的结果的目录，一般是你下载的 openjdk11 下的 build/xxx，xxx 是一个动态的名称，和你的开发机类型、编译参数有关，在我的机器上是 ./openjdk11/build/macosx-x86_64-normal-server-slowdebug。

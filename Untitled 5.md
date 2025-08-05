@@ -8,7 +8,7 @@ MCP：spring ai examples 的 mcp 示例，fileserver
 
 主要是解决function calling 的问题
 
-![function calling](images/llm-function-calling.png)
+![function calling](images/llm/llm-function-calling.png)
 
 怎么解决MCP提出的目前的问题的
 

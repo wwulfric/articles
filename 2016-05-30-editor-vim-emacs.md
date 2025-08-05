@@ -7,13 +7,13 @@ tags: [vim, emacs, ide, spf13, kvim, fisa, prelude, purcell, spacemacs]
 
 这篇文章想要介绍一下 vim 和 emacs 两个编辑器。包括怎样组装插件打造成近似 IDE 的功能，使用场合，优点和缺点等。本文并不致力于手把手教你将 vim/emacs 打造成 IDE，也不会详细的介绍某些具体的功能和插件。
 
-![vim and emacs](http://static.wulfric.me/vim-and-emacs.png "vim and emacs")
+![vim and emacs](images/vim-and-emacs.png "vim and emacs")
 
 ## vim 和 emacs 的优缺点
 
 vim 和 emacs 分别被称为「 编辑器之神」与「 神之编辑器」，自有其独到之处。但是陡峭的学习曲线却吓跑了好多潜在用户。那么我们是否还有必要学习这两个编辑器呢？
 
-![editor-learning-curve](http://static.wulfric.me/editor-learning-curve.jpg "编辑器学习曲线")
+![editor-learning-curve](images/editor-learning-curve.jpg "编辑器学习曲线")
 
 ### 快捷键的无差别延续
 
@@ -65,11 +65,11 @@ pick 5c3747b f
 
 除此之外，vim 的矩形编辑也非常犀利。比如上面的示例，也可以在矩形编辑下，选中第二到第十行的 pick，删除，然后 I 插入 squash，继而退出 insert mode 即可。
 
-![看到这样的快捷键，我的内心是拒绝的](http://static.wulfric.me/emacs-bad-shortcut.png "看到这样的快捷键，我的内心是拒绝的")
+![看到这样的快捷键，我的内心是拒绝的](images/emacs-bad-shortcut.png "看到这样的快捷键，我的内心是拒绝的")
 
 而 emacs 没有输入上的 mode 差别，所以需要依赖复杂的快捷键来实现强大的编辑功能，正如上图所示。emacs 插件想象力更加丰富，有「伪装成编辑器的操作系统」之称。插件的 major mode 和 minor mode 的设计很出彩，对一个文件，只有一个 major mode，但是可以有多个 minor mode，这样一个文件一个主插件，多个附加插件，可以实现很多有趣的效果。在 vim 中，是通过`set filetype=python`或者在`filetype.vim`文件中自定义来决定 vim 使用哪种语法渲染，其他比如自动补全这样的插件通过判断`filetype`来实现相关功能，并没有 mode 一说，针对同一种文件类型的插件可以非常分散。而在 emacs 中，如果我们选中`pythonA-mode`作为`.py`文件的 major mode，那么`pythonB-mode`就不会起作用，除非它是 minor mode。这有利于大而优秀的特定 major mode 脱颖而出，同时使用多个 minor mode 提供通用编辑功能[^1]。
 
-![emacs major mode](http://static.wulfric.me/emacs-major-mode.png "emacs major mode")
+![emacs major mode](images/emacs-major-mode.png "emacs major mode")
 
 
 ## 打造 IDE 的尝试
@@ -86,7 +86,7 @@ pick 5c3747b f
 
 得益于 sublime text 的 go to anywhere 思想，ctrlp 几乎成为了现代编辑器的标配功能。所谓 go to anywhere，就是通过一个快捷键（一般是 ctrl+p）能够通过模糊查找快速到达项目中的任意文件、类、方法。毫无疑问，在编辑器中，这个功能 sublime 做的最好。在 sublime 中，ctrlp 会弹出一个输入框，直接输入，会查找文件，先输入`@`，则会查找方法，先输入`:`，则会跳到这一行。而且还支持组合查找。
 
-![sublime-text-ctrlp](http://static.wulfric.me/sublime-text-ctrlp.png "sublime-text-ctrlp")
+![sublime-text-ctrlp](images/sublime-text-ctrlp.png "sublime-text-ctrlp")
 
 其实 JetBrains 系 IDE 的 go to anywhere 功能更加强大，可以同时搜索文件、类、方法、IDE 动作。代价就是性能太差---每次`⇧⇧`都会卡顿，所以只好使用`⌘+O`查找文件，查找到文件之后再查找方法，或跳转到具体行。这意味着，在这一方面，更强大的 IDE，反而比编辑器更不方便。这倒不是因为它是 IDE，而是软件设计的一个问题---哪些功能应该合在一起，哪些功能应该分开。
 
@@ -100,7 +100,7 @@ emacs 下的 go to anywhere 插件有好几个，spacemacs 默认使用的是 [p
 
 自动补全和跳转，这两个功能就是 IDE 的强项了。IDE 解析语法树，可以实现相当精准的补全和跳转，而编辑器基于字符串匹配，效果就要大打折扣了。当然了，我说的是静态语言🙄。对于动态语言，即使是 IDE，也总有力所不及的地方， 而编辑器开一个语言解释器进程实时解析也能实现不错的效果。二者的差别没那么明显。对于静态语言，编辑器竟也有和 IDE 相抗的野心：[eclim](http://eclim.org/)，也就是 eclipse+vim（当然也有 emacs 插件），在后台开一个 eclipse 进程，然后在 vim 中利用 eclipse 来做补全和跳转……
 
-![说得好，我选择死亡](http://static.wulfric.me/woxuanzesiwang.jpeg "说得好，我选择死亡")
+![说得好，我选择死亡](images/woxuanzesiwang.jpeg "说得好，我选择死亡")
 
 众生皆苦，何必苦上加苦？
 

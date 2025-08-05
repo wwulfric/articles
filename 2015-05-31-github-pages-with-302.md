@@ -11,7 +11,7 @@ categories: [技术]
 
 解决方法是，换用可以支持 ALIAS 的 DNS 服务。注意这里的 ALIAS 不是 CNAME(ALIAS)，大多数域名服务不提供 ALIAS，所以需要好好选择，推荐的有[Pointhq](https://pointhq.com/)，支持一个免费域名；[DNSimple](https://dnsimple.com/)，ALIAS 需要收费。
 
-![ALIAS 配置](http://static.wulfric.me/conf.png "ALIAS 配置")
+![ALIAS 配置](images/conf.png "ALIAS 配置")
 
 改完之后再看一下：
 

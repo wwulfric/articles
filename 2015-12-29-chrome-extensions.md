@@ -11,7 +11,7 @@ tags: [chrome, 插件, vim, proxy, markdown, develop, github]
 
 vimium 是 chrome 下的 Vim 模拟器，可以模拟 Vim 的快捷键来进行 chrome 的相关操作。我一直认为，如果你希望学会使用 Vim 编辑器，从 vimium 插件入门是一个不错的选择。vimium 的快捷键如下图所示：
 
-![vimium](http://static.wulfric.me/vimium.png)
+![vimium](images/vimium.png)
 
 最基础的快捷键是页面滚动：
 
@@ -58,7 +58,7 @@ F: 同上，跳转在新标签页完成
 
 一图解千言。管理插件利器。
 
-![one click extensions manager](http://static.wulfric.me/R-one-click-extension-manager.png)
+![one click extensions manager](images/R-one-click-extension-manager.png)
 
 ### proxy switchyOmega
 
@@ -68,7 +68,7 @@ F: 同上，跳转在新标签页完成
 
 论文管理利器，如下图所示。在有下载权限的前提下，可以一键下载论文到指定目录，生成索引等。现有的 pdf 论文库的迁移也很方便，有相应的插件支持。
 
-![zotero](http://static.wulfric.me/zotero.png "zotero.png")
+![zotero](images/zotero.png "zotero.png")
 
 推荐参考阳老的 zotero [博文](http://www.yangzhiping.com/tech/zotero1.html)。一共有 6 篇。
 
@@ -84,7 +84,7 @@ chrome 下的 evernote 插件，优雅浏览页面和同步到 evernote，还可
 
 gmail 等富文本输入框中可以先输入 markdown 然后右键 toggle 转成富文本，如下图示。
 
-![markdown toggle](http://static.wulfric.me/markdown-toggle.png "markdown-toggle.png")
+![markdown toggle](images/markdown-toggle.png "markdown-toggle.png")
 
 ## 辅助开发
 
@@ -92,17 +92,17 @@ gmail 等富文本输入框中可以先输入 markdown 然后右键 toggle 转�
 
 Postman 是强大易用的 API 测试工具，如下图所示。
 
-![postman](http://static.wulfric.me/postman.png "postman")
+![postman](images/postman.png "postman")
 
 左侧是常用 URL collection 和 history，还可以按照个人和团队来区分 collection，非常的方便。主面板就是调试页面，功能非常强大，提供了很多方便的工具，其中之一是将当前在调试的请求直接生成代码，如下图示，目前流行的语言基本都可以支持。此外还有环境变量和预设值，以及测试集成功能。
 
-![postman code](http://static.wulfric.me/postman-code.png "postman-code.png")
+![postman code](images/postman-code.png "postman-code.png")
 
 ### json formatter
 
 调试的时候 get 的 json 页面可以以结构化的形式显示。这样的插件很多，功能也都是大同小异，随便选一个安装即可。
 
-![json formatter](http://static.wulfric.me/R-json-formatter.png "json formatter")
+![json formatter](images/R-json-formatter.png "json formatter")
 
 ### coffeeconsole
 
@@ -112,13 +112,13 @@ Postman 是强大易用的 API 测试工具，如下图所示。
 
 树形结构显示 github repo 中的文件，如下图所示。
 
-![octotree](http://static.wulfric.me/R-octotree.png)
+![octotree](images/R-octotree.png)
 
 ### web tech stack 探测
 
 探测一个页面使用的技术。
 
-![web tech stack 探测](http://static.wulfric.me/R-web-tech-stack.png)
+![web tech stack 探测](images/R-web-tech-stack.png)
 
 ## 系统增强
 
@@ -126,7 +126,7 @@ Postman 是强大易用的 API 测试工具，如下图所示。
 
 更好的广告屏蔽插件。可以很直观的看到当前页面的屏蔽列表，还可以临时放行或屏蔽相关 URL（根据域名或 MIMETYPE）。私以为要强于 ABP。
 
-![](http://static.wulfric.me/R-ublock-origin.png)
+![](images/R-ublock-origin.png)
 
 ### google art project, speed dial 2, 各种 new tab
 
@@ -144,4 +144,4 @@ Google 官方插件。装该插件之前，网页上的 office 文件点击之�
 
 可以自定义相关页面的样式，还可以导入他人已经配置好的样式，如下图所示。
 
-![stylebot](http://static.wulfric.me/R-stylebot.png)
+![stylebot](images/R-stylebot.png)

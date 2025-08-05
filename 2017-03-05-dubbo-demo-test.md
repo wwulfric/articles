@@ -7,7 +7,7 @@ tags: [分布式, 微服务, dubbo, maven, provider, consumer, rest]
 
 这篇文章将简单的介绍如何写一个 dubbo 服务。dubbo 的准备工作请参照[前文](/2017/03/intro-dubbo/)。
 
-![dubbo 架构](http://static.wulfric.me/dubbo/dubbo-architecture.png "dubbo 架构")
+![dubbo 架构](images/dubbo/dubbo-architecture.png "dubbo 架构")
 
 从此图可知，当注册中心和监控已经工作起来之后，我们需要写的就是消费方和服务方的代码了。一个简单的一对一提供服务的代码结构如下[^1]：
 
@@ -803,7 +803,7 @@ fi
 
 ### intellij 配置
 
-![intellij remote debug](http://static.wulfric.me/dubbo/R-dubbo-remote-debug.png "intellij remote debug")
+![intellij remote debug](images/dubbo/R-dubbo-remote-debug.png "intellij remote debug")
 
 接下来就可以在 intellij 里打断点调试了。
 

@@ -9,7 +9,7 @@ dubbo是阿里巴巴推出的分布式服务治理框架，是国内实现微服
 
 dubbo 的架构图如下[^dubbo-architecture]：
 
-![dubbo 架构](http://static.wulfric.me/dubbo/dubbo-architecture.png "dubbo 架构")
+![dubbo 架构](images/dubbo/dubbo-architecture.png "dubbo 架构")
 
 如上图所示，简单来说 dubbo 架构包括如下几部分：服务注册和服务发现中心，对外暴露服务的服务提供方和运行该服务的容器，调用远程服务的服务消费方，统计服务调用时间和次数的监控中心（非必需）。其调用关系为：
 
@@ -73,7 +73,7 @@ server.1=localhost:2287:3387
 
 Demo 在 dubbo-demo 文件夹下，因为前面在 dubbox 下执行过 mvn install，都已经打包好了，这里可以直接执行来启动 demo provider, consumer，如下图所示。
 
-![dubbo demo consumer](http://static.wulfric.me/dubbo/R-dubbo-demo-consumer.png "dubbo demo consumer")
+![dubbo demo consumer](images/dubbo/R-dubbo-demo-consumer.png "dubbo demo consumer")
 
 当 provider 执行后看到
 
@@ -129,7 +129,7 @@ dubbo.admin.guest.password=guest
 
 重启 tomcat，打开 http://localhost:8080/dubbo-admin-2.8.4，输入帐号密码即可看到 dubbo-admin 的管理页面。上面运行的 provider 和 consumer demo 在服务治理下。
 
-![dubbo admin](http://static.wulfric.me/dubbo/dubbo-admin.png "dubbo admin")
+![dubbo admin](images/dubbo/dubbo-admin.png "dubbo admin")
 
 注意：有些链接可能 404，因为 dubbo-admin 默认使用了`/`路径，而挂在 tomcat 下的时候路径中包含了`/dubbo-admin-2.8.4`。
 
@@ -168,7 +168,7 @@ STDOUT: logs/stdout.log
 
 即执行成功，打开 http://localhost:8083/ 即可看到监控面板。
 
-![dubbo monitor](http://static.wulfric.me/dubbo/dubbo-monitor.png "dubbo monitor")
+![dubbo monitor](images/dubbo/dubbo-monitor.png "dubbo monitor")
 
 如果看不到 charts 和 statitics，检查下配置中的`dubbo.charts.directory`和`dubbo.statistics.directory`是否提前创建成功，dubbo-monitor 可能不会自动创建该目录的。
 
