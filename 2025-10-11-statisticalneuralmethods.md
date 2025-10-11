@@ -323,14 +323,17 @@ NeuralForecast 的主要特点包括：
 - 支持GPU加速以提高计算速度。
 
 可以使用Colab的GPU来训练NeuralForecast。
+
 ```python
 # Read the results from Colab
 fcst_nf_df = pd.read_parquet('https://m5-benchmarks.s3.amazonaws.com/data/forecast-nf.parquet')
 ```
+
 ```python
 fcst_nf_df.head()
 ```
-|| unique_id | ds               | AutoNHITS  | AutoNHITS-lo-90 | AutoNHITS-hi-90 | AutoTFT | AutoTFT-lo-90 | AutoTFT-hi-90 |
+
+| | unique_id | ds               | AutoNHITS  | AutoNHITS-lo-90 | AutoNHITS-hi-90 | AutoTFT | AutoTFT-lo-90 | AutoTFT-hi-90 |
 | --------- | ---------------- | ---------- | --------------- | --------------- | ------- | ------------- | ------------- | ---- |
 | 0         | FOODS_3_001_CA_1 | 2016-05-23 | 0.0             | 0.0             | 2.0     | 0.0           | 0.0           | 2.0  |
 | 1         | FOODS_3_001_CA_1 | 2016-05-24 | 0.0             | 0.0             | 2.0     | 0.0           | 0.0           | 2.0  |
@@ -449,7 +452,7 @@ crossvalidation_df 对象是一个包含以下列的新 data frame：
 cv_mlf_df.head()
 ```
 
-|| unique_id | ds               | cutoff     | y          | LGBMRegressor | XGBRegressor | LinearRegression 线性回归|
+| | unique_id | ds               | cutoff     | y          | LGBMRegressor | XGBRegressor | LinearRegression 线性回归|
 | -------------------- | ---------------- | ---------- | ---------- | ------------- | ------------ | ------------------------- | --------- |
 | 0                    | FOODS_3_001_CA_1 | 2016-02-29 | 2016-02-28 | 0.0           | 0.435674     | 0.556261                  | -0.312492 |
 | 1                    | FOODS_3_001_CA_1 | 2016-03-01 | 2016-02-28 | 1.0           | 0.639676     | 0.625806                  | -0.041924 |
@@ -468,7 +471,7 @@ cv_nf_df = pd.read_parquet('https://m5-benchmarks.s3.amazonaws.com/data/cross-va
 cv_nf_df.head()
 ```
 
-|| unique_id | ds               | cutoff     | AutoNHITS  | AutoNHITS-lo-90 | AutoNHITS-hi-90 | AutoTFT | AutoTFT-lo-90 | AutoTFT-hi-90 | y    |
+| | unique_id | ds               | cutoff     | AutoNHITS  | AutoNHITS-lo-90 | AutoNHITS-hi-90 | AutoTFT | AutoTFT-lo-90 | AutoTFT-hi-90 | y    |
 | --------- | ---------------- | ---------- | ---------- | --------------- | --------------- | ------- | ------------- | ------------- | ---- | ---- |
 | 0         | FOODS_3_001_CA_1 | 2016-02-29 | 2016-02-28 | 0.0             | 0.0             | 2.0     | 1.0           | 0.0           | 2.0  | 0.0  |
 | 1         | FOODS_3_001_CA_1 | 2016-03-01 | 2016-02-28 | 0.0             | 0.0             | 2.0     | 1.0           | 0.0           | 2.0  | 1.0  |
@@ -582,7 +585,7 @@ evaluation_df = transform(
 evaluation_df.head()
 ```
 
-|| unique_id | cutoff           | metric  | SeasonalNaive            | Naive     | HistoricAverage  | CrostonOptimized | ADIDA      | IMAPA      | AutoETS    | AutoNHITS  | AutoTFT   | LGBMRegressor | XGBRegressor | LinearRegression |
+| | unique_id | cutoff           | metric  | SeasonalNaive            | Naive     | HistoricAverage  | CrostonOptimized | ADIDA      | IMAPA      | AutoETS    | AutoNHITS  | AutoTFT   | LGBMRegressor | XGBRegressor | LinearRegression |
 | --------- | ---------------- | ----------- | ------------------------ | --------- | -------------------------- | ---------------- | ---------- | ---------- | ---------- | ---------- | --------- | ------------- | ------------ | ---------------- | ---------- |
 | 0         | FOODS_3_003_WI_3 | 2016-02-28  | mse              | 1.142857  | 1.142857                   | 0.816646         | 0.816471   | 1.142857   | 1.142857   | 1.142857   | 1.142857  | 1.142857      | 0.832010     | 1.020361         | 0.887121   |
 | 1         | FOODS_3_003_WI_3 | 2016-02-28  | mae         | 0.571429  | 0.571429                   | 0.729592         | 0.731261   | 0.571429   | 0.571429   | 0.571429   | 0.571429  | 0.571429      | 0.772788     | 0.619949         | 0.685413   |
