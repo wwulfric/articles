@@ -1,0 +1,16 @@
+name: Trigger jekyll update
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Trigger jekyll site workflow
+      run: |
+        curl -X POST \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: token ${{ secrets.PRIVATE_TOKEN }}" \
+          https://api.github.com/repos/wwulfric/wwulfric.github.io/actions/workflows/jekyll-gh-pages.yml/dispatches \
+          -d '{"event_type":"articles-updated","client_payload":{"sha":"${{ github.sha }}","ref":"${{ github.ref }}"}}'
