@@ -417,9 +417,6 @@ cv_df.head()
 
 ### MLForecast
 MLForecast 类中的 cross_validation 方法接受以下参数。
-
-
-
 - data ：训练数据 dataframe
 - window_size(int)：表示正在预测的未来h步。在这种情况下，是指24小时。
 - step_size(int)：每个窗口之间的步长。换句话说：您希望多久运行一次预测过程。
@@ -648,7 +645,6 @@ sns.violinplot(evaluation_df_melted.query('metric=="smape"'), x='error', y='mode
 ## 为时序组合选择模型
 
 特征：
-
 - 一个统一的 dataframe，包含了所有不同模型的预测
 - 容易组装
 - 平均预测
