@@ -54,3 +54,13 @@ tags: [sre]
 
 以保护基于 agent 的 AI 环境。（话说 langchain 的问题还真多……）
 
+
+
+## 编程语言 weekly
+
+### w41
+
+[Python 3.14更新](https://docs.python.org/zh-cn/3.14/whatsnew/3.14.html): Python 3.14 是 Python 编程语言的最新稳定发布版，包含多项针对语言、实现和标准库的改变。 最大的变化包括 [模板字符串字面值](https://docs.python.org/zh-cn/3.14/whatsnew/3.14.html#whatsnew314-template-string-literals), [标注的迟延求值](https://docs.python.org/zh-cn/3.14/whatsnew/3.14.html#whatsnew314-deferred-annotations)，以及在标准库中对 [子解释器](https://docs.python.org/zh-cn/3.14/whatsnew/3.14.html#whatsnew314-multiple-interpreters) 的支持。
+
+个人比较看好[安全的 CPython 外部调试器接口](https://docs.python.org/zh-cn/3.14/whatsnew/3.14.html#whatsnew314-remote-debugging)和[自由线程](https://docs.python.org/zh-cn/3.14/whatsnew/3.14.html#whatsnew314-free-threaded-now-supported)这2个功能。预计开源社区会陆续带来相关功能更新和优化。
+
