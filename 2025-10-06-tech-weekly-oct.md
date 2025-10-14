@@ -2,7 +2,7 @@
 title: 10月 Tech Weekly
 date: 2025-10-11 00:00
 categories: [技术]
-tags: [sre]
+tags: [weekly]
 ---
 
 ## SRE Weekly
