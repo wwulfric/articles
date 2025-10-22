@@ -117,6 +117,7 @@ public class DataSourceTableField {
     private String fieldType; // e.g., "STRING", "DOUBLE", "LONG"
     private Boolean metricField; // 是否为指标字段
 }
+public record TimeRange(long start, long end) {}
 ```
 
 
@@ -548,7 +549,7 @@ public class PromQLConverterVisitor extends RexVisitorImpl<String> {
 }
 ```
 
-至此，我们实现了一个建议的通过 sql 查询 prometheus 数据的工具。打印日志为：
+至此，我们实现了一个简易的通过 sql 查询 prometheus 数据的工具。执行的打印日志为：
 
 ```
 MetricsQueryRequest: system_metrics_cpu_util{app_name="my_app",hostname="host1"}, start: 1696118400000, end: 1696204800000
