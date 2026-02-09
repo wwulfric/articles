@@ -1,5 +1,5 @@
 ---
-title: AGENTS.md 在我们的 Agent 评估中优于 Skills
+title: AGENTS.md 在 Agent 评估中优于 Skills 翻译
 date: 2026-02-09 06:43
 categories: [技术]
 tags: [ai, agent]
@@ -7,98 +7,111 @@ tags: [ai, agent]
 
 翻译自 Vercel 博客文章：[AGENTS.md outperforms skills in our agent evals](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals)
 
-## 摘要
+## 背景与问题
 
-Vercel 团队进行了一项实验，评估了向编码 Agent 提供框架特定知识的两种方法——特别是针对使用 Next.js 16 API 的任务。实验结果表明，通过在项目根目录的 `AGENTS.md` 文件中嵌入压缩的 8KB 文档索引的方法，在 Next.js 16 API 评估中达到了 **100% 的通过率**。相比之下，使用 Skills（技能）方法即使在有明确指令的情况下，最高也只能达到 **79% 的通过率**。
+Vercel 构建了一个评估系统，用于测试编码 Agent 在使用 Next.js 16 API 方面的能力——包括 `use cache`、`connection()` 和 `forbidden()` 等新功能，这些特性是当前 LLM 训练数据中所没有的。
 
-## 核心发现
+挑战在于：**如何在编码任务期间为 Agent 提供最新的、版本匹配的文档**，尤其是当模型知识落后于最新框架时？
 
-### AGENTS.md 方法的表现
+## 评估的两种方法
 
-通过在项目根目录的 `AGENTS.md` 文件中直接嵌入一个压缩的 8KB 文档索引，Agent 可以持续访问最新的框架文档。这种方法在 Next.js 16 API 评估中实现了：
+Vercel 测试了两种为 Agent 提供框架知识的方法：
 
-- **100% 的通过率**
-- Agent 在每次交互时都能获得文档上下文
-- 无需 Agent "决定"何时加载文档
+### 1. Skills（技能）
 
-### Skills 方法的局限性
+- 结构化的、可复用的提示词、工具和文档包
+- Agent 应该能够识别何时需要帮助，并按需调用相关 Skill
 
-Skills 是打包的领域知识（包括提示词、工具和文档），Agent 可以按需调用。然而，这种方法存在明显的局限性：
+### 2. AGENTS.md
 
-- 即使有明确的使用指令，最高只能达到 **79% 的通过率**
-- 在没有明确指令的情况下，性能大幅下降
-- 在 **56% 的情况下**，Agent 完全没有调用 Skill
-- 当 Agent 未调用 Skill 时，其表现与完全没有文档时一样差
+- 放置在项目根目录的 Markdown 文件
+- 其内容会自动注入到每一轮 Agent 交互中，为 Agent 提供持久的、有保证的上下文
 
-## AGENTS.md 为什么表现更好？
+Vercel 最初的假设是 Skills 在效率和模块化方面更有优势。
 
-### 1. 持久的上下文
+## 实验结果
 
-AGENTS.md 在每次交互时都为 Agent 提供上下文，这意味着 Agent 始终可以访问文档，无需"决定"是否加载它。文档内容始终存在于 Agent 的工作上下文中。
+| 配置方式 | 通过率 | 备注 |
+|---------|-------|------|
+| 基线（无文档） | 53% | - |
+| Skills（默认） | 53% | Skill 经常未被调用 |
+| Skills（显式使用指令） | 79% | Agent 有时会使用 Skill |
+| AGENTS.md（8KB 文档索引） | 100% | Agent 始终使用 |
 
-### 2. 无决策点
+**关键发现：**
 
-与 Skills 不同，Agent 必须识别需求并触发 Skill，而 AGENTS.md 的内容始终存在，因此 Agent 不会忽略文档。这消除了一个关键的失败点——Agent 可能无法意识到需要查阅文档。
+- 在 **56% 的测试中**，Skill 从未被 Agent 调用
+- AGENTS.md 作为持久上下文，总是被引用
 
-### 3. 减少噪音
+## 为什么 AGENTS.md 表现更优？
 
-如果 Skills 没有被可靠触发，或者集成不当，它们可能会给 Agent 的环境引入噪音或干扰。相比之下，AGENTS.md 中的信息总是以一致的方式呈现。
+### 1. 自动上下文注入
 
-### 4. 版本匹配
+AGENTS.md 在*每一轮*交互时都会被附加到 Agent 的上下文中。Agent 无法忽略它，并且总能以零摩擦获得最新文档的注入。
 
-通过在 AGENTS.md 中更新文档，团队可以轻松确保 Agent 获得与当前版本匹配的建议和上下文。这对于快速迭代的框架（如 Next.js）尤其重要。
+### 2. Skill 使用不足
 
-## 实践建议
+在超过一半的情况下，Agent 未能自动调用 Skill。即使 Skill 可用，Agent 也并不总是意识到*需要*调用它们。
 
-### 对于 Agent 开发者
+### 3. 指令敏感性
 
-1. **优先使用 AGENTS.md**：将框架文档的简洁、压缩的索引或摘要直接嵌入到 `AGENTS.md` 中，目前比依赖 Skills 的可靠调用更有效。
+只有在*显式指令*的情况下，基于 Skill 的文档才达到 79% 的通过率——这表明 Agent 还不擅长自我诊断何时缺乏框架知识。
 
-2. **保持文档精简**：8KB 的压缩文档索引已经足够有效。关键是提供最相关的信息，而不是完整的文档。
+### 4. 噪音/干扰
 
-3. **随项目更新文档**：将 AGENTS.md 视为项目的一部分，随着框架版本的更新而更新它。
+Skills 不仅未能超越基线——有时还会使情况变糟，因为未使用的 Skill 可能会分散注意力或引入无关的上下文。
 
-4. **适用于其他工具**：这个经验教训可能适用于类似的 Agent 或 LLM 设置，例如 Claude 使用的 `CLAUDE.md` 等。
+## 技术设置
 
-### Skills 的适用场景
+### 如何配置 AGENTS.md
 
-虽然 AGENTS.md 在提供持久上下文方面表现更好，但 Skills 仍然有其价值：
+在项目根目录放置 AGENTS.md 文件，包含 API 摘要、自定义代码模式和版本注意事项。
 
-- **复杂的多步骤流程**：对于需要一系列协调操作的任务
-- **模块化和重用**：当相同的能力需要在多个项目中使用时
-- **未来的潜力**：Skills 是一个有吸引力的抽象概念，用于模块化和重用，但当前一代的 Agent 往往无法识别何时使用它们
+- 可以是压缩的（即使 <8KB 也足够涵盖 Next.js 16 完整 API 索引）
+- 确保包含常见 API 使用的清晰代码示例、注意事项以及项目的确切版本特性
 
-## 当前 Skills 的局限性
+**AGENTS.md 示例代码片段：**
 
-当前一代的 Skills 存在以下问题：
+```markdown
+# Next.js 16 项目文档
 
-1. **识别问题**：Agent 经常无法识别何时应该使用 Skill
-2. **调用失败**：即使明确指示，Agent 有时也会忽略 Skills
-3. **需要改进**：Skills 需要进一步的用户体验或 Agent 改进，才能在实际的 AI Agent 工作流中发挥其潜力
+## useCache()
+- [新功能] 在服务器端缓存数据，用于 SSR。参见：[链接]
 
-## 社区反响
+## connection()
+- 处理 Next.js 16 中的客户端-服务器流式传输。
 
-多个社区和技术讨论证实了这些结果，指出 AGENTS.md 的可靠性，并表示 Skills 在达到其在实际工作流中的潜力之前需要进一步改进。
+...更多文档...
+```
+
+### Skills 方法参考
+
+- Skill 是一个目录结构（包含 SKILL.md、脚本、引用），可以使用 `npx skills add vercel-labs/agent-skills` 安装
+- Skills 对于可复用的工作流（如代码审查规则、可访问性审计）效果很好，但对于核心项目 API 上下文来说可靠性较差，除非进行精心的提示工程
+
+## 优劣对比
+
+| 方法 | 优点 | 缺点 |
+|-----|------|------|
+| **AGENTS.md** | - 总是被注入，无法被忽略<br>- 易于维护<br>- 对版本特定/项目特定知识可靠 | - 每轮都消耗一些提示词 token<br>- 扩展到超大文档可能需要创造性的索引/摘要 |
+| **Skills** | - 可复用、标准化<br>- 不总是在上下文中（节省 token）<br>- 适合工作流/专家配方 | - Agent 不能可靠调用<br>- 需要显式触发<br>- 可能被忽略，导致错误 |
+
+## 社区见解
+
+- 许多开发者都认同"直接附加文档"比 Skills 更可靠，因为 Agent 往往会忽略附加规则/Skills，除非被强制使用
+- 一些人青睐 AGENTS.md，因为它在概念上简单，不依赖 Agent 启发式或不断演进的 Skill 调用逻辑
+- "Skills"标准对于打包和重用领域知识仍然有价值，但目前，*关键项目知识*在始终注入的 Markdown 上下文中更安全
 
 ## 结论
 
-对于需要框架特定知识的 AI 编码 Agent，**在项目根目录中使用 AGENTS.md 文件提供持久上下文**是目前最有效的方法。这种方法：
+Vercel 发现，对于*关键的、版本匹配的框架文档*，将压缩文档索引注入 AGENTS.md 产生了远好于当今 Agent 领域中使用 Skills 的结果（100% 通过率）。Skills 对于可复用的工作流类型知识仍然很好，但为了确保 Agent 不会遗漏关键上下文——通过 Markdown 注入是目前的最佳实践。
 
-- 确保 Agent 始终可以访问相关文档
-- 消除了 Agent 可能忽略文档的决策点
-- 在实际评估中表现出明显优越的性能（100% vs 79%）
-- 易于维护和更新
+## 延伸阅读
 
-虽然 Skills 作为一个抽象概念很有吸引力，但目前的实现还不够可靠。随着 Agent 技术的发展，Skills 可能会变得更加实用，但就目前而言，AGENTS.md 方法提供了更可靠的解决方案。
-
-## 延伸思考
-
-这项研究给我们的启示不仅限于 AGENTS.md vs Skills 的对比，更深层次的思考包括：
-
-1. **上下文的重要性**：对于 AI Agent 来说，"始终可见"的上下文比"按需调用"的工具更可靠
-2. **减少决策负担**：减少 Agent 需要做出的决策数量，可以提高整体可靠性
-3. **简单即美**：8KB 的压缩文档索引证明，精心策划的少量信息比大量可选资源更有价值
-4. **Agent 能力的局限**：当前的 AI Agent 在"元认知"方面仍有不足——它们不总是知道自己需要什么信息
+- [完整文章：AGENTS.md outperforms skills in our agent evals - Vercel 博客](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals)
+- [Cursor 社区讨论](https://forum.cursor.com/t/agents-md-outperforms-skills-in-our-agent-evals/150242)
+- [FAQ：什么是 Skill，如何使用？](https://vercel.com/blog/agent-skills-explained-an-faq)
+- [GitHub：react-best-practices（含 AGENTS.md 示例）](https://github.com/vercel-labs/agent-skills/tree/main/skills/react-best-practices)
 
 ---
 
