@@ -1,5 +1,5 @@
 ---
-title: AGENTS.md 在我们的 Agent 评估中优于 Skills 翻译
+title: 翻译：AGENTS.md 在我们的 Agent 评估中优于 Skills
 date: 2026-02-09 06:43
 categories: [技术]
 tags: [ai, agent]
