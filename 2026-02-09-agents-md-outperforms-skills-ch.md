@@ -122,15 +122,7 @@ Skills 对于以下场景仍然有价值：
 | **AGENTS.md** | - 总是被注入，无法被忽略<br>- 易于维护<br>- 对版本特定/项目特定知识可靠 | - 每轮都消耗一些提示词 token<br>- 扩展到超大文档可能需要创造性的索引/摘要 |
 | **Skills** | - 可复用、标准化<br>- 不总是在上下文中（节省 token）<br>- 适合工作流/专家配方 | - Agent 不能可靠调用<br>- 需要显式触发<br>- 可能被忽略，导致错误 |
 
-## Conclusion
-## 结论
-
-Vercel 发现，对于关键的、版本匹配的框架文档，将压缩文档索引注入 AGENTS.md 产生了远好于当今 Agent 领域中使用 Skills 的结果（100% 通过率 vs 79% 最高通过率）。
-
-AGENTS.md 的始终在线上下文胜过了许多文档驱动的编码场景中按需、由 Agent 调用的模型。Skills 对于模块化的、生态系统范围的自动化仍然有价值——根据知识的特定性和可重用性来选择。
-
-## Further reading
-## 延伸阅读
+---
 
 - [完整文章：AGENTS.md outperforms skills in our agent evals - Vercel 博客](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals)
 - [Cursor 社区讨论](https://forum.cursor.com/t/agents-md-outperforms-skills-in-our-agent-evals/150242)
