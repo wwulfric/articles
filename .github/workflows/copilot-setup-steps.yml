@@ -2,6 +2,31 @@ name: Copilot Setup Steps
 on:
   workflow_dispatch:
 
+# 注意：此工作流无法绕过 GitHub Copilot Agent 沙箱的网络安全限制
+# Note: This workflow CANNOT bypass GitHub Copilot Agent sandbox network security restrictions
+#
+# GitHub Copilot Agents（如 Claude Code）运行在受限的沙箱环境中，某些域名会被平台层面阻止访问。
+# GitHub Copilot Agents (like Claude Code) run in restricted sandbox environments where certain
+# domains are blocked at the platform level.
+#
+# 被阻止的域名示例 / Examples of blocked domains:
+# - martinfowler.com (ERR_BLOCKED_BY_CLIENT)
+# - 其他外部网站 / Other external websites
+#
+# 解决方案 / Solutions:
+# 1. 手动提供内容：将需要的文章内容直接提供给 Agent
+#    Manually provide content: Provide article content directly to the Agent
+# 2. 使用 web_search 工具：某些 Agent 可能有替代的搜索工具
+#    Use web_search tool: Some Agents may have alternative search tools
+# 3. 请求域名白名单：联系 GitHub 支持将特定域名加入白名单
+#    Request domain whitelist: Contact GitHub support to whitelist specific domains
+#
+# 此工作流的实际用途 / Actual purpose of this workflow:
+# - 作为项目环境设置的参考
+#   Reference for project environment setup
+# - 预安装 Agent 可能需要的依赖
+#   Pre-install dependencies that agents might need
+
 jobs:
   setup:
     runs-on: ubuntu-latest
@@ -9,16 +34,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up environment
+      - name: Display environment info
         run: |
-          echo "Setting up environment for Copilot coding agent"
+          echo "=== Environment Information ==="
+          echo "Runner: GitHub-hosted Ubuntu"
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "================================"
 
       - name: Install dependencies
         run: |
-          # Add any package installations needed
+          # 安装项目可能需要的工具
+          # Install tools that the project might need
+          echo "No additional dependencies required for this articles repository"
           echo "Dependencies setup complete"
 
-      - name: Configure network access
+      - name: Network access note
         run: |
-          # Configure network settings if needed
-          echo "Network configuration complete"
+          echo "⚠️  注意：GitHub Copilot Agent 沙箱环境有网络访问限制"
+          echo "⚠️  Note: GitHub Copilot Agent sandbox has network access restrictions"
+          echo ""
+          echo "如果遇到网络访问问题，请手动提供所需内容或使用可用的替代工具。"
+          echo "If you encounter network access issues, please manually provide required content or use available alternative tools."
