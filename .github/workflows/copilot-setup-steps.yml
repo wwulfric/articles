@@ -1,0 +1,24 @@
+name: Copilot Setup Steps
+on:
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up environment
+        run: |
+          echo "Setting up environment for Copilot coding agent"
+
+      - name: Install dependencies
+        run: |
+          # Add any package installations needed
+          echo "Dependencies setup complete"
+
+      - name: Configure network access
+        run: |
+          # Configure network settings if needed
+          echo "Network configuration complete"
