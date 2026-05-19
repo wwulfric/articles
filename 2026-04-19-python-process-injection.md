@@ -24,7 +24,7 @@ tags: [python, 安全, cpython]
 - GIL（全局解释器锁）：Python 的 C API 调用几乎都需要持有 GIL
 - 执行时机：目标进程可能正处于任何状态——malloc 中途、GC 扫描中、持有 import 锁……
 
-·所以，进程注入需要回答三个问题：
+所以，进程注入需要回答三个问题：
 
 1. 如何进入目标进程的地址空间？（跨进程控制）
 2. 如何安全地执行 Python 代码？（GIL 获取）
@@ -134,18 +134,18 @@ pyrasite 本质上是在"碰运气"——大多数时候目标进程不在这些
 peeka/memray 控制端          GDB/LLDB 子进程              目标 Python 进程
     │                            │                              │
     │  3.1：bind/listen 本地端口  │                              │
-    │── 启动 GDB/LLDB ──────────>│                              │  3.1：传入端口和注入库路径
-    │                            │── ptrace ATTACH ────────────>│  暂停
-    │                            │── 等待安全断点命中 ───────────>│  3.2：malloc/PyMem_* 等 C 函数入口
+    │-- 启动 GDB/LLDB ---------->│                              │  3.1：传入端口和注入库路径
+    │                            │-- ptrace ATTACH ------------>│  暂停
+    │                            │-- 等待安全断点命中 ----------->│  3.2：malloc/PyMem_* 等 C 函数入口
     │                            │                              │
-    │                            │── dlopen("_inject.so") ─────>│  3.3：加载 C 扩展到目标地址空间
-    │                            │── call peeka_spawn_agent() ─>│  3.4：创建新 pthread
-    │                            │── ptrace DETACH ────────────>│  恢复执行
+    │                            │-- dlopen("_inject.so") ----->│  3.3：加载 C 扩展到目标地址空间
+    │                            │-- call peeka_spawn_agent() ->│  3.4：创建新 pthread
+    │                            │-- ptrace DETACH ------------>│  恢复执行
     │                            │                              │
-    │<───────────────────────────┼──────────────────────────────│  3.5：[新 pthread] connect() 回连 + 接收脚本
-    │                            │                              │  ├─ PyGILState_Ensure()
-    │                            │                              │  ├─ PyEval_EvalCode()
-    │                            │                              │  └─ PyGILState_Release()
+    │<---------------------------┼------------------------------│  3.5：[新 pthread] connect() 回连 + 接收脚本
+    │                            │                              │  ├- PyGILState_Ensure()
+    │                            │                              │  ├- PyEval_EvalCode()
+    │                            │                              │  └- PyGILState_Release()
 ```
 
 在这条路径里，确实会短暂存在三个进程：用户启动的 peeka/memray 控制端进程、控制端临时启动的 GDB/LLDB 子进程、被 attach 的目标 Python 进程。GDB/LLDB 子进程只负责 ptrace、dlopen 和调用 `peeka_spawn_agent(port)`；agent 代码的传输发生在控制端进程和目标进程中新建的 pthread 之间。
