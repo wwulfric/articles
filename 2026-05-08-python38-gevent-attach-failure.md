@@ -1,5 +1,5 @@
 ---
-title: gevent monkey patch 下的 attach agent：启动超时、控制面保活与观测边界
+title: gevent monkey patch 如何影响 attach agent：从启动超时到观测边界
 date: 2026-05-08 00:00
 categories: [技术]
 tags: [python, gevent, debug]
@@ -16,7 +16,7 @@ peeka 属于 attach agent 这一类。用户在外部选择一个正在运行的
 - 控制面：工具为了启动、attach、通信、接收命令、返回结果而维护的基础设施。
 - 数据面：工具真正用来观察程序的路径，比如函数 wrapper、调用栈采样、tracing backend、内存分配 hook。
 
-不同工具的控制面和数据面位置不一样。`cProfile` 基本都在目标进程内部；`py-spy` 的控制面在外部，数据采样也尽量从外部完成；memray 会把采集逻辑放进进程内部，再把数据写到外部可分析的文件；peeka 的控制面横跨内外两侧，外部 CLI 负责发命令，目标进程里的 agent 负责接命令和执行观测。
+不同工具的控制面和数据面位置不一样。`cProfile` 基本都在目标进程内部；`py-spy` 的控制面在外部，数据采样也尽量从外部完成；memray 会把采集逻辑放进目标进程内部，再把数据写到外部可分析的文件；peeka 的控制面横跨内外两侧，外部 CLI 负责发命令，目标进程里的 agent 负责接命令和执行观测。
 
 这种差异平时不明显。一旦目标进程使用 gevent，问题就会浮出来。gevent 通过 monkey patch 把 `socket`、`threading`、`time`、`select` 等标准库对象替换成协作式版本。对业务代码来说，这是 gevent 的能力来源；对诊断工具来说，它可能同时影响控制面和数据面。
 
@@ -47,7 +47,9 @@ Agent initialization timeout
 
 ---
 
-## 1. attach agent 的启动链路：就绪信号只代表控制面初始化
+## 问题背景：gevent 会同时影响控制面和数据面
+
+### attach agent 的启动链路：就绪信号只代表控制面初始化
 
 一个 attach agent 的最小流程可以画成这样：
 
@@ -122,13 +124,11 @@ class MiniAgent:
             conn.sendall(b"hello\n")
 ```
 
-这段代码的问题不是逻辑写错了，而是它默认了一个前提：`socket` 和 `threading` 还是 CPython 原来的标准库对象。
-
-在 gevent monkey patch 之后，这个前提不一定成立。
+这段写法在普通 Python 进程里没什么问题；但 attach agent 落进的是目标进程自己的 runtime。目标进程如果已经做过 gevent monkey patch，这里的 `socket` 和 `threading` 就可能不是原始实现了。
 
 ---
 
-## 2. gevent monkey patch 会让 agent 卡在就绪信号之前
+### gevent monkey patch 会让 agent 卡在就绪信号之前
 
 monkey patch 的核心影响是：后续代码再 `import socket`、`import threading` 时，拿到的可能已经不是原始实现。
 
@@ -183,7 +183,9 @@ Agent initialization timeout
 
 ---
 
-## 3. 控制面保活：用原生 socket 和线程入口建立命令通道
+## 控制面：启动和通信要避开 monkey patch
+
+### 用原生 socket 和线程入口建立命令通道
 
 控制面的目标很朴素：agent 先要活下来。
 
@@ -256,7 +258,7 @@ class MiniAgent:
 
 ---
 
-## 4. 就绪同步策略：listen 之后发信号，再用 hello 探测确认可用
+### listen 之后发信号，再用 hello 探测确认可用
 
 上面的代码里有一个看起来不严谨的地方：启动 accept loop 后，没有等它显式报告“我已经跑起来了”。
 
@@ -279,7 +281,9 @@ class MiniAgent:
 
 ---
 
-## 5. 数据面观测边界：不同命令在 gevent 下能看到的范围不同
+## 数据面：命令能执行，不代表观测语义完全相同
+
+### 不同命令在 gevent 下能看到的范围不同
 
 控制面修完，只能说明 agent 能活下来，命令通道能响应。它不自动保证所有诊断命令在 gevent 下都和普通线程模型完全等价。
 
@@ -303,7 +307,7 @@ class MiniAgent:
 
 ---
 
-## 6. trace 的降级策略：只保留根调用，不承诺完整调用树
+### trace 只保留根调用，不承诺完整调用树
 
 完整 `trace` 通常依赖解释器的 tracing 机制。Python 3.12+ 可以用 `sys.monitoring`，更老版本通常用 `sys.settrace`。这类机制会进入 frame 事件流，用来展开函数内部的子调用。
 
@@ -340,7 +344,7 @@ trace target()
 
 ---
 
-## 7. top 的采样边界：frame sampling 看不见所有挂起 greenlet
+### top 的 frame sampling 看不见所有挂起 greenlet
 
 `top` 的普通做法是 frame sampling：定期读取各 OS thread 当前正在执行的 frame，再按函数聚合热点。
 
@@ -369,7 +373,9 @@ trace target()
 
 ---
 
-## 8. 排查顺序：先确认目标 runtime，再解释启动超时和降级输出
+## 排查与结论：先确认 runtime，再解释输出边界
+
+### 先确认目标 runtime，再解释启动超时和降级输出
 
 调这类问题时，最怕把目标进程当成普通 Python 进程。
 
@@ -390,7 +396,7 @@ trace target()
 
 ---
 
-## 9. 总结：控制面先保活，数据面再标注观测范围
+### 控制面先保活，数据面再标注观测范围
 
 attach agent 运行在别人的进程里。那个进程的标准库、线程模型、socket 行为和 frame 调度模型，都可能已经被业务框架改造过。
 
