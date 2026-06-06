@@ -9,7 +9,7 @@ tags: [python, gevent, debug]
 
 性能分析和运行时诊断工具做的就是这类事，只是进入目标进程的方式不同。`cProfile` 跟着应用一起跑，通过解释器事件记录函数调用和耗时；`py-spy` 或系统级 `perf` 更像旁路观察者，控制端留在目标进程外面，通过操作系统能力读取线程栈或采样 PC；memray、运行时 trace 工具、attach agent 则会把一部分采集逻辑放进目标进程内部，安装 hook、wrapper 或后台 agent，观察更细的运行时状态。
 
-peeka 属于 attach agent 这一类。用户在外部选择一个正在运行的 Python 进程，peeka 把一段 agent 代码送进去；agent 在目标进程里建立命令通道，后续 `watch`、`trace`、`top` 等命令再通过这个通道执行。它更接近运行时诊断工具，而不是离线性能分析器。
+上一篇文章中，我们提到了几个常见的 python 进程诊断工具。其中提到的 [peeka](https://github.com/peeka-project/peeka) 就属于 attach agent 这一类。用户在外部选择一个正在运行的 Python 进程，peeka 把一段 agent 代码送进去；agent 在目标进程里建立命令通道，后续 `watch`、`trace`、`top` 等命令再通过这个通道执行。它更接近运行时诊断工具，而不是离线性能分析器。
 
 先把问题分成控制面和数据面两层。
 
@@ -41,15 +41,15 @@ Agent initialization timeout
 
 具体工具可能会把这个超时写成等待某个文件、notify socket 或 IPC 消息超时。传递方式不同，但外部控制端等的都是同一件事：agent 发出“我已经启动完成”的就绪信号。
 
-这个启动超时容易被误读成“注入失败”或者“等待时间太短”。实际更常见的情况是：agent 已经进去了，但它死在发出就绪信号之前。
-
-启动超时先暴露控制面问题；agent 能连上以后，还要继续解释数据面结果的观测边界。
+这个启动超时容易被误读成“注入失败”或者“等待时间太短”。实际更常见的情况是：agent 代码已经在目标进程里开始执行，但在发出就绪信号之前阻塞在启动路径上，或者抛出异常中断；外部控制端只能继续等待，最后表现为初始化超时。
 
 ---
 
-## 问题背景：gevent 会同时影响控制面和数据面
+## 1. 问题背景：gevent 先影响 attach agent 的控制面
 
-### attach agent 的启动链路：就绪信号只代表控制面初始化
+gevent 的 monkey patch 会把 `socket`、`threading`、`time`、`select` 等标准库接口替换成协作式实现，让业务 I/O 在等待时主动让出执行权；如果 attach agent 的启动路径也直接使用这些模块，控制面就可能在建 socket、起线程或等待就绪信号时出问题。
+
+### 1.1 attach agent 的启动链路：就绪信号只代表控制面初始化
 
 一个 attach agent 的最小流程可以画成这样：
 
@@ -94,10 +94,12 @@ class MiniAgent:
         self.server = None
 
     def start(self):
+        # 1. 创建本地 socket。
         self.server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         self.server.bind(self.sock_path)
         self.server.listen(5)
 
+        # 2. 启动后台 accept loop。
         accept_started = threading.Event()
         thread = threading.Thread(
             target=self._accept_loop,
@@ -107,11 +109,13 @@ class MiniAgent:
         thread.start()
         accept_started.wait(timeout=10)
 
+        # 3. 发出就绪信号。
         notify_started()
 
     def _accept_loop(self, accept_started):
         accept_started.set()
         while True:
+            # 4. 等外部 client 连上来，接收后续命令。
             conn, _ = self.server.accept()
             threading.Thread(
                 target=self._handle_client,
@@ -128,7 +132,7 @@ class MiniAgent:
 
 ---
 
-### gevent monkey patch 会让 agent 卡在就绪信号之前
+### 1.2 gevent monkey patch 会让 agent 卡在就绪信号之前
 
 monkey patch 会改变后续 import 的结果：再 `import socket`、`import threading` 时，拿到的可能已经不是原始实现。
 
@@ -183,9 +187,11 @@ Agent initialization timeout
 
 ---
 
-## 控制面：启动和通信要避开 monkey patch
+## 2. 控制面：启动和通信要避开 monkey patch
 
-### 用原生 socket 和线程入口建立命令通道
+控制面的目标不是适配 gevent 的协作调度，而是让 agent 自己的命令通道尽量少受它影响。socket、后台线程、就绪通知这些基础设施属于诊断工具本身，不应该依赖目标应用已经改过的 `socket` 和 `threading`。这一层先保证外部 client 能连上 agent；至于诊断结果能看到多少，再放到数据面里说明。
+
+### 2.1 用原生 socket 和线程入口建立命令通道
 
 控制面的第一目标是让 agent 先跑起来。
 
@@ -194,7 +200,7 @@ Agent initialization timeout
 1. 在目标进程里启动；
 2. 建好命令 socket；
 3. 发出就绪信号；
-4. 接收外部 client 的第一条命令。
+4. 响应外部 client 的第一次连接。
 
 agent 自己的命令通道要尽量避开目标应用可能 monkey patch 的高层 API。启动路径可以退到这几类原语上：
 
@@ -222,21 +228,31 @@ class MiniAgent:
         self.server = None
 
     def start(self):
+        # 1. 创建原生 Unix socket。
         self.server = _socket.socket(_socket.AF_UNIX, _socket.SOCK_STREAM)
+
+        # 2. bind 到本地路径。
         self.server.bind(self.sock_path)
+
+        # 3. listen 返回后，外部连接可以先进入 backlog。
         self.server.listen(5)
 
+        # 4. 启动原生线程跑 accept loop。
         start_thread = native_start_new_thread()
         start_thread(self._accept_loop, ())
+
+        # 5. 发出就绪信号；不再等待 Python 层 Event。
         notify_started()
 
     def _accept_loop(self):
         start_thread = native_start_new_thread()
         while True:
+            # 第 6 步由外部 client 发起；这里负责 accept 并派发处理。
             conn, _ = self.server.accept()
             start_thread(self._handle_client, (conn,))
 
     def _handle_client(self, conn):
+        # hello 探测用的最小响应。
         conn.sendall(b"hello\n")
         conn.close()
 ```
@@ -245,7 +261,7 @@ class MiniAgent:
 
 - socket 改用底层 `_socket.socket`，不再通过 `socket.socket` 建命令通道；
 - 线程改用原始 `_thread.start_new_thread`，不再通过 `threading.Thread` 启动控制线程；
-- 就绪同步交给 `listen()` 后的 socket backlog 和外部 hello 探测，不再用 `threading.Event.wait()` 作为发出就绪信号前的 barrier；
+- 就绪同步交给 `listen()` 后的 socket backlog 和外部 hello 探测，不再用 `threading.Event.wait()` 作为发出就绪信号前的 barrier。这部分在下一个小节会涉及；
 - agent 自己的命令通道整体退到 `_socket` / `_thread` 这组底层原语上，不再把控制线程和控制 socket 建在 `socket` / `threading` 这层可能被替换的 API 上。
 
 如果目标进程已经加载了 `gevent.monkey`，`get_original()` 可以拿到 monkey patch 之前的对象。`native_start_new_thread()` 借这个接口，在 gevent 已经 patch 过 `_thread` 时仍然取回原始线程入口。
@@ -254,7 +270,7 @@ class MiniAgent:
 
 ---
 
-### listen 之后发信号，再用 hello 探测确认可用
+### 2.2 listen 之后发信号，再用 hello 探测确认可用
 
 上面的代码里少了一步：启动 accept loop 后，没有等它显式报告“我已经跑起来了”。这一步可以不等。
 
@@ -269,19 +285,30 @@ class MiniAgent:
 5. 发出就绪信号；
 6. 外部 client 连接后，再做一次 hello 探测。
 
-就绪信号只表示“agent 已完成基本初始化”。写文件、回连 notify socket、发送 IPC 消息都只是传递方式；命令循环是否真的可用，交给后续 hello 探测确认。
+第 1 到第 5 步对应上节 agent 代码里的注释。第 6 步发生在外部控制端，用来确认 agent 的 accept loop 和 client handler 至少能处理一次连接并写回响应。外部控制端不在目标 gevent 进程里，这里用普通 `socket` 即可：
+
+```python
+import socket
+
+
+def probe_agent(sock_path, timeout=1.0):
+    with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as client:
+        client.settimeout(timeout)
+        client.connect(sock_path)
+        return client.recv(len(b"hello\n")) == b"hello\n"
+```
+
+就绪信号只表示“agent 已完成基本初始化”。写文件、回连 notify socket、发送 IPC 消息都只是传递方式；agent 是否真的能接收连接并返回响应，交给后续 hello 探测确认。
 
 这样一来，就绪同步由内核 socket backlog 和外部 hello 探测承接，发出就绪信号之前不需要 Python 层 event。
 
 ---
 
-## 数据面：命令能执行，不代表观测语义完全相同
+## 3. 数据面：命令能执行，不代表观测语义完全相同
 
-### 不同命令在 gevent 下能看到的范围不同
+命令通道稳定以后，问题还没有结束。agent 能接收命令，只说明 socket、后台线程和 hello 探测这些控制面路径已经可用；真正执行 `watch`、`trace`、`top` 时，代码会进入函数 wrapper、tracing backend、frame sampling 这些数据面路径。它们依赖的观测机制不同，受 gevent 影响的方式也不同，所以还要继续看数据面：命令能返回结果是一回事，结果能解释到什么程度是另一回事。
 
-控制面修完，只能说明 agent 能活下来，命令通道能响应。它不自动保证所有诊断命令在 gevent 下都和普通线程模型完全等价。
-
-数据面要处理的就是这些语义差异。
+### 3.1 不同命令在 gevent 下能看到的范围不同
 
 `watch`、`monitor`、`stack`、`trace`、`top` 看起来都在“观察目标进程”，但它们依赖的机制不同：
 
@@ -301,7 +328,7 @@ class MiniAgent:
 
 ---
 
-### trace 只保留根调用，不承诺完整调用树
+### 3.2 trace 只保留根调用，不承诺完整调用树
 
 完整 `trace` 通常依赖解释器的 tracing 机制。Python 3.12+ 可以用 `sys.monitoring`，更老版本通常用 `sys.settrace`。这类机制会进入 frame 事件流，用来展开函数内部的子调用。
 
@@ -338,7 +365,7 @@ trace target()
 
 ---
 
-### top 的 frame sampling 看不见所有挂起 greenlet
+### 3.3 top 的 frame sampling 看不见所有挂起 greenlet
 
 `top` 的普通做法是 frame sampling：定期读取各 OS thread 当前正在执行的 frame，再按函数聚合热点。
 
@@ -367,47 +394,13 @@ trace target()
 
 ---
 
-## 排查与结论：先确认 runtime，再解释输出边界
+## 4. 总结：控制面先保活，数据面说明边界
 
-### 先确认目标 runtime，再解释启动超时和降级输出
+gevent 带来的问题不是单点故障。它先可能让 attach agent 的控制面卡在 socket、线程、就绪信号这些启动路径上；控制面修好以后，数据面的结果也不能直接按普通线程模型解释。
 
-调这类问题时，别先把目标进程当成普通 Python 进程。
+处理顺序可以简单分成两步：
 
-更可靠的顺序是：
+1. 控制面先退到底层原语，用 `_socket`、原始 `_thread.start_new_thread` 和 hello 探测保证 agent 能启动、能通信；
+2. 数据面再按命令说明观测范围，`watch`、`monitor`、`stack` 保持函数边界观测，`trace` 和 `top` 在 gevent 下要标出降级和盲区。
 
-1. 先确认目标进程是否已经做过 gevent monkey patch；
-2. 再看 agent 控制面是否使用了原生 socket 和原生线程入口；
-3. 最后解释 `trace`、`top` 这类数据面输出的边界。
-
-在 peeka 里，这类信息可以通过类似 `patch-status` 的命令摆到台面上。它不直接修复问题，只负责把当前 runtime 长什么样说清楚：
-
-- gevent 是否已经 import；
-- gevent hub 是否 active；
-- `socket.socket`、`threading.Event` 这类对象是否已经不是原始对象；
-- 当前命令输出是否带有降级说明。
-
-有了这些信息，`Agent initialization timeout` 就不再只是一个模糊的启动超时。它到底是注入路径失败，还是 agent 进入目标进程后踩到了被改造过的 runtime，可以继续往下分。
-
----
-
-### 控制面先保活，数据面再标注观测范围
-
-attach agent 运行在别人的进程里。那个进程的标准库、线程模型、socket 行为和 frame 调度模型，都可能已经被业务框架改造过。
-
-处理时也要分成两层。
-
-控制面先保证 agent 能活下来：
-
-1. 用 `_socket.socket` 这类底层接口建立命令 socket，不再通过 `socket.socket`；
-2. 用原始 `_thread.start_new_thread` 这类底层入口启动控制线程，不再通过 `threading.Thread`；
-3. 用 `listen()` 后的 backlog 承接早到的 client 连接，把同步点从 Python 层 event 挪到 socket backlog；
-4. 发出就绪信号后，再用外部 hello 探测确认命令循环可用，避免在发出就绪信号前进入 `threading.Event.wait()`。
-
-数据面再说明诊断结果的覆盖范围：
-
-1. `watch`、`monitor`、`stack` 可以保持函数边界观测；
-2. `trace` 在 gevent 下可以降级到 `wrapper_only`；
-3. `top` 可以采样当前活跃执行路径，但要承认 greenlet 盲区；
-4. 受影响输出要带 `meta`，让调用方知道 backend 和降级原因。
-
-`Agent initialization timeout` 只是外部看到的结果。agent 跨进了一个已经被改造过的 runtime，控制面要尽量退到底层原语，数据面要清楚声明自己还能看见什么。
+外部最先看到的可能只是 `Agent initialization timeout`，但它只说明控制面没有完成就绪流程。继续往下排查时，要分清 agent 是不是已经进入目标进程、命令通道能不能建立，以及命令返回的数据还能代表什么。
