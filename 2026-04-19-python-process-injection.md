@@ -5,11 +5,13 @@ categories: [技术]
 tags: [python, 安全, cpython]
 ---
 
-线上 Python 服务卡住、CPU 飙高，或者某个数据任务跑了几个小时以后开始变慢时，重启往往是最后手段。进程里的现场还在：线程停在哪一层调用栈，哪些对象还活着，哪个函数正在反复分配内存。进程一停，这些信息也就没了。
+线上 Python 服务偶尔卡住、CPU 飙高，或者某个接口突然变慢时，进程往往还在跑，不能为了加一行日志或者打开 `cProfile` 就重启。此时关心的是这个 PID 正在做什么：哪些函数在调用，栈停在哪里，内存分配是否异常，某个函数的入参、返回值和耗时到底是什么。
 
 能不能趁这个 PID 还活着，把一小段诊断逻辑送进去，让它在原来的 Python 解释器里执行？这就是**进程注入**，也常叫 process inject。它不是为了给业务代码增加新功能，而是让外部工具临时进入目标进程，读取运行时状态、安装 hook，或者启动一个诊断 agent。
 
-[pyrasite](https://github.com/lmacken/pyrasite)、[memray](https://github.com/bloomberg/memray)、[peeka](https://github.com/wwulfric/peeka) 都依赖这类能力，只是进入目标进程的方式越来越谨慎。接下来按三代方案展开：GDB 直接调用 C API、`dlopen + pthread`、以及 Python 3.14 之后的 PEP 768。
+性能分析和运行时诊断工具做的就是这类事，只是进入目标进程的方式不同。`cProfile` 跟着应用一起跑，通过解释器事件记录函数调用和耗时；`py-spy` 或系统级 `perf` 更像旁路观察者，控制端留在目标进程外面，通过操作系统能力读取线程栈或采样 PC；memray、运行时 trace 工具、attach agent 则会把一部分采集逻辑放进目标进程内部，安装 hook、wrapper 或后台 agent，观察更细的运行时状态。
+
+[pyrasite](https://github.com/lmacken/pyrasite)、[memray](https://github.com/bloomberg/memray)、[peeka](https://github.com/wwulfric/peeka) 都依赖这类能力，只是进入目标进程的方式有差异。接下来按三代方案展开：GDB 直接调用 C API、`dlopen + pthread`、以及 Python 3.14 之后的 PEP 768。
 
 ---
 
