@@ -14,11 +14,11 @@ tags: [python, gevent, debug]
 
 不同工具的控制面和数据面位置不一样。`cProfile` 基本都在目标进程内部；`py-spy` 的控制面在外部，数据采样也尽量从外部完成；memray 会把采集逻辑放进目标进程内部，再把数据写到外部可分析的文件；peeka 的控制面横跨内外两侧，外部 CLI 负责发命令，目标进程里的 agent 负责接命令和执行观测。
 
-这种差异平在多数情况下并不明显。一旦目标进程使用 gevent，问题就会浮现出来。gevent 通过 monkey patch 把 `socket`、`threading`、`time`、`select` 等标准库对象替换成协程版本。对业务代码来说，使用 gevent 的目的就是使用其协程能力；对诊断工具来说，它可能会破坏控制面和数据面的正常工作。
+这些位置差异平时不影响使用。一旦目标进程使用 gevent，问题就会浮现出来。gevent 通过 monkey patch 把 `socket`、`threading`、`time`、`select` 等标准库对象替换成协程版本。对业务代码来说，使用 gevent 的目的就是使用其协程能力；对诊断工具来说，它会同时影响控制面和数据面。
 
 控制面可能在启动 socket、线程或同步信号时卡住。数据面可能还能给出结果，但结果的含义会变化：函数 wrapper 仍然能观察入口调用，递归 trace 和线程 frame 采样却不一定还能代表完整执行过程。
 
-attach agent 在 gevent 目标进程里的启动超时，就是这种影响最先暴露出来的地方。
+attach agent 在 gevent 目标进程里的启动超时，是这条链路最先出问题的环节。
 
 很多 gevent 应用会在启动早期执行：
 
@@ -37,7 +37,7 @@ Agent initialization timeout
 
 具体工具可能会把这个超时写成等待某个文件、notify socket 或 IPC 消息超时。传递方式不同，但外部控制端等的都是同一件事：agent 发出「我已经启动完成」的就绪信号。
 
-这个启动超时容易被误读成「注入失败」或者「等待时间太短」。实际更常见的情况是：agent 代码已经在目标进程里开始执行，但在发出就绪信号之前阻塞在启动路径上，或者抛出异常中断；外部控制端只能继续等待，最后表现为初始化超时。
+这种超时容易被误读成「注入失败」或者「等待时间太短」。更常见的情况是：agent 代码已经在目标进程里开始执行，但在发出就绪信号之前阻塞在启动路径上，或者抛出异常中断；外部控制端只能继续等待，最后表现为初始化超时。
 
 ---
 
@@ -118,7 +118,7 @@ class MiniAgent:
 
 monkey patch 会改变后续 import 的结果：再 `import socket`、`import threading` 时，拿到的可能已经不是原始实现。
 
-对业务代码来说，这是 gevent 的能力来源。对 attach agent 来说，这会影响自己的启动路径。
+业务代码看中的是 gevent 的能力来源；attach agent 看到的却是同一套 API 的副作用。
 
 最明显的风险是：
 
@@ -126,13 +126,13 @@ monkey patch 会改变后续 import 的结果：再 `import socket`、`import th
 accept_started.wait(timeout=10)
 ```
 
-更隐蔽的风险在：
+风险还藏在：
 
 ```python
 thread.start()
 ```
 
-CPython 的 `Thread.start()` 不只是创建底层线程。它还会等待线程内部的 `_started` 事件：
+CPython 的 `Thread.start()` 分两步：先创建底层线程，再等线程内部的 `_started` 事件返回：
 
 ```python
 def start(self):
@@ -140,7 +140,7 @@ def start(self):
     self._started.wait()
 ```
 
-如果 `threading` 已经被 gevent 改造，这个 wait 可能落到 gevent 的 event 语义里。在某些注入时机下，调用链会变成：
+如果 `threading` 已经被 gevent 改造，这个 wait 可能进入 gevent 的 event 语义。在某些注入时机下，调用链会变成：
 
 ```text
 agent.start()
@@ -150,9 +150,9 @@ agent.start()
            -> gevent.exceptions.BlockingSwitchOutError
 ```
 
-把这条链路展开看，可以更清楚地看到哪一层撞上 gevent、外部诊断工具又看到了什么：
+把这条链路展开看，可以更清楚地看到问题出在哪一层、外部诊断工具又看到了什么：
 
-![agent.start() 的调用栈撞上 gevent.event.Event.wait() 抛 BlockingSwitchOutError，外部诊断工具最终超时](images/gevent/agent-blocking-stack.png)
+![调用栈走到 gevent.event.Event.wait() 时抛 BlockingSwitchOutError，外部诊断工具最终超时](images/gevent/agent-blocking-stack.png)
 
 常见错误是 `BlockingSwitchOutError`[^blocking-switch-out]：
 
@@ -161,7 +161,7 @@ gevent.exceptions.BlockingSwitchOutError:
 Impossible to call blocking function in the event loop callback
 ```
 
-这个异常和 GDB、LLDB、PEP 768[^pep-768] 这些注入方式没有直接关系。agent 已经进入目标进程，只是在执行过程中撞到了 gevent 对阻塞切换的限制。
+这个异常和 GDB、LLDB、PEP 768[^pep-768] 这些注入方式没有直接关系。agent 已经进入目标进程，只是在执行过程中触发了 gevent 对阻塞切换的限制。
 
 外部最终只等到：
 
@@ -289,13 +289,13 @@ def probe_agent(sock_path, timeout=1.0):
 
 就绪信号只表示「agent 已完成基本初始化」。写文件、回连 notify socket、发送 IPC 消息都只是传递方式；agent 是否真的能接收连接并返回响应，交给后续 hello 探测确认。
 
-这样一来，就绪同步由内核 socket backlog 和外部 hello 探测承接，发出就绪信号之前不需要 Python 层 event。
+就绪同步因此落在内核 socket backlog 和外部 hello 探测上，发出就绪信号之前不需要 Python 层 event。
 
 ---
 
 ## 3. 数据面：命令能执行，不代表观测语义完全相同
 
-命令通道稳定以后，问题还没有结束。agent 能接收命令，只说明 socket、后台线程和 hello 探测这些控制面路径已经可用；真正执行 `watch`、`trace`、`top` 时，代码会进入函数 wrapper、tracing backend、frame sampling 这些数据面路径。它们依赖的观测机制不同，受 gevent 影响的方式也不同，所以还要继续看数据面：命令能返回结果是一回事，结果能解释到什么程度是另一回事。
+命令通道稳定以后，问题还没有结束。agent 能接收命令，只说明 socket、后台线程和 hello 探测这些控制面路径已经可用；真正执行 `watch`、`trace`、`top` 时，代码会进入函数 wrapper、tracing backend、frame sampling 这些数据面路径。它们依赖的观测机制不同，受 gevent 影响的方式也不同。
 
 ### 3.1 不同命令在 gevent 下能看到的范围不同
 
@@ -313,7 +313,7 @@ def probe_agent(sock_path, timeout=1.0):
 
 `trace` 和 `top` 更复杂，因为它们试图观察更深的执行过程。
 
-这时输出仍然可以给，但应该把 backend、观测范围和降级原因一起带出来，避免调用方把降级结果当成完整结果。
+这时输出仍然可以给，但应该把 backend、观测范围和降级原因一起带出来，让调用方知道这是降级结果，不要按完整结果来解读。
 
 ---
 
@@ -325,7 +325,7 @@ def probe_agent(sock_path, timeout=1.0):
 
 ![gevent 下 trace 事件流被另一个 greenlet 穿插的示意图](images/gevent/gevent-trace-timeline.png)
 
-从单次 `target()` 的角度看，这棵「调用树」会被别的执行路径穿插，已经不能代表它自己的内部结构。此时更稳的选择是降级成 `wrapper_only`：
+从单次 `target()` 的角度看，这棵「调用树」会被别的执行路径穿插，已经不能代表它自己的内部结构。与其展开错的，不如降级成 `wrapper_only`：
 
 ```text
 trace target()
@@ -364,7 +364,7 @@ trace target()
 
 这套采样模型在普通线程程序里比较直观。但 gevent 使用 greenlet 调度，多个 greenlet 共享同一个 OS thread。
 
-`sys._current_frames()` 返回的是每个 OS thread 当前正在执行的 frame。它天然更容易看到「现在正在跑的 greenlet」，看不到所有挂起的 greenlet。
+`sys._current_frames()` 返回的是每个 OS thread 当前正在执行的 frame。它能看到「现在正在跑的 greenlet」，看不到所有挂起的 greenlet。
 
 ![普通线程程序与 gevent 程序下 frame sampling 的覆盖范围对比](images/gevent/top-sampling-blindspot.png)
 
@@ -389,16 +389,16 @@ trace target()
 
 ---
 
-## 4. 总结：控制面先保活，数据面说明边界
+## 4. 总结
 
-gevent 带来的问题不是单点故障。它先可能让 attach agent 的控制面卡在 socket、线程、就绪信号这些启动路径上；控制面修好以后，数据面的结果也不能直接按普通线程模型解释。
+gevent 对 attach agent 的影响分两个阶段：先是控制面卡在 socket、线程、就绪信号这些启动路径上；控制面修好以后，数据面的结果也不能直接按普通线程模型解释。
 
-处理顺序可以简单分成两步：
+处理顺序分两步：
 
-1. 控制面先退到底层原语，用 `_socket`、原始 `_thread.start_new_thread` 和 hello 探测保证 agent 能启动、能通信；
-2. 数据面再按命令说明观测范围，`watch`、`monitor`、`stack` 保持函数边界观测，`trace` 和 `top` 在 gevent 下要标出降级和盲区。
+1. 控制面先退到底层原语，用 `_socket`、`_thread.start_new_thread` 和 hello 探测保证 agent 能启动、能通信；
+2. 数据面再按命令说明观测范围，`watch`、`monitor`、`stack` 只做函数边界观测，`trace` 和 `top` 在 gevent 下要标出降级和盲区。
 
-外部最先看到的可能只是 `Agent initialization timeout`，但它只说明控制面没有完成就绪流程。继续往下排查时，要分清 agent 是不是已经进入目标进程、命令通道能不能建立，以及命令返回的数据还能代表什么。
+外部最先看到的可能只是 `Agent initialization timeout`，但这条信息只说明控制面没走完就绪流程。再往下排查，要分清三件事：agent 是不是已经进入目标进程、命令通道能不能建立、命令返回的数据还能代表什么。
 
 [^blocking-switch-out]: `BlockingSwitchOutError`：gevent 在「不允许切换 greenlet 的上下文」里检测到要执行阻塞操作时抛出。gevent 的协作式阻塞函数（patch 后的 `Event.wait()`、`socket.recv()` 等）在阻塞前需要 switch 到 hub 让别的 greenlet 跑；如果当前栈本来就在 hub 的 callback 里，再 switch 会造成 hub 重入，于是直接报错而不是死锁。详见 gevent API 文档：[`BlockingSwitchOutError`](https://www.gevent.org/api/gevent.hub.html#gevent.hub.BlockingSwitchOutError)。
 [^pep-768]: [PEP 768: Safe external debugger interface for CPython](https://peps.python.org/pep-0768/)。

@@ -1,0 +1,71 @@
+<mxfile host="app.diagrams.net" agent="manual" version="24.0.0">
+  <diagram id="agent-blocking-stack" name="agent-blocking-stack">
+    <mxGraphModel dx="1400" dy="900" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="640" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="agent.start() 的调用栈：哪一层撞上 gevent" style="text;html=1;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;fontFamily=Noto Sans CJK SC,Helvetica;fontColor=#1F2937;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="700" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="s1" value="① agent.start()&#10;创建 socket、启动后台线程，准备发出就绪信号" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#1F6FEB;strokeWidth=1.5;fontFamily=Noto Sans CJK SC,Helvetica;fontSize=12;fontColor=#1F2937;align=left;spacingLeft=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="620" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s1-s2" style="endArrow=classic;html=1;strokeColor=#1F2937;strokeWidth=1.5;exitX=0.1;exitY=1;exitDx=0;exitDy=0;entryX=0.05;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="s1" target="s2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s2" value="② threading.Thread.start()&#10;CPython 实现：先 _start_new_thread，再等 _started 事件" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#1F6FEB;strokeWidth=1.5;fontFamily=Noto Sans CJK SC,Helvetica;fontSize=12;fontColor=#1F2937;align=left;spacingLeft=14;" vertex="1" parent="1">
+          <mxGeometry x="80" y="170" width="580" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s2-s3" style="endArrow=classic;html=1;strokeColor=#1F2937;strokeWidth=1.5;exitX=0.07;exitY=1;exitDx=0;exitDy=0;entryX=0.05;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="s2" target="s3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s3" value="③ self._started.wait()&#10;普通 Python 下：被新线程 set() 后立刻返回" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#1F6FEB;strokeWidth=1.5;fontFamily=Noto Sans CJK SC,Helvetica;fontSize=12;fontColor=#1F2937;align=left;spacingLeft=14;" vertex="1" parent="1">
+          <mxGeometry x="120" y="260" width="540" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-s4" style="endArrow=classic;html=1;strokeColor=#B45309;strokeWidth=1.5;dashed=1;exitX=0.07;exitY=1;exitDx=0;exitDy=0;entryX=0.05;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="s3" target="s4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s3-s4-lbl" value="monkey patch 替换" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;fontStyle=2;fontFamily=Noto Sans CJK SC,Helvetica;fontColor=#B45309;" vertex="1" parent="1">
+          <mxGeometry x="135" y="325" width="160" height="18" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s4" value="④ gevent.event.Event.wait()&#10;monkey patch 后真正落到的实现；要求当前协程可以 switch 出去" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#B45309;strokeWidth=1.5;fontFamily=Noto Sans CJK SC,Helvetica;fontSize=12;fontColor=#1F2937;align=left;spacingLeft=14;" vertex="1" parent="1">
+          <mxGeometry x="160" y="350" width="500" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="s4-s5" style="endArrow=classic;html=1;strokeColor=#1F2937;strokeWidth=1.5;exitX=0.08;exitY=1;exitDx=0;exitDy=0;entryX=0.05;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="s4" target="s5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s5" value="⑤ ❌ BlockingSwitchOutError&#10;Impossible to call blocking function in the event loop callback" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#B91C1C;strokeWidth=1.5;fontFamily=Noto Sans CJK SC,Helvetica;fontSize=12;fontColor=#1F2937;align=left;spacingLeft=14;" vertex="1" parent="1">
+          <mxGeometry x="200" y="440" width="460" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-frame" value="外部诊断工具" style="rounded=1;arcSize=5;absoluteArcSize=1;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#1F2937;strokeWidth=1.5;fontFamily=Noto Sans CJK SC,Helvetica;fontSize=11;fontStyle=1;fontColor=#1F2937;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="720" y="80" width="340" height="420" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-wait" value="等 ready signal 中 …" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6B7280;strokeWidth=1.5;fontFamily=Noto Sans CJK SC,Helvetica;fontSize=12;fontColor=#6B7280;" vertex="1" parent="1">
+          <mxGeometry x="750" y="130" width="280" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-wait2" value="⋮&#10;无响应（agent 已抛异常退出）" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#6B7280;strokeWidth=1.5;fontFamily=Noto Sans CJK SC,Helvetica;fontSize=12;fontColor=#6B7280;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="750" y="200" width="280" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-timeout" value="最终超时&#10;&#10;Agent initialization timeout" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#B91C1C;strokeWidth=1.5;fontFamily=Courier New;fontSize=12;fontColor=#1F2937;" vertex="1" parent="1">
+          <mxGeometry x="750" y="290" width="280" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="cross-edge" style="endArrow=classic;html=1;strokeColor=#6B7280;strokeWidth=1.5;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="s5" target="ext-timeout">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cross-lbl" value="agent 永远不会发出 ready signal" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=2;fontFamily=Noto Sans CJK SC,Helvetica;fontColor=#6B7280;labelBackgroundColor=#FFFFFF;spacing=2;" vertex="1" connectable="0" parent="cross-edge">
+          <mxGeometry x="0" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="summary" value="读法：① ② ③ 是 agent 想走的正常路径；③ 在普通 Python 下立刻返回。gevent monkey patch 替换 threading.Event 后，③ 实际落到 ④ 的 gevent 实现，进入不能 switch 的上下文撞上 ⑤ 异常。外部诊断工具只看到「ready signal 一直没来」，最后给出表面上的 timeout。" style="rounded=1;arcSize=5;absoluteArcSize=1;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#1F2937;strokeWidth=1.5;fontFamily=Noto Sans CJK SC,Helvetica;fontSize=11;fontColor=#1F2937;align=left;verticalAlign=top;spacingLeft=14;spacingTop=10;spacingRight=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="540" width="1020" height="70" as="geometry" />
+        </mxCell>
+        <!-- END -->
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -21,7 +21,7 @@ tags: [python, 安全, cpython]
 
 - 地址空间隔离：每个进程有独立的虚拟地址空间，A 进程无法直接读写 B 进程的内存
 - GIL（全局解释器锁）：Python 的 C API 调用几乎都需要持有 GIL
-- 执行时机：目标进程可能正处于任何状态——malloc 中途、GC 扫描中、持有 import 锁……
+- 执行时机：目标进程可能正处于任何状态 -- malloc 中途、GC 扫描中、持有 import 锁……
 
 工程上可以拆成三个子问题：
 
@@ -29,7 +29,11 @@ tags: [python, 安全, cpython]
 2. 在目标解释器里安全执行 Python 代码（GIL 获取）
 3. 选择足够安全的执行时机（时机选择）
 
-不同的工具对这三个问题给出了不同的答案。
+不同的工具对这三个问题给出了不同的答案。下面这张表把三代方案对应到这三个子问题上：
+
+![三代进程注入方案分别如何回答「进入地址空间、安全执行、时机选择」这三个子问题](images/peeka/three-generations-matrix.png)
+
+后面三节按这三代展开。
 
 ---
 
@@ -87,7 +91,7 @@ subprocess.Popen(
     │── ptrace(DETACH) ────────>│  脱离
 ```
 
-GDB 正是利用 ptrace 的能力，在目标进程的上下文中"调用"C 函数。具体来说，GDB 每执行一条 `call` 命令，都会经历以下 6 步：
+GDB 正是利用 ptrace 的能力，在目标进程的上下文中「调用」C 函数。具体来说，GDB 每执行一条 `call` 命令，都会经历以下 6 步：
 1. 保存目标进程当前的寄存器状态
 2. 将函数参数写入寄存器/栈（遵循 ABI 调用约定）
 3. 将指令指针（`rip`）设为目标函数地址
@@ -95,7 +99,9 @@ GDB 正是利用 ptrace 的能力，在目标进程的上下文中"调用"C 函�
 5. 恢复执行
 6. 函数执行完毕后，GDB 命中断点，恢复原始寄存器
 
-因此，pyrasite 的三条 GDB 命令（`call PyGILState_Ensure()`、`call PyRun_SimpleString(...)`、`call PyGILState_Release($1)`）各自独立地经历这 6 步。每次 `call` 都是一次完整的"保存->篡改->执行->恢复"循环。
+因此，pyrasite 的三条 GDB 命令（`call PyGILState_Ensure()`、`call PyRun_SimpleString(...)`、`call PyGILState_Release($1)`）各自独立地经历这 6 步。每次 `call` 都是一次完整的「保存 -> 设置 -> 执行 -> 恢复」循环。
+
+![单次 GDB call 在目标进程内的 6 步循环，以及 pyrasite 三条 call 命令对应的三次独立循环](images/peeka/gdb-call-cycle.png)
 
 ### 随机暂停点的风险
 
@@ -110,7 +116,7 @@ GDB 正是利用 ptrace 的能力，在目标进程的上下文中"调用"C 函�
       -> 死锁
 ```
 
-更具体地说：
+下表列出几种典型情况：
 
 | 暂停时的状态 | 调用 C API 的后果 |
 |---|---|
@@ -119,7 +125,11 @@ GDB 正是利用 ptrace 的能力，在目标进程的上下文中"调用"C 函�
 | 持有 GIL | `PyGILState_Ensure()` 死锁 |
 | 持有 import 锁 | 注入代码中的 import 死锁 |
 
-pyrasite 本质上是在"碰运气"——大多数时候目标进程不在这些危险状态，所以注入成功。但在生产环境中，这种不确定性是不可接受的。
+把这些危险窗口放回时间线上看，每次 GDB attach 都是一次随机抽样：
+
+![pyrasite 的 GDB attach 时刻在目标进程时间线上随机落点，多数落在正常区，少数撞进 malloc / GC / 持有 GIL 等危险窗口](images/peeka/random-pause-risk.png)
+
+pyrasite 本质上是在「碰运气」 -- 大多数时候目标进程不在这些危险状态，所以注入成功。但在生产环境中，这种不确定性是不可接受的。
 
 ---
 
@@ -129,29 +139,13 @@ pyrasite 本质上是在"碰运气"——大多数时候目标进程不在这些
 
 ### 原理概览
 
-```
-peeka/memray 控制端          GDB/LLDB 子进程              目标 Python 进程
-    │                            │                              │
-    │  3.1：bind/listen 本地端口  │                              │
-    │-- 启动 GDB/LLDB ---------->│                              │  3.1：传入端口和注入库路径
-    │                            │-- ptrace ATTACH ------------>│  暂停
-    │                            │-- 等待安全断点命中 ----------->│  3.2：malloc/PyMem_* 等 C 函数入口
-    │                            │                              │
-    │                            │-- dlopen("_inject.so") ----->│  3.3：加载 C 扩展到目标地址空间
-    │                            │-- call peeka_spawn_agent() ->│  3.4：创建新 pthread
-    │                            │-- ptrace DETACH ------------>│  恢复执行
-    │                            │                              │
-    │<---------------------------┼------------------------------│  3.5：[新 pthread] connect() 回连 + 接收脚本
-    │                            │                              │  ├- PyGILState_Ensure()
-    │                            │                              │  ├- PyEval_EvalCode()
-    │                            │                              │  └- PyGILState_Release()
-```
+这条路径上会短暂存在三个进程：用户启动的 peeka/memray 控制端进程、控制端临时启动的 GDB/LLDB 子进程、被 attach 的目标 Python 进程。GDB/LLDB 子进程只负责 ptrace、dlopen 和调用 `peeka_spawn_agent(port)`；agent 代码的传输发生在控制端进程和目标进程中新建的 pthread 之间。
 
-在这条路径里，确实会短暂存在三个进程：用户启动的 peeka/memray 控制端进程、控制端临时启动的 GDB/LLDB 子进程、被 attach 的目标 Python 进程。GDB/LLDB 子进程只负责 ptrace、dlopen 和调用 `peeka_spawn_agent(port)`；agent 代码的传输发生在控制端进程和目标进程中新建的 pthread 之间。
+![第二代方案三个进程的时序：GDB/LLDB 子进程在 detach 后退出，控制端和目标进程里的 agent 线程通过 TCP 反向连接完成脚本传输](images/peeka/dlopen-pthread-timeline.png)
 
 后面按五个关键环节展开：控制端准备、安全断点、dlopen 注入、独立线程、反向连接传输。
 
-### 3.1 控制端准备——监听端口与启动调试器
+### 3.1 控制端准备 -- 监听端口与启动调试器
 
 在 GDB/LLDB 进入目标进程之前，peeka/memray 控制端会先准备一个本地 TCP server。这个端口的作用很单一：等目标进程中新建的 agent 线程回连，然后把完整的 agent 脚本传过去。
 
@@ -185,7 +179,7 @@ subprocess.run(cmd, ...)
 - `$peeka_injector`：要 `dlopen` 的 `_inject.so` 路径
 - `$peeka_rtld_now`：传给 `dlopen` 的 `RTLD_NOW`
 
-### 3.2 安全断点——选择正确的时机
+### 3.2 安全断点 -- 选择正确的时机
 
 pyrasite 在任意位置暂停后就执行 C API；memray/peeka 会等到更明确的 C 函数边界再注入。
 
@@ -223,13 +217,17 @@ continue
 
 `Py_AddPendingCall(&PyCallable_Check, 0)` 会把 `PyCallable_Check` 放进 pending-call 队列，等待 CPython eval loop 在下一个检查点调用它。这个安排用于覆盖一种常见情况：目标进程正在跑纯 Python tight loop，短时间内不触发新的 `malloc` 或 `PyMem_Malloc`。`b PyCallable_Check` 在最终 `continue` 之前设好后，pending call 触发时就能命中断点。因此源码里把 `Py_AddPendingCall` 放在 `b malloc` 之前并不矛盾。
 
+![pending call 兜底 tight loop 场景：普通业务下 C 函数频繁触发立刻命中断点；纯 Python tight loop 下没有新的 malloc/PyMem_*，被动断点等不到命中；GDB 主动塞 PyCallable_Check 进 pending-call 队列，eval loop 下一个检查点触发，进入 PyCallable_Check 后命中断点，执行同一组 dlopen + spawn agent 命令](images/peeka/pending-call-fallback.png)
+
 2）把注入动作挂到一组 C 函数入口断点上。
 
-2.1）先设置断点。脚本在 `malloc`、`PyMem_Malloc`、`PyCallable_Check` 等函数上打断点。这里的"函数入口"指 GDB 断点列出的 C 函数入口；用户代码里 `def foo(): ...` 的 Python 函数入口属于另一个层面。例如：
+2.1）先设置断点。脚本在 `malloc`、`PyMem_Malloc`、`PyCallable_Check` 等函数上打断点。这里的「函数入口」指 GDB 断点列出的 C 函数入口；用户代码里 `def foo(): ...` 的 Python 函数入口属于另一个层面。例如：
 
 - `malloc`、`calloc`、`free` 是 libc allocator 的函数入口
 - `PyMem_Malloc`、`PyMem_Free` 是 CPython 内存分配 API 的函数入口
 - `PyErr_CheckSignals`、`PyCallable_Check` 是 CPython 运行时中的普通 C API 函数入口
+
+![CPython 分配栈与 peeka 的断点覆盖：左侧自上而下为用户 Python 代码、CPython 运行时、CPython 内存 API（PyMem_*）、pymalloc/arena 管理、libc allocator（malloc/free）、内核 sbrk/mmap；右侧三组断点分别指向 CPython 运行时层、CPython 内存 API 层、libc allocator 层，覆盖三个不同抽象层次的 C 函数入口](images/peeka/breakpoint-layers.png)
 
 `PyMem_Malloc` 和 `malloc` 覆盖的是不同层。`PyMem_Malloc` 是 CPython 的分配 API，底层可能走 pymalloc，也可能在需要新 arena、大块分配、`PYTHONMALLOC=malloc` 或自定义 allocator 时进一步走系统 `malloc`。同时设置 `PyMem_*` 和 `malloc/free` 断点，可以覆盖 CPython 分配层和 libc 分配层这两个边界。
 
@@ -237,13 +235,13 @@ continue
 
 命中后先 `disable breakpoints` / `delete breakpoints` 也很重要。`dlopen` 本身可能触发动态链接、符号解析和内存分配，如果断点还留着，注入过程可能再次撞上 `malloc/free` 断点，导致流程变得不可控。
 
-断点命中时，GDB 停在某个函数的入口处：以 `malloc` 为例，此时命中的线程还没进入 allocator 内部临界区，也还没有修改堆结构。这比 pyrasite 在随机暂停点直接调用 Python C API 可控得多。严格说，它没有证明整个进程绝对安全；它把注入时机从"任意机器指令位置"收敛到"已知 C 函数边界"。
+断点命中时，GDB 停在某个函数的入口处：以 `malloc` 为例，此时命中的线程还没进入 allocator 内部临界区，也还没有修改堆结构。这比 pyrasite 在随机暂停点直接调用 Python C API 可控得多。这种做法并没有证明整个进程绝对安全，但它把注入时机从「任意机器指令位置」收敛到「已知 C 函数边界」。
 
-### 3.3 dlopen——将 C 扩展加载到目标进程
+### 3.3 dlopen -- 将 C 扩展加载到目标进程
 
-`dlopen` 是 POSIX 系统的动态链接器接口。通过 GDB 在目标进程中调用 `dlopen("_inject.abi3.so", RTLD_NOW)`，我们将一个编译好的 C 扩展加载到目标进程的地址空间中。
+`dlopen` 是 POSIX 系统的动态链接器接口。通过 GDB 在目标进程中调用 `dlopen("_inject.abi3.so", RTLD_NOW)`，就把一个编译好的 C 扩展加载到目标进程的地址空间。
 
-这比 `PyRun_SimpleString` 强大的关键在于：C 代码可以创建线程，可以操作底层系统资源，不受 GIL 约束。
+dlopen 比 `PyRun_SimpleString` 多了一层能力：C 代码可以创建线程，可以操作底层系统资源，不受 GIL 约束。
 
 peeka 在 macOS 上使用 LLDB 完成相同的工作：
 
@@ -257,7 +255,7 @@ expr auto $spawn = $dlsym($dll, "peeka_spawn_agent")
 p ((int(*)(int))$spawn)($port) ? "FAILURE" : "SUCCESS"
 ```
 
-### 3.4 独立线程——解耦注入与执行
+### 3.4 独立线程 -- 解耦注入与执行
 
 dlopen 之后，GDB 调用 C 扩展的 `peeka_spawn_agent()` 函数。这个函数的工作很少：
 
@@ -290,18 +288,16 @@ static void* thread_body(void* arg)
 
 ### 独立线程降低 GIL 死锁风险
 
-在 pyrasite 方案中，`PyGILState_Ensure()` 在 GDB 暂停目标进程时被调用——如果暂停的线程恰好持有 GIL，这里会死锁。
+在 pyrasite 方案中，`PyGILState_Ensure()` 在 GDB 暂停目标进程时被调用 -- 如果暂停的线程恰好持有 GIL，这里会死锁。
 
 在 dlopen + pthread 方案中：
 1. GDB 执行 dlopen -> spawn -> 立刻返回 -> GDB detach -> 目标进程恢复
 2. 新线程随后在 `run_client -> run_script` 中调用 `PyGILState_Ensure()`，此时目标进程已经在正常运行
 3. `PyGILState_Ensure()` 会等待 GIL 可用，避开暂停状态下的强行获取
 
-这消除了 GIL 死锁的主要原因。
+### 3.5 反向连接 -- agent 代码的传输
 
-### 3.5 反向连接——agent 代码的传输
-
-agent 代码的传输也很关键。peeka 采用反向连接，避免把代码内容直接写进 GDB 命令；否则字符串转义会很痛苦。
+peeka 采用反向连接传输 agent 代码，避免把代码内容直接写进 GDB 命令；否则字符串转义会很痛苦。
 
 这里要区分两个概念：控制端进程是用户运行的 peeka/memray 进程；GDB/LLDB 子进程是控制端临时启动的 debugger 进程。前者负责生成和发送 agent 脚本，后者只负责把 `_inject.so` 加载进目标进程并调用 `peeka_spawn_agent(port)`。
 
@@ -376,7 +372,7 @@ static int run_script_impl(const char* script, char** errmsg)
 
 目标进程里的新线程回连 peeka/memray，主要是为了工程可靠性：agent 代码可以任意长、包含引号、换行、反斜杠、非 ASCII 字符等复杂内容，无需经过 GDB 命令行转义；GDB 只需要传一个整数端口号，注入阶段更短，出错面更小。
 
-### 3.6 小结——第二代方案的完整顺序
+### 3.6 小结 -- 第二代方案的完整顺序
 
 把 3.1 到 3.5 串起来，第二代方案的完整顺序是：
 
@@ -393,54 +389,17 @@ static int run_script_impl(const char* script, char** errmsg)
 
 ## 4. 第三代：PEP 768 与 sys.remote_exec
 
-Python 3.14 引入了 [PEP 768](https://peps.python.org/pep-0768/)，从解释器层面提供了原生的进程注入支持。这是一个根本性的范式转变。
+Python 3.14 引入了 [PEP 768](https://peps.python.org/pep-0768/)，从解释器层面提供了原生的进程注入支持。
 
 ### 核心思路
 
-前两代方案都从外部进入目标进程：通过 ptrace/GDB/LLDB 控制执行流，然后在一个"可能安全"的位置执行代码。PEP 768 把调度权交回解释器：外部工具告诉解释器要执行哪个脚本，解释器自己在安全检查点执行。
+前两代方案都从外部进入目标进程：通过 ptrace/GDB/LLDB 控制执行流，然后在一个「可能安全」的位置执行代码。PEP 768 把调度权交回解释器：外部工具告诉解释器要执行哪个脚本，解释器自己在安全检查点执行。
 
 ### 运作机制
 
-```
-外部进程                       目标 Python 解释器
-    │                              │
-    │  (1) 读 /proc/pid/maps       │
-    │      定位 PyRuntime 地址       │
-    │                              │
-    │  (2) 读 _Py_DebugOffsets      │
-    │      获取内部结构偏移量         │
-    │                              │
-    │  (3) 选择一个 PyThreadState   │
-    │      通常是 main thread       │
-    │                              │
-    │  (4) 写入脚本路径到            │
-    │      tstate->debugger_        │
-    │        script_path            │
-    │                              │
-    │  (5) 设置 pending call 标志   │
-    │      tstate->debugger_        │
-    │        pending_call = 1       │
-    │                              │
-    │  (6) 设置 eval breaker        │
-    │      eval_breaker |=          │
-    │        PLEASE_STOP_BIT        │
-    │                              │
-    │  完成，无需等待                │
-    │                              │
-    │                              │  ... 正常执行字节码 ...
-    │                              │
-    │                              │  eval loop 检查 eval_breaker
-    │                              │  ↓
-    │                              │  发现 pending_call 标志
-    │                              │  ↓
-    │                              │  _PyRunRemoteDebugger()
-    │                              │  ↓
-    │                              │  读取 script_path
-    │                              │  ↓
-    │                              │  fopen + PyRun_AnyFile
-    │                              │  ↓
-    │                              │  执行脚本 ✅
-```
+外部进程一次性写完几个内存槽就返回，目标线程在下一次回到 eval loop 时才真正消费这次请求：
+
+![PEP 768 的两段式时序：阶段 A 外部进程同步写入 PyThreadState 的 script_path / pending_call / eval_breaker，阶段 B 解释器在下一个安全检查点检测到标志位并执行脚本](images/peeka/pep768-timeline.png)
 
 这里的关键是第三步：远程执行请求必须落到某个 `PyThreadState` 上。`sys.remote_exec(pid, script)` 这个公共 API 不暴露 thread id，CPython 通常调度到目标进程的 main thread，在它下一次回到 eval loop 安全检查点时执行脚本。底层远程调试协议更通用：外部工具可以先定位解释器，再选择一个具体的 `PyThreadState`，常见做法是使用 `threads_main`，也可以遍历 `threads_head` 并按 `native_thread_id` 找到特定线程。
 
@@ -510,9 +469,9 @@ def _attach_pep768(self) -> bool:
 
 ### 安全保障
 
-PEP 768 在安全性上的设计非常审慎：
+PEP 768 在安全性上做了几层防护：
 
-1. 仅接受文件路径：`sys.remote_exec` 写入的是一个**文件路径**，脚本内容来自目标进程可读的文件系统路径。这意味着攻击者除了跨进程写内存权限，还要放置目标进程可读的恶意脚本
+1. 仅接受文件路径：`sys.remote_exec` 写入的是一个**文件路径**，脚本内容来自目标进程可读的文件系统路径。攻击者除了需要跨进程写内存权限，还要放置目标进程可读的恶意脚本
 2. 审计钩子：执行前触发 `cpython.remote_debugger_script` 审计事件，安全策略可以拦截
 3. 可禁用：`PYTHON_DISABLE_REMOTE_DEBUG` 环境变量或 `-X disable-remote-debug` 启动参数
 4. 编译时可移除：`./configure --without-remote-debug`
@@ -577,7 +536,7 @@ while x == 1:
 
 两个项目虽然共享 dlopen + pthread 的核心方案，但在定位上略有不同：
 
-memray：一次选择，快速失败。memray 在启动时通过 `resolve_debugger()` 按优先级（`sys.remote_exec` > `gdb` > `lldb`）选定一种注入方法。GDB 路径硬依赖 C 扩展，dlopen 失败直接报错。这是刻意的设计选择——memray 作为专业的内存分析器，对运行环境有明确的前置要求。
+memray：一次选择，快速失败。memray 在启动时通过 `resolve_debugger()` 按优先级（`sys.remote_exec` > `gdb` > `lldb`）选定一种注入方法。GDB 路径硬依赖 C 扩展，dlopen 失败直接报错。memray 作为专业的内存分析器，对运行环境有明确的前置要求。
 
 peeka：优先使用原生能力，旧版本使用 C 扩展注入。peeka 在 Python 3.14+ 上优先使用 `sys.remote_exec()`；更老的 Python 版本则使用 GDB/LLDB + dlopen + pthread。过去曾有过 PyRun_SimpleString 风格的 legacy 回退，但这条路径有时机安全风险，当前实现已经移除。
 
@@ -610,13 +569,11 @@ else:
 
 Python 进程注入经历了三代演进：
 
-1. 直接调用 C API（pyrasite）：简单粗暴，但有崩溃和死锁风险
+1. 直接调用 C API（pyrasite）：直接但风险大，有崩溃和死锁可能
 2. dlopen + pthread（memray/peeka）：通过安全断点和独立线程显著降低风险
 3. 解释器原生支持（PEP 768）：从根本上解决问题，让解释器自己在安全时机执行代码
 
-如果你的目标环境是 Python 3.14+，`sys.remote_exec` 是毫无争议的最佳选择。如果需要支持更老的版本，dlopen + pthread 方案提供了合理的安全性和兼容性平衡。
-
-进程注入落在系统编程、编译器原理和 CPython 内部机制的交汇点。理解这些底层原理，能帮助你在遇到"进程卡死"或"注入失败"时，快速定位问题所在。
+如果你的目标环境是 Python 3.14+，优先选 `sys.remote_exec`。如果需要支持更老的版本，dlopen + pthread 方案提供了合理的安全性和兼容性平衡。
 
 ---
 
