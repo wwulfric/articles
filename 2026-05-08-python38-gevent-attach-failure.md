@@ -1,5 +1,5 @@
 ---
-title: gevent monkey patch 对 peeka 工具的影响
+title: gevent monkey patch 对 profiling 工具的影响
 date: 2026-05-08 00:00
 categories: [技术]
 tags: [python, gevent, debug]
@@ -14,7 +14,7 @@ tags: [python, gevent, debug]
 
 不同工具的控制面和数据面位置不一样。`cProfile` 基本都在目标进程内部；`py-spy` 的控制面在外部，数据采样也尽量从外部完成；memray 会把采集逻辑放进目标进程内部，再把数据写到外部可分析的文件；peeka 的控制面横跨内外两侧，外部 CLI 负责发命令，目标进程里的 agent 负责接命令和执行观测。
 
-这种差异平时不明显。一旦目标进程使用 gevent，问题就会浮现出来。gevent 通过 monkey patch 把 `socket`、`threading`、`time`、`select` 等标准库对象替换成协程版本。对业务代码来说，使用 gevent 的目的就是使用其协程能力；对诊断工具来说，它可能会破坏控制面和数据面的正常工作。
+这种差异平在多数情况下并不明显。一旦目标进程使用 gevent，问题就会浮现出来。gevent 通过 monkey patch 把 `socket`、`threading`、`time`、`select` 等标准库对象替换成协程版本。对业务代码来说，使用 gevent 的目的就是使用其协程能力；对诊断工具来说，它可能会破坏控制面和数据面的正常工作。
 
 控制面可能在启动 socket、线程或同步信号时卡住。数据面可能还能给出结果，但结果的含义会变化：函数 wrapper 仍然能观察入口调用，递归 trace 和线程 frame 采样却不一定还能代表完整执行过程。
 
@@ -49,21 +49,7 @@ gevent 的 monkey patch 会把 `socket`、`threading`、`time`、`select` 等标
 
 一个 attach agent 的最小流程可以画成这样：
 
-```text
-诊断工具
-    |
-    | attach(pid)
-    v
-GDB / LLDB / dlopen / PEP 768
-    |
-    | execute agent script
-    v
-目标 Python 进程
-    |
-    | start agent
-    v
-/tmp/agent_<session>.sock  <---->  诊断工具 client
-```
+![attach agent 的注入链路与控制 socket 的跨进程通信](images/gevent/agent-attach-flow.png)
 
 agent 在目标进程里通常要做几件事：
 
@@ -164,6 +150,10 @@ agent.start()
            -> gevent.exceptions.BlockingSwitchOutError
 ```
 
+把这条链路展开看，可以更清楚地看到哪一层撞上 gevent、外部诊断工具又看到了什么：
+
+![agent.start() 的调用栈撞上 gevent.event.Event.wait() 抛 BlockingSwitchOutError，外部诊断工具最终超时](images/gevent/agent-blocking-stack.png)
+
 常见错误是 `BlockingSwitchOutError`[^blocking-switch-out]：
 
 ```text
@@ -262,6 +252,10 @@ class MiniAgent:
 
 如果目标进程已经加载了 `gevent.monkey`，`monkey.get_original()` 可以拿到 monkey patch 之前的对象。`native_start_new_thread()` 借这个接口，在 gevent 已经 patch 过 `_thread` 时仍然取回原始线程入口。
 
+上面这几处替换——`socket` 换 `_socket`、`threading.Thread` 换 `_thread.start_new_thread`、用 `monkey.get_original()` 兜底——做的其实是同一件事：把 agent 控制面从「被 patch 的 Python 高层 API」退到「Python C 扩展暴露的底层原语」。如下图所示：
+
+![原方案走 socket / threading 高层 API（会被 monkey patch 替换），新方案退到 _socket / _thread 底层原语绕开 patch](images/gevent/api-layers.png)
+
 > 控制面越依赖目标进程的高层 runtime，越容易被业务框架的 monkey patch 影响。
 
 ---
@@ -285,7 +279,6 @@ class MiniAgent:
 
 ```python
 import socket
-
 
 def probe_agent(sock_path, timeout=1.0):
     with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as client:
@@ -328,7 +321,11 @@ def probe_agent(sock_path, timeout=1.0):
 
 完整 `trace` 通常依赖解释器的 tracing 机制。Python 3.12+ 可以用 `sys.monitoring`，更老版本通常用 `sys.settrace`。这类机制会进入 frame 事件流，用来展开函数内部的子调用。
 
-在 gevent patched 或 active hub 状态下，递归 tracing 更容易碰到调度和 frame 栈边界。此时更稳的选择是降级成 `wrapper_only`：
+完整调用树要求 tracing backend 持续跟住目标函数内部的 call / return 事件。gevent 会在同一个 OS thread 里切换不同 greenlet，trace 拿到的是这个 OS thread 上的事件流，中间可能夹着别的 greenlet 的 frame：
+
+![gevent 下 trace 事件流被另一个 greenlet 穿插的示意图](images/gevent/gevent-trace-timeline.png)
+
+从单次 `target()` 的角度看，这棵「调用树」会被别的执行路径穿插，已经不能代表它自己的内部结构。此时更稳的选择是降级成 `wrapper_only`：
 
 ```text
 trace target()
@@ -369,6 +366,8 @@ trace target()
 
 `sys._current_frames()` 返回的是每个 OS thread 当前正在执行的 frame。它天然更容易看到「现在正在跑的 greenlet」，看不到所有挂起的 greenlet。
 
+![普通线程程序与 gevent 程序下 frame sampling 的覆盖范围对比](images/gevent/top-sampling-blindspot.png)
+
 所以在 gevent 下，`top` 的结果仍然有用，但覆盖范围有限。它适合说明当前活跃执行路径的热点，不适合被解释成「所有 greenlet 的完整 CPU 画像」。
 
 如果工具接入了 greenlet 的 switch / throw trace 事件，可以多保留一些调度信息；但挂起 greenlet 的完整栈枚举仍然不能随口承诺。
@@ -401,5 +400,5 @@ gevent 带来的问题不是单点故障。它先可能让 attach agent 的控�
 
 外部最先看到的可能只是 `Agent initialization timeout`，但它只说明控制面没有完成就绪流程。继续往下排查时，要分清 agent 是不是已经进入目标进程、命令通道能不能建立，以及命令返回的数据还能代表什么。
 
-[^blocking-switch-out]: gevent API 文档：[`BlockingSwitchOutError`](https://www.gevent.org/api/gevent.hub.html#gevent.hub.BlockingSwitchOutError)。
+[^blocking-switch-out]: `BlockingSwitchOutError`：gevent 在「不允许切换 greenlet 的上下文」里检测到要执行阻塞操作时抛出。gevent 的协作式阻塞函数（patch 后的 `Event.wait()`、`socket.recv()` 等）在阻塞前需要 switch 到 hub 让别的 greenlet 跑；如果当前栈本来就在 hub 的 callback 里，再 switch 会造成 hub 重入，于是直接报错而不是死锁。详见 gevent API 文档：[`BlockingSwitchOutError`](https://www.gevent.org/api/gevent.hub.html#gevent.hub.BlockingSwitchOutError)。
 [^pep-768]: [PEP 768: Safe external debugger interface for CPython](https://peps.python.org/pep-0768/)。

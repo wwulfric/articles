@@ -69,7 +69,7 @@ sys.settrace(trace)
 
 ---
 
-## `sys.monitoring` 把事件做细
+## sys.monitoring 把事件做细
 
 `sys.monitoring` 是 Python 3.12 之后的新接口。PEP 669 给它的定位很明确：降低调试、覆盖率、profiling 这类工具的常态成本。[^sys-monitoring][^pep-669]
 
