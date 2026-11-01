@@ -3,6 +3,7 @@ title: Alfred 和 dash 介绍
 date: 2015-12-28 13:33
 categories: [技术]
 tags: [MAC, alfred, dash]
+description: "Mac 上的两个效率工具：Alfred 的应用与文件定位、剪贴板和 workflow，Dash 的离线文档查询，以及如何把两者配合起来使用。"
 ---
 
 你生活在二维 Mac 世界里，在`Applications`下散落着各种应用，在`Finder`下散落着各种文件和文件夹，而文本内容又散落在各个文件中。命运如潮水般汹涌而来，你在平面里穿梭，寻找那命中注定的字符串。

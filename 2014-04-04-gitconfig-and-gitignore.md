@@ -3,6 +3,7 @@ title: Git 配置：gitconfig 和 gitignore
 date: 2014-04-04 11:32
 tags: [git, gitignore, gitconfig] 
 categories: [技术]
+description: "配置 .gitconfig 的命令别名和合并工具，并用全局 gitignore 与项目 gitignore 分工，让 Git 用起来更顺手，仓库也更整洁。"
 ---
 
 目的：更方便的使用 git。通过全局的 gitignore 和项目下的 gitignore，使得 git 仓库尽量整洁。

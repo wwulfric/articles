@@ -3,6 +3,7 @@ title: Python 运行时观测的四条边界：frame、code object、greenlet、
 date: 2026-05-27 00:00
 categories: [技术]
 tags: [python, cpython, gevent, asyncio, debug]
+description: "按 frame、code object、greenlet、Task 四层，讲清 sys.settrace、sys.monitoring、greenlet.settrace 和 asyncio Task API 各能看到什么，以及 gevent 下的事件错位。"
 ---
 
 Python 提供了几套观测程序运行时行为的接口：`sys.settrace`、`sys.monitoring`、`greenlet.settrace`、asyncio Task API。它们都用来追踪正在执行的代码，但作用对象处于不同层次，触发的事件和能回答的问题也不一样。这篇文章按 frame -> code object -> greenlet -> Task 的顺序，把这四条边界看到什么、看不到什么逐个讲清楚：

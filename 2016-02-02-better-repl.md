@@ -3,6 +3,7 @@ title: 更好的 repl
 date: 2016-02-02 16:10
 categories: [技术]
 tags: [repl, python, ruby, php, nodejs, jupyter, rlwrap]
+description: "比自带 REPL 更好用的替代工具：PHP 的 boris、Python 的 bpython 和 Jupyter、Ruby 的 pry、Node 的 nesh，以及给命令行工具加历史记录的 rlwrap。"
 ---
 
 在习惯使用动态语言之后，很是热衷于在 repl 下做各种尝试验证一些简单的想法。多数动态语言都内置提供了 repl，比如 python 的`python`，ruby 的`irb`，php 的`php -a`，nodejs 的`node`，甚至 haskell 这样的静态语言也有 repl: `ghci`。 只是这些自带的 repl 都比较简单，所以会有一些替代工具，提供**更好**的体验：语法高亮，即时输出，简单的代码补全和提示。

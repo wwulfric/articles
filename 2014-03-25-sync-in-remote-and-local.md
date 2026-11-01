@@ -3,6 +3,7 @@ title: 服务器和本地的文件同步
 date: 2014-03-25 12:19
 tags: [samba, 远程, remote, server, rsync, ubuntu, centos] 
 categories: [技术]
+description: "本地编辑、远程调试时如何同步代码？比较两种方案：用 Samba 挂载远程目录（含匿名和账号配置），以及用 Rsync 增量同步。"
 ---
 
 在开发的时候经常会有这样的情形：在本地做 Git 操作和代码编辑工作，然后在远程服务器/虚拟机上做调试，这样可以保持本地环境的整洁。有以下几种待选方案：

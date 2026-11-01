@@ -3,6 +3,7 @@ title: gevent 的技术路线：从 yield 到 greenlet、Hub 与 monkey patch
 date: 2026-06-07 00:00
 categories: [技术]
 tags: [python, gevent, greenlet, coroutine]
+description: "从 yield 只能暂停一层 frame 讲起，看 greenlet 如何搬走整段调用栈，Hub 如何调度，monkey patch 又如何让同步代码变成协作式 I/O。"
 ---
 
 协程可以粗略理解成「能暂停、过会儿再恢复的函数执行流」。一个函数执行到一半让出 CPU，保存住自己的现场，等外部事件来了再恢复，继续从刚才的位置往下跑，这就是协程。

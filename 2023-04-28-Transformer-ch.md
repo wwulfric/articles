@@ -4,6 +4,7 @@ date: 2023-04-28 22:48
 categories: [技术]
 tags: [ai, chatgpt]
 math: true
+description: "Transformer 论文《Attention is All You Need》中文翻译：完全基于注意力、去掉循环和卷积的架构，覆盖缩放点积注意力、多头注意力和位置编码。"
 ---
 
 注意力就是一切。

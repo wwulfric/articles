@@ -3,6 +3,7 @@ title: 10月 Tech Weekly
 date: 2025-10-11 00:00
 categories: [技术]
 tags: [weekly]
+description: "2025 年 10 月技术周刊：自动插桩方案、Datadog 故障复盘、PagerDuty 与 Grafana 的 AI 智能体，以及 Python 3.14、JDK 25 和 DeepSeek OCR 的阅读笔记。"
 ---
 
 ## SRE Weekly
@@ -102,7 +103,7 @@ tags: [weekly]
 
 ### w42
 
-What’s New in Java 25 in 2 Minutes - Sip of Java](https://inside.java/2025/10/17/new-in-jdk-25-2-mins/) JDK 25 于 9 月 16 日发布，包括 18 个 JEP，并有多个功能已最终确定。个人觉得比较重要的 JEP 有：
+[What’s New in Java 25 in 2 Minutes - Sip of Java](https://inside.java/2025/10/17/new-in-jdk-25-2-mins/) JDK 25 于 9 月 16 日发布，包括 18 个 JEP，并有多个功能已最终确定。个人觉得比较重要的 JEP 有：
 
 - JEP 506 - Scoped Values: 提供了一种新的线程局部数据共享机制，允许在方法调用链中安全地传递不可变数据，比ThreadLocal更高效且内存友好。
 - JEP 511 - Module Import Declarations: 简化模块系统的使用，允许在模块声明中直接导入其他模块的所有导出包，减少重复的import语句。
@@ -121,4 +122,4 @@ What’s New in Java 25 in 2 Minutes - Sip of Java](https://inside.java/2025/10/
 
 ---
 
-[Andrej Karpathy 评 DeepSeek OCR](https://x.com/karpathy/status/1980397031542989305) 也许图片比 token 更适合作为 LLM 的输入。DeepSeek OCR 
+[Andrej Karpathy 评 DeepSeek OCR](https://x.com/karpathy/status/1980397031542989305) 也许图片比 token 更适合作为 LLM 的输入。

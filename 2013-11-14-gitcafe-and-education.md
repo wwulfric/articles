@@ -3,6 +3,7 @@ title: gitcafe and education
 date: 2013-11-14 20:15 
 tags: [git, 教育, SNS, 招聘, 技能]
 categories: [产品]
+description: "GitCafe 实习时的想法：与其进校园网，不如进课堂，让学生用 Git 交作业，积累能力数据，既培养用户习惯，也可能服务招聘。"
 ---
 
 本文是在 gitcafe 实习时的一些想法。假如 gitcafe 可以在校园网内能访问会如何呢？

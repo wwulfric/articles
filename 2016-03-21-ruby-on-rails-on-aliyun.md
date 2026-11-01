@@ -3,6 +3,7 @@ title: Ruby on Rails 开发和生产环境搭建
 date: 2016-03-21 16:37
 categories: [技术]
 tags: [ubuntu, ruby, rbenv, nginx, passenger, mina, rails, postgresql]
+description: "在阿里云 Ubuntu 上搭建 Rails 生产环境：SSH 安全配置、rbenv、Passenger with Nginx、PostgreSQL，以及用 Mina 从本地部署应用。"
 ---
 
 

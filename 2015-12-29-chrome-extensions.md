@@ -3,6 +3,7 @@ title: chrome 效率插件推荐
 date: 2015-12-29 10:24
 categories: [技术]
 tags: [chrome, 插件, vim, proxy, markdown, develop, github]
+description: "按个人效率、辅助开发和系统增强三类，推荐 vimium、SwitchyOmega、Zotero、Postman、octotree、uBlock Origin、Tampermonkey 等 Chrome 插件。"
 ---
 
 ## 个人效率

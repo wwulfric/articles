@@ -3,6 +3,7 @@ title: 批量取关 instagram 好友
 date: 2016-02-18 23:28
 categories: [技术]
 tags: [instagram, javascript, unfollowgram]
+description: "Instagram 账号被盗后多关注了上千个广告账号，官方无处求助，于是写 JavaScript 脚本，借助 unfollowgram 和网页端接口限速批量取关。"
 ---
 
 

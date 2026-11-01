@@ -3,6 +3,7 @@ title: nginx 502 和 504 超时演示
 date: 2018-07-19 19:26
 categories: [技术]
 tags: [nginx, php-fpm, php]
+description: "用 Docker 演示 Nginx 何时返回 502、何时返回 504：调整 php-fpm 和 fastcgi 超时参数，关闭上游服务，再结合日志和 tcpdump 分析每种情况的原因。"
 ---
 
 最近线上 nginx 遇到了一些较难排查的 502 和 504 错误，顺便了解了一下 nginx 的相关配置。我发现网上很多介绍 nginx 超时配置只是列了这几个配置的含义和数值，并没有解释什么原因会触发哪个配置。因此趁这个机会演示一下，如何让 nginx 符合预期正确出现 502 和 504。

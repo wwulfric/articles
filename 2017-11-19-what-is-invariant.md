@@ -3,9 +3,10 @@ title: invariant 释义
 date: 2017-11-19 15:26
 categories: [技术]
 tags: [java, effective java, invariant, builder]
+description: "Builder 模式里的 invariant 是什么？结合溢出的加法、Date 类和并发下的 Period，把它理解成不变性约束条件，并说明它和 immutable 的区别。"
 ---
 
-Effective Java 的 [item 2](/2017/11/effetive-java-2#Item2) 的 Builder 模式可以在 Builder 的 build 中检查参数是否符合约束条件，原文和中文版译文是这样的：
+Effective Java 的 [item 2](/2017/11/effective-java-2#Item2) 的 Builder 模式可以在 Builder 的 build 中检查参数是否符合约束条件，原文和中文版译文是这样的：
 
 > Like a constructor, a builder can impose invariants on its parameters. The build method can check these invariants. 
 >

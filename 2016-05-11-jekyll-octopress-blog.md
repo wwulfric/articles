@@ -3,6 +3,7 @@ title: jekyll 和 octopress 博客程序的选择
 date: 2016-05-11 17:13
 categories: [技术]
 tags: [jekyll, octopress, hexo]
+description: "Jekyll 在 GitHub 服务器上生成，Octopress 在本地生成后发布，这是两者的本质区别。比较优缺点，并介绍如何让 Jekyll 像 Octopress 一样部署以使用任意插件。"
 ---
 
 首先，你需要理解 jekyll 和 octopress 的本质区别。jekyll 是运行在 github 的服务器上的，他可以 **自动** 把你上传的 md 文件转成 html。也就是说，在一个配置好的 repo 中，你只需要更改或新增 md 文件，你的博客内容就自动更改好了。但是，octopress 不一样。github 的服务器上没有这么一个服务，所以你需要在本地先把 md 文件转换成 html，然后把 html 文件发布出去。

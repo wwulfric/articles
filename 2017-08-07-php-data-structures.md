@@ -4,6 +4,7 @@ date: 2017-08-07 17:02
 categories: [技术]
 tags: [php, 数据结构, ds]
 math: true
+description: "PHP 的 Array 既当 List 又当 Map，带来性能和语法上的麻烦。介绍 PHP 7 的 ds 扩展：Vector、Deque、Map、Set 等数据结构及其接口设计。"
 ---
 
 在 PHP 中表示集合的数据类型就一种：Array。相信每个初学 PHP 的都会对它感到疑惑。这个东西看起来应该和其他语言中的 Array 或者 List 一样，但在 PHP 中，它是一切，即是 List，也是 Map：

@@ -3,6 +3,7 @@ title: 我的写作工具
 date: 2016-10-05 16:24
 categories: [技术]
 tags: [scrivener, workflowy, notes, typora, qiniu, alfred, jekyll]
+description: "我的博客写作工具链：卡片式写作与 Scrivener、Notes、Workflowy、Typora，七牛图片同步，以及用 Alfred snippet 和脚本简化 Jekyll 发布。"
 ---
 
 从开博客以来渐渐写了不少文字，此文用以记录这一过程中积累的一些写作工具。

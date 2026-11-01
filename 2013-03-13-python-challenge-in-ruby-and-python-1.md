@@ -3,6 +3,7 @@ title: python challenge in ruby and python 0~12
 date: 2013-03-13 20:36
 tags: [ruby, python, pythonchallenge]
 categories: [技术]
+description: "用 Python 和 Ruby 解 Python Challenge 第 0 到 12 关：凯撒移位、正则、pickle、zip 注释和图像处理，附解题提示与两种语言的代码对比。"
 ---
 
 [Python Challenge](http://www.pythonchallenge.com/) 是一个非常有趣的闯关游戏，通过猜谜和编程得到关键词，并使用关键词更改网页的 URL 进入到下一关。现在共有 33 关。这篇文章（或者更多）将会专注于使用 python 和 ruby 解决这些问题。

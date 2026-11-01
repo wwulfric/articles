@@ -3,6 +3,7 @@ title: Mac 下 pyenv 安装的 Python3 报 KeyError PYTHONPATH 错
 date: 2016-09-22 22:37
 categories: [技术]
 tags: [miniconda, python, brew, path]
+description: "Mac 上 cd 和运行 Python 时总报 KeyError PYTHONPATH？排查发现是照 brew 提示写的 homebrew.pth 让 Python 3 加载了 2.7 的 site-packages，改掉路径即可。"
 ---
 
 Error in sitecustomize; set PYTHONVERBOSE for traceback: KeyError: 'PYTHONPATH'

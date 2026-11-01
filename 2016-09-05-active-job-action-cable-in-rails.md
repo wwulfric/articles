@@ -3,6 +3,7 @@ title: Rails 应用生产环境利用  Active Job 和 Action Cable 实现消息�
 date: 2016-09-05 23:53
 categories: [技术]
 tags: [active job, action cable, web socket, passenger, queue, sidekiq]
+description: "在 Rails 中实现消息推送：创建 Message 后由 Active Job 广播到 Action Cable，以及生产环境的 Redis、Sidekiq、Nginx 和 Mina 配置。"
 ---
 
 ## 设计

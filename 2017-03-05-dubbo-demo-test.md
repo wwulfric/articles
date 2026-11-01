@@ -3,6 +3,7 @@ title: 一个简单的 dubbo 服务
 date: 2017-03-05 20:34
 categories: [技术]
 tags: [分布式, 微服务, dubbo, maven, provider, consumer, rest]
+description: "从零写一个 Dubbo 权限服务：分别用 Dubbo 协议和 REST 实现 provider 与 consumer，加入参数校验，打包部署，并用 IntelliJ 远程调试。"
 ---
 
 这篇文章将简单的介绍如何写一个 dubbo 服务。dubbo 的准备工作请参照[前文](/2017/03/intro-dubbo/)。

@@ -3,6 +3,7 @@ title: 使用 P4Merge 作为 GIT 的可视化合并工具
 date:  2015-01-28 23:43
 tags: [P4Merge, git, merge]
 categories: [技术]
+description: "把 P4Merge 配置成 Git 的可视化合并工具：编写 extMerge、extDiff 脚本，修改 .gitconfig，用 git mergetool 调出三方合并界面解决冲突。"
 ---
 
 P4Merge 是一款非常优秀的 git merge 工具，且跨平台兼容。尽管 git 亦有内部实现的 merge 工具，但并不如 P4Merge 易用。我们可以通过配置`.gitconfig`文件来设置 git 使用外部 merge 工具。

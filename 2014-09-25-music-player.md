@@ -3,6 +3,7 @@ title: Linux PC 网易云音乐下载方案
 date:  2014-09-25 23:53
 tags: [虾米, 网易, 落网, foobar, iTunes, btsync]
 categories: [技术]
+description: "Linux 和早期 Mac 没有网易云音乐客户端时，如何用手机下载，再通过 BitTorrent Sync 同步到电脑，并顺带比较虾米与网易云的优劣。"
 ---
 
 这篇文章主要是关于我常用的音乐资源和播放器，以及怎样在网易云音乐没有提供客户端的终端获取资源的方法。

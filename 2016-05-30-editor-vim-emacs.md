@@ -3,6 +3,7 @@ title: Vim、Emacs 和 IDE
 date: 2016-05-30 15:04
 categories: [技术]
 tags: [vim, emacs, ide, spf13, kvim, fisa, prelude, purcell, spacemacs]
+description: "Vim 和 Emacs 值得学吗？比较两者的快捷键和插件设计，看社区如何用插件把它们打造成近似 IDE，以及它们和 Sublime、JetBrains 各自的取舍。"
 ---
 
 这篇文章想要介绍一下 vim 和 emacs 两个编辑器。包括怎样组装插件打造成近似 IDE 的功能，使用场合，优点和缺点等。本文并不致力于手把手教你将 vim/emacs 打造成 IDE，也不会详细的介绍某些具体的功能和插件。

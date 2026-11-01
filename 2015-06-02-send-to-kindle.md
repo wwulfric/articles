@@ -3,6 +3,7 @@ title:  个人电子书自动发送到 kindle
 date: 2015-06-02 11:45
 categories: [技术]
 tags: [ifttt, kindle, dropbox, gmail, Klip.me]
+description: "亚马逊中国的 send to kindle 用不了时，如何通过 Klip.me 或邮件推送电子书，并用 IFTTT 串联 Dropbox 和 Gmail，把发送过程自动化。"
 ---
 
 kindle 有个`send to kindle`服务，可以把个人文档发送到 kindle 的服务器上。kindle 的内容包括：电子书（从亚马逊购入的书）、个人文档（个人电子书，通过`send to kindle`服务得到）、字典(在任何终端和 APP 里下载的字典)。

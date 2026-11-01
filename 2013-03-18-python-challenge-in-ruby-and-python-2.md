@@ -3,6 +3,7 @@ title: python challenge in ruby and python 13~23
 date: 2013-03-18 22:32
 tags: [ruby, python, pythonchallenge]
 categories: [技术]
+description: "继续用 Python 和 Ruby 闯 Python Challenge 第 13 到 18 关：XML-RPC、螺旋拼图、日历推理、像素对齐和 cookie 解谜，附两种语言的代码。"
 ---
 
 [Python Challenge](http://www.pythonchallenge.com/) 是一个非常有趣的闯关游戏，通过猜谜和编程得到关键词，并使用关键词更改网页的 URL 进入到下一关。现在共有 33 关。这篇文章（或者更多）将会专注于使用 python 和 ruby 解决这些问题。继续 python challenge 游戏。这篇文章将努力更新到 23 题。

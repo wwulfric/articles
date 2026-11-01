@@ -3,6 +3,7 @@ title: Jekyll 博客的一些优化插件与配置
 date:  2014-09-17 01:01
 tags: [jekyll, compress, highlight, fontawesome, colorscheme, font]
 categories: [技术]
+description: "从 Octopress 换到 Jekyll 后的折腾记录：分支与 submodule 组织、静态资源压缩、图片尺寸处理、代码高亮、配色和字体的选择。"
 ---
 
 在停用了一段时间后，最终还是回归博客写作了。之前使用的是 Octopress，现在换成更简单的 Jekyll。本文记录了搭建 Jekyll 博客的一些优化细节和搜集到的一些有趣的插件。

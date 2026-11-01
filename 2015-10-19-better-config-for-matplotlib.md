@@ -3,6 +3,7 @@ title: python 数学绘图工具 matplotlib 的优化配置
 date: 2015-10-19 23:37
 tags: [ipython, matplotlib, matlab, retina, 中文, ggplot]
 categories: [技术]
+description: "优化 matplotlib 的使用体验：替换默认配色、在 ipython notebook 中内联显示和支持 retina，以及新版内置的 ggplot 样式和 viridis 配色。"
 ---
 
 matplotlib 是 python 下的 2D 数学绘图工具，仿 matlab 编写而成，功能强大，是 python 数值计算库中非常重要的一员。安装很简单，`pip install matplotlib` 即可。如果安装时遇到什么问题，一般是依赖没有安装完全，按照错误提示一路安装过去便是，参照 [Installing — Matplotlib](http://matplotlib.org/users/installing.html)。强烈建议同时安装 ipython: `pip install "ipython[notebook]"`。ipython 的依赖关系较多，请耐心查看[文档](http://ipython.readthedocs.org/en/stable/)，所依赖的一些非 python 的程序可以通过系统的包管理工具安装，比如 `brew install zeromq`。

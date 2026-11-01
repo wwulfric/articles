@@ -4,6 +4,7 @@ date: 2025-10-11 11:15
 categories: [技术]
 tags: [stats, ml, neural, forecast, time series]
 math: false
+description: "Nixtla 教程翻译：在 M5 数据集上用 StatsForecast、MLForecast 和 NeuralForecast 训练多种模型，靠交叉验证为每条时间序列选出最佳模型。"
 ---
 
 [原文地址](https://nixtlaverse.nixtla.io/statsforecast/docs/tutorials/statisticalneuralmethods.html) 

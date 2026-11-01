@@ -3,6 +3,7 @@ title: 理解 Python 进程注入：从 ptrace 到 PEP 768
 date: 2026-04-19 00:00
 categories: [技术]
 tags: [python, 安全, cpython]
+description: "不重启线上 Python 进程，如何把诊断代码送进去？梳理 pyrasite 的 GDB 调用、memray/peeka 的 dlopen + pthread，以及 Python 3.14 的 PEP 768。"
 ---
 
 线上 Python 服务偶尔卡住、CPU 飙高，或者某个接口突然变慢时，进程往往还在跑，不能为了加一行日志或者打开 `cProfile` 就重启。此时关心的是这个 PID 正在做什么：哪些函数在调用，栈停在哪里，内存分配是否异常，某个函数的入参、返回值和耗时到底是什么。

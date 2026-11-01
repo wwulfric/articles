@@ -3,6 +3,7 @@ title: PHP 的错误和异常处理机制
 date: 2017-08-04 14:42
 categories: [技术]
 tags: [php, error, exception, throwable]
+description: "梳理 PHP 的错误和异常：E_ERROR、E_WARNING 等错误级别，set_error_handler 与 set_exception_handler，PHP 7 的 Throwable，以及一套处理实践。"
 ---
 
 原先的 PHP 只有错误没有异常。看一些老的文档你能看到不少错误输出是直接 echo html 标签的。而现代一点的框架早已经包裹好了一切，直接抛出异常就可以有比较漂亮的错误显示页面，比如 rails 的 [better errors](https://github.com/charliesome/better_errors)。当然，PHP 的现代框架也已经做的不错了，比如 laravel。然而我司目前还是用 codeigniter 2，它的错误和异常处理还比较简陋。借着升级到 PHP7 的契机梳理了一下 PHP 的错误和异常处理的机制。

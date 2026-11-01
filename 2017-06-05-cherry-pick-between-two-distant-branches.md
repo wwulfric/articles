@@ -3,6 +3,7 @@ title: 遥远分支的手动 cherry-pick 方法
 date: 2017-06-05 20:07
 categories: [技术]
 tags: [git, cherry-pick, diff]
+description: "两个分支相距太远，cherry-pick 冲突满屏时，如何用 git diff、git show、git apply 和 git checkout，逐个文件手动取回需要的改动。"
 ---
 
 在刚开始使用 git 作为代码托管工具的时候，我还是一名学生，自己的项目也没啥冲突好解决的，那个时候的 git 感觉就是一个用起来还算方便的轻量级代码同步工具。之所以说它轻量，是因为彼时所需要的所有命令只有 4 个：
@@ -57,4 +58,4 @@ git diff <SHA1>^..<SHA2> -- <filename> | git apply
 # 完全使用远程分支的文件：新文件，确定使用另外一个版本
 git checkout feature-branch /path/to/file
 ```
-当然，还是推荐经常 rebase master 的代码，并使用 rebase 和 cherry pick 等「正经」方法😀，参见[此文](2014/03/git-team-cooperate/)。
+当然，还是推荐经常 rebase master 的代码，并使用 rebase 和 cherry pick 等「正经」方法😀，参见[此文](/2014/03/git-team-cooperate/)。

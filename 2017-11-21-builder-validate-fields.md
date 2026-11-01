@@ -3,9 +3,10 @@ title: Builder 模式如何验证对象的 fields
 date: 2017-11-21 22:26
 categories: [技术]
 tags: [java, effective java, builder]
+description: "为什么 Builder 模式要在对象字段而不是 Builder 字段上做校验？谈防御性拷贝、setter 中提前校验的场景，以及两种非法状态异常的选择。"
 ---
 
-Effective Java 的 [item 2](/2017/11/effetive-java-2#Item2) 的 Builder 模式可以在 Builder 的 build 中检查参数是否符合约束条件，原文和中文版译文是这样的：
+Effective Java 的 [item 2](/2017/11/effective-java-2#Item2) 的 Builder 模式可以在 Builder 的 build 中检查参数是否符合约束条件，原文和中文版译文是这样的：
 
 > It is critical that they be checked after copying the parameters from the builder to the object, and that they be checked on the object fields rather than the builder fields. If any invariants are violated, the build method should throw an *IllegalStateException*.
 >

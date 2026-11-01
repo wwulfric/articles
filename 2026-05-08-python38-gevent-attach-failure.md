@@ -3,6 +3,7 @@ title: gevent monkey patch 对 profiling 工具的影响
 date: 2026-05-08 00:00
 categories: [技术]
 tags: [python, gevent, debug]
+description: "为什么 attach agent 在 gevent 进程里报初始化超时？用 _socket 和 _thread 绕开 monkey patch 修复控制面，并说明 trace、top 在 gevent 下的观测盲区。"
 ---
 
 上一篇文章中，我们提到了几个常见的 python 进程诊断工具。其中提到的 [peeka](https://github.com/peeka-project/peeka) 就属于 attach agent 这一类。用户在外部选择一个正在运行的 Python 进程，peeka 把一段 agent 代码送进去；agent 在目标进程里建立命令通道，后续 `watch`、`trace`、`top` 等命令再通过这个通道执行。它更接近运行时诊断工具，而不是离线性能分析器。

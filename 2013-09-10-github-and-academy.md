@@ -4,6 +4,7 @@ date: 2013-09-10 12:49
 tags: [git, github, SNS, 学术, 写作, 版本控制]
 categories: [产品]
 
+description: "以 GitHub 的精神重新设想学术写作：文章按项目组织，可派生和合并，用 Markdown + Pandoc 写作，并用开放许可取代收费的发表与下载。"
 ---
 
 以 github 的精神提供学术服务，也许是一个不错的方向。

@@ -3,6 +3,7 @@ title: JAVA 11 MAC 源码安装与调试
 date: 2019-09-02 23:32
 categories: [技术]
 tags: [java]
+description: "在 Mac 上从源码编译 JDK 11：安装依赖、配置 slowdebug、理解构建产物的目录结构，再用 IDEA 看 Java 源码，用 CLion 调试 JVM 的 C++ 代码。"
 ---
 
 JAVA 11 是 JAVA 8 之后的第一个 LTS 版本，为了了解下一代 JAVA 版本更新的内容，也为了能调试到 JAVA 的内部代码，所以笔者决定源码安装试试。

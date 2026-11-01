@@ -3,6 +3,7 @@ title: Mac OS 使用 jenv 管理 java 版本
 date: 2017-03-07 21:05
 categories: [技术]
 tags: [brew, jenv, rbenv, java]
+description: "在 Mac 上用 jenv 管理多个 Java 版本：安装 Java 7、8 并注册到 jenv，切换版本和 JVM 参数，用 jenv doctor 排查未生效的问题，并开启 maven 插件。"
 ---
 
 [jenv](http://www.jenv.be/) 是跨平台的 java 版本管理工具。当然，pyenv 仿的 rbenv，jenv 也是仿的 rbenv，功能和用法也很类似。

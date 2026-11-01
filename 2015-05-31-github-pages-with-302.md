@@ -3,6 +3,7 @@ title: github pages 302 redirect 跳转
 date: 2015-05-31 00:28 
 tags: [github pages, 302 redirect]
 categories: [技术]
+description: "GitHub Pages 绑定域名后，A 记录方式返回 302 会影响 SEO。换用支持 ALIAS 的 DNS 服务后，用 dig 和 curl 验证已正确返回 200。"
 ---
 
 使用静态博客，部署在 github pages，再绑定一个域名，是现在比较流行的博客撰写方案。github [官网](https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/)和网上的教程都是在域名管理中把域名的 A 记录指向 github 给的 IP 地址。

@@ -3,6 +3,7 @@ title: Git 团队协作实践
 date: 2014-03-25 14:55
 tags: [git, 协作, rebase, merge]
 categories: [技术]
+description: "一种让历史清晰的 Git 团队协作流程：功能分支、code review、rebase 压缩提交，再 cherry-pick 回 master，附完整命令和冲突处理步骤。"
 ---
 
 本文是关于使用 Git 进行团队协作的一种实践，目的是使得 Git 的历史清晰明了，团队成员责任明确。

@@ -4,6 +4,7 @@ date: 2025-10-14 14:00
 categories: [技术]
 tags: [prometheus, sql, calcite]
 math: false
+description: "基于 Apache Calcite 实现一个简易转换器：通过 JDBC 写 SQL，解析物理计划、提取时间范围、拼接 label 条件，把查询翻译成 PromQL。"
 ---
 
 ## 背景

@@ -4,6 +4,7 @@ date: 2025-10-11 15:27
 categories: [技术]
 tags: [llm, forecast, time series]
 math: true
+description: "LLMTime 论文节选翻译：把时间序列编码成数字串，让大语言模型不经微调直接预测，并讨论分词、连续似然和 GPT-4 校准变差的原因。"
 ---
 
 论文原文：Large Language Models Are Zero-Shot Time Series Forecasters

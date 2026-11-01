@@ -3,6 +3,7 @@ title: Effective-Java-创建和销毁对象
 date: 2017-11-13 20:08
 categories: [技术]
 tags: [java, effective java]
+description: "《Effective Java》第二章读书笔记：静态工厂方法、Builder、单例、私有构造器、避免多余对象、消除过期引用，以及为什么要避免终结方法。"
 ---
 
 Effective Java[EJ] 的第二章讲的是创建和销毁对象：在什么情况下需要创建对象，怎样创建；在什么情况下需要避免创建对象，怎样避免；如何按照既定顺序销毁对象，如何在销毁对象前正确清理现场。

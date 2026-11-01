@@ -3,6 +3,7 @@ title: PHP headers already sent 原因分析
 date: 2017-09-22 18:48
 categories: [技术]
 tags: [ php, echo, print, ob_start, HTTP]
+description: "PHP 报 headers already sent 是因为 echo 先触发了 header 输出。用实验复现这个问题，并分析 output_buffering、ob_start 的作用和正确的输出实践。"
 ---
 
 先上结论，为了避免 headers already sent 错误，你应该[^1]：

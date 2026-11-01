@@ -3,6 +3,7 @@ title: 翻译：AGENTS.md 在我们的智能体评估中优于 Skills
 date: 2026-02-09 06:43
 categories: [技术]
 tags: [ai, agent]
+description: "Vercel 文章翻译：在 Next.js 16 的智能体评估中，AGENTS.md 里的 8KB 文档索引通过率 100%，技能最高 79%，并分析被动上下文胜出的原因。"
 ---
 
 翻译自 Vercel 博客文章：[AGENTS.md outperforms skills in our agent evals](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals)
